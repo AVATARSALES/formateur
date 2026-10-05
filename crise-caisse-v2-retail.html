@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crise en Caisse V2 — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:940px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:7px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:200px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:16px}
+.mod-btn-info{display:flex;flex-direction:column;gap:1px}
+.mod-btn-title{font-size:12px;font-weight:500;line-height:1.25}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.65);display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.content{flex:1;padding:20px 18px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:12px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:420px}
+.module-panel{display:none}.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:8px 15px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.meta{font-size:11px;padding:4px 10px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.meta.red{background:rgba(255,77,77,0.1);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+.section{margin-bottom:20px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;line-height:1.75;color:var(--light)}
+.desc-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:4px solid var(--orange);margin-bottom:12px;font-size:13px;line-height:1.65}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:9px;background:var(--navy3);border-radius:9px;padding:9px 12px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap;min-width:72px;text-align:center}
+.step-body{flex:1;line-height:1.6;font-size:13px}.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 7px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 7px}
+.fins-grid{display:flex;flex-direction:column;gap:7px}
+.fin{display:flex;gap:9px;align-items:flex-start;border-radius:10px;padding:11px 13px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.fin.ok .fin-title{color:var(--green)}.fin.med .fin-title{color:#ffb347}.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12px;line-height:1.55;color:var(--light)}
+.desc-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+@media(max-width:580px){.desc-grid{grid-template-columns:1fr}}
+.desc-item{background:var(--navy3);border-radius:9px;padding:11px 13px;border-left:3px solid var(--orange)}
+.desc-item-num{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.desc-item-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px}
+.desc-item-text{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:5px}
+.desc-item-ex{font-size:11.5px;color:var(--green);padding:4px 7px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.obj-block{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:6px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.verb{font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:9px}
+.qhead{padding:11px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.02)}
+.qnum{min-width:25px;height:25px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:5px 15px 13px 49px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:6px;padding:3px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:7px;font-size:12px;color:var(--muted);padding:7px 10px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 4px;margin:5px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.4}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:7px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:8px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.class-col.red .class-col-title{color:#ff9999}.class-col.green .class-col-title{color:var(--green)}.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11px;line-height:1.5;margin-bottom:3px;padding-left:11px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:11px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:36px;flex-shrink:0}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:12px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 15px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:9px;background:var(--navy3);border-radius:10px;padding:10px 13px;margin-bottom:7px;align-items:flex-start}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.panier-box{display:flex;align-items:center;justify-content:space-between;background:var(--navy3);border-radius:10px;padding:12px 16px;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.panier-item{text-align:center}
+.panier-val{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--orange)}
+.panier-label{font-size:10px;color:var(--muted);margin-top:2px}
+.panier-plus{font-size:18px;color:var(--muted)}
+.panier-total{background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.25);border-radius:8px;padding:8px 14px;text-align:center}
+.panier-total .panier-val{color:#fff}
+.desc-method{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.desc-method-title{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.desc-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:5px}
+.desc-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--blue);min-width:24px;flex-shrink:0}
+.desc-content{font-size:13px;line-height:1.55}
+.desc-content strong{color:#fff}
+.merch-concept{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+@media(max-width:560px){.merch-concept{grid-template-columns:1fr}}
+.merch-item{background:var(--navy3);border-radius:9px;padding:10px 12px;border-top:2px solid var(--orange)}
+.merch-term{font-size:12px;font-weight:600;color:var(--orange);margin-bottom:3px}
+.merch-def{font-size:12px;color:var(--muted);line-height:1.5}
+.merch-ex{font-size:11.5px;color:var(--green);margin-top:5px;padding:4px 7px;background:rgba(0,204,136,0.07);border-radius:5px}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🏪</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Retail &amp; Sport — Performance Terrain</div>
+<div class="pole-desc">Management · Vente conseil · Litige client · Merchandising</div>
+</div>
+<div class="pole-badge">Crise en Caisse V2</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-litige2">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">🧾 Litige commercial · 11 étapes</span>
+<span class="meta green">👥 Individuel</span><span class="meta red">📝 Quiz 6 questions + Timer</span>
+</div>
+<div class="tabs" id="tabs-litige2">
+<div class="tab active" onclick="st('litige2','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('litige2','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('litige2','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('litige2','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="litige2-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="desc-card"><strong>Contexte :</strong> Samedi après-midi, heure de pointe. <strong>Mme Martin</strong> hurle en caisse prioritaire — 3 barils lessive Lavande facturés plein pot alors qu'une affiche "2 achetés + 1 gratuit" est visible en rayon. Léa (hôtesse de caisse) est paniquée. <strong>Diagnostic :</strong> l'affiche concerne les bidons liquides, elle a pris les capsules Pods (même marque, même couleur, rangement adjacent).<br/><br/><strong>Objectif :</strong> Désamorcer la crise · libérer la file · satisfaire la cliente · traiter la cause racine. Le module inclut un <strong>quiz chronométré de 6 questions</strong> avec appariement, glisser-déposer et QCM.</div>
+</div>
+<div class="section"><div class="sec-title">Les 6 réflexes clés (points quiz)</div>
+<div class="desc-grid">
+<div class="desc-item"><div class="desc-item-num">Réflexe 1 — Prise de contact</div><div class="desc-item-title">S'identifier + isoler la file</div><div class="desc-item-text">S'identifier immédiatement comme responsable et isoler la cliente réduit la pression collective dès les premières secondes.</div><div class="desc-item-ex">→ "Léa, ouvre la caisse d'à côté. Madame, je m'en occupe personnellement."</div></div>
+<div class="desc-item"><div class="desc-item-num">Réflexe 2 — Écoute active</div><div class="desc-item-title">Valider les émotions sans cautionner</div><div class="desc-item-text">Valider le ressenti de la cliente sans valider son comportement. L'empathie désamorce la tension émotionnelle.</div><div class="desc-item-ex">→ "Payer le prix fort quand on s'attend à une promo, c'est très frustrant."</div></div>
+<div class="desc-item"><div class="desc-item-num">Réflexe 3 — Diagnostic</div><div class="desc-item-title">Expliquer clairement sans accuser</div><div class="desc-item-text">L'erreur vient de la confusion packaging liquides vs Pods. Expliquer clairement sans accuser préserve la relation.</div><div class="desc-item-ex">→ "La confusion est facile car les packagings se ressemblent beaucoup."</div></div>
+<div class="desc-item"><div class="desc-item-num">Réflexe 4 — Solution</div><div class="desc-item-title">Rembourser sur place avec badge</div><div class="desc-item-text">Rembourser sur place avec son badge manager évite un deuxième déplacement à l'accueil, source d'escalade.</div><div class="desc-item-ex">→ "Je débloque la caisse avec mon badge manager ici même."</div></div>
+<div class="desc-item"><div class="desc-item-num">Réflexe 5 — Gestion d'équipe</div><div class="desc-item-title">Soutenir Léa après l'incident</div><div class="desc-item-text">Soutenir Léa après l'incident fait partie du rôle managérial au même titre que la gestion client.</div><div class="desc-item-ex">→ "Bravo Léa, tu as gardé ton calme. Tu veux 5 min de pause ?"</div></div>
+<div class="desc-item"><div class="desc-item-num">Réflexe 6 — Cause racine</div><div class="desc-item-title">Réorganiser le rayon Lessive</div><div class="desc-item-text">Séparer les Pods des Liquides en rayon supprime le risque de récidive — c'est le seul acte qui clôt vraiment l'incident.</div><div class="desc-item-ex">→ "Je vais écarter les Pods des Liquides pour clarifier le balisage."</div></div>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="litige2-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">Même scénario que "Crise en Caisse V1" mais avec un quiz chronométré de 6 questions en sortie de module (QCM, appariement, glisser-déposer, vrai/faux, texte à trous). Le timer crée une pression temporelle simulant les conditions réelles du terrain. Le quiz valide la mémorisation des 6 réflexes clés et des bons gestes associés.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Nommer les 6 réflexes de gestion de litige commercial retail. Définir le rôle du badge manager dans le processus de remboursement. Expliquer la différence entre satisfaction immédiate et résolution durable.<div class="verbs"><span class="verb">Nommer</span><span class="verb">Définir</span><span class="verb">Expliquer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Identifier la compétence interpersonnelle principale pour désamorcer une crise. Associer chaque étape de gestion de crise à l'action managériale correspondante. Classer les personnages et actions dans leurs rôles respectifs. Distinguer comportement managérial calme d'une réaction impulsive.<div class="verbs"><span class="verb">Identifier</span><span class="verb">Associer</span><span class="verb">Classer</span><span class="verb">Distinguer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Maintenir son calme sous pression temporelle (timer). Répondre rapidement et précisément à des questions de gestion de crise. Démontrer une maîtrise automatique des 6 réflexes (pas seulement la connaissance théorique).<div class="verbs"><span class="verb">Maintenir</span><span class="verb">Répondre</span><span class="verb">Démontrer</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game · 11 étapes · 3 fins + quiz chronométré 6 questions (QCM, appariement, glisser-déposer)<br/><strong style="color:var(--orange)">Durée :</strong> 15 min module + 10 min quiz + 10 min débriefing · <strong style="color:var(--orange)">Spécificité :</strong> Quiz avec timer — pression temporelle simulant le terrain</div>
+</div>
+</div>
+<div class="tab-panel" id="litige2-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Crise en Caisse V2 (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Quel est l'objectif de la gestion de crise face à Mme Martin en caisse ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Désamorcer la crise, libérer la file et satisfaire la cliente sans céder aux caprices</div>
+<div class="ans ko"><span class="mark">✗</span>Rembourser la cliente immédiatement sans vérifier les détails</div>
+<div class="ans ko"><span class="mark">✗</span>Ignorer la cliente et se concentrer sur les autres clients</div>
+<div class="expl">💡 Les 3 objectifs sont simultanés — c'est la difficulté managériale. Rembourser sans vérifier = précédent dangereux. Ignorer = escalade garantie. La triple gestion (cliente + file + diagnostic) est la marque du manager de rayon compétent.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque étape de la gestion de crise avec la réponse appropriée du manager.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">L'Arrivée — Prise de Contact</td><td class="col-arrow">→</td><td class="col-b">"Je suis le responsable. Je vais m'en occuper personnellement. Léa, ouvre la caisse d'à côté."</td></tr>
+<tr><td class="col-a">L'Écoute — Décharge émotionnelle</td><td class="col-arrow">→</td><td class="col-b">"Je comprends votre agacement. Payer le prix fort quand on s'attend à une promo, c'est très frustrant."</td></tr>
+<tr><td class="col-a">Le Diagnostic — Erreur client</td><td class="col-arrow">→</td><td class="col-b">"L'affiche concerne les bidons liquides. Vous avez pris les capsules Pods. La confusion est facile car les packagings se ressemblent."</td></tr>
+<tr><td class="col-a">La Négociation — Solution</td><td class="col-arrow">→</td><td class="col-b">"Je reprends ces trois boîtes et je vous rembourse intégralement. Je peux aussi aller chercher les bidons en promo moi-même."</td></tr>
+</table>
+<div class="expl">💡 Chaque étape répond à un verrou émotionnel spécifique : la prise de contact désamorce la tension collective, l'écoute valide le ressenti, le diagnostic explique sans accuser, la solution résout sans créer de précédent.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Organisez les éléments suivants dans les 3 catégories : Personnages / Situations / Actions.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols">
+<div class="class-col blue" style="background:rgba(0,170,255,0.07);border:0.5px solid rgba(0,170,255,0.2)"><div class="class-col-title" style="color:var(--blue)">👥 Personnages</div>
+<div class="class-item" style="color:var(--blue)">Mme Martin (cliente mécontente)</div>
+<div class="class-item" style="color:var(--blue)">Léa (hôtesse de caisse paniquée)</div>
+<div class="class-item" style="color:var(--blue)">Manager de rayon (intervenant)</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">⚡ Situations</div>
+<div class="class-item">Caisse bloquée — file en attente</div>
+<div class="class-item">Désamorcer la crise client</div>
+<div class="class-item">Remboursement à traiter</div>
+</div>
+<div class="class-col green"><div class="class-col-title">✓ Actions manager</div>
+<div class="class-item">Écouter la cliente (valider émotions)</div>
+<div class="class-item">Gérer la file d'attente (ouvrir caisse 4)</div>
+<div class="class-item">Faire le remboursement (badge manager)</div>
+</div>
+</div>
+<div class="expl">💡 La complexité de ce scénario est que les 3 situations sont SIMULTANÉES. Un manager qui traite l'une en ignorant les 2 autres perd le contrôle. L'ouverture de la caisse 4 dès l'arrivée est la première action car elle supprime la pression collective sur la négociation avec Mme Martin.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Quelle compétence interpersonnelle est essentielle pour désamorcer une crise avec un client mécontent ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>L'écoute active — valider le ressenti avant tout diagnostic</div>
+<div class="ans ko"><span class="mark">✗</span>L'assertivité — s'affirmer face au comportement de la cliente</div>
+<div class="ans ko"><span class="mark">✗</span>La passivité — laisser la cliente s'exprimer sans intervenir</div>
+<div class="expl">💡 L'écoute active ≠ passivité. Elle consiste à valider l'émotion ("c'est très frustrant") SANS valider le comportement, puis à orienter vers le diagnostic. L'assertivité vient ensuite (tenir ferme sur la procédure de remboursement), mais jamais en premier.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Le scénario se déroule un samedi après-midi lors d'une heure de pointe, ce qui ajoute une pression supplémentaire sur la gestion de la file d'attente.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">VRAI</strong></div>
+<div class="expl">💡 Le contexte temporel est une variable managériale clé. Samedi heure de pointe = la file grossit vite, la pression des autres clients amplifie la tension de Mme Martin, chaque minute compte. C'est pour ça que l'ouverture de la caisse adjacente est la première action — elle supprime la pression collective en 10 secondes.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">QCM</span><div class="qtext">Quel comportement doit adopter un manager pour désamorcer une situation de crise avec un client mécontent ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Calme — rester maître de ses émotions pour ne pas entrer dans la spirale d'escalade</div>
+<div class="ans ko"><span class="mark">✗</span>Autoritaire — imposer le silence à la cliente dès les premières secondes</div>
+<div class="ans ko"><span class="mark">✗</span>Accommodant — accepter toutes les demandes pour que la cliente parte vite</div>
+<div class="expl">💡 Coach : "Entrer en confrontation directe ou humilier un client, même odieux, est une faute professionnelle grave. Mais accepter toutes les demandes crée un précédent et coûte plus cher que le litige lui-même. Le calme seul permet de tenir les 2 équilibres : juste ET courtois."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="litige2-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 15 min</div><div class="tl-title">Module individuel + quiz chronométré</div><div class="tl-desc">Jeu complet (11 étapes) puis quiz de 6 questions avec timer. Les apprenants notent leur score et les questions ratées.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 25 min</div><div class="tl-title">Débriefing quiz — les 6 réflexes</div><div class="tl-desc">Projeter les 6 réflexes. Pour chaque question ratée par plusieurs apprenants : rejouer la scène à voix haute. Insister sur Q3 (glisser-déposer) : la simultanéité des 3 situations est la vraie compétence managériale.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">25 – 40 min</div><div class="tl-title">Jeu de rôle à 3 + contre-quiz</div><div class="tl-desc">A = manager, B = Mme Martin (virulente max), C = Léa (fait des erreurs en live). Objectif : arriver au remboursement badge + rayon corrigé en moins de 5 min. Deuxième passage quiz individuel — noter la progression.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">⏱</div><div class="tip-text"><strong>Utiliser le timer comme outil pédagogique.</strong> La pression temporelle du quiz simule la pression réelle du samedi heure de pointe. Les apprenants qui "paniquent" sous le timer reproduiront ce comportement face à une vraie crise.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Comparer avec la V1 (sans quiz).</strong> Demander si les réponses au quiz auraient été différentes sans le timer. L'objectif : les 6 réflexes doivent devenir des automatismes, pas des connaissances conscientes.</div></div>
+</div>
+</div>
+</div></div></div>
+<script>
+const MODS=['manager','sport','litige','merch','trail','litige2','beaute'];
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  MODS.forEach(m=>{
+    document.getElementById('panel-'+m).classList.toggle('active',m===id);
+    document.getElementById('btn-'+m).classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
