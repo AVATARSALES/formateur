@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assurance Mobile (Rebond) — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:940px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:7px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:200px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:16px}.mod-btn-info{display:flex;flex-direction:column;gap:1px}
+.mod-btn-title{font-size:12px;font-weight:500;line-height:1.25}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.65);display:flex;gap:4px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.content{flex:1;padding:20px 18px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:12px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:420px}
+.module-panel{display:none}.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:8px 15px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.meta{font-size:11px;padding:4px 10px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.meta.red{background:rgba(255,77,77,0.1);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+.section{margin-bottom:20px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:9px;background:var(--navy3);border-radius:9px;padding:9px 12px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap;min-width:72px;text-align:center}
+.step-body{flex:1;line-height:1.6;font-size:13px}.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 7px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 7px}
+.fins-grid{display:flex;flex-direction:column;gap:7px}
+.fin{display:flex;gap:9px;align-items:flex-start;border-radius:10px;padding:11px 13px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.fin.ok .fin-title{color:var(--green)}.fin.med .fin-title{color:#ffb347}.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12px;line-height:1.55;color:var(--light)}
+.profil-box{background:var(--navy3);border-radius:12px;padding:13px 15px;border-left:4px solid var(--blue);margin-bottom:12px}
+.profil-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.profil-line{font-size:13px;color:var(--light);line-height:1.7;display:flex;gap:8px;align-items:flex-start}
+.profil-line::before{content:"→";color:var(--blue);flex-shrink:0;margin-top:2px;font-size:11px}
+.soncas-duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:540px){.soncas-duo{grid-template-columns:1fr}}
+.soncas-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-top:3px solid}
+.soncas-card.argent{border-top-color:var(--orange)}.soncas-card.securite{border-top-color:var(--blue)}
+.soncas-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;margin-bottom:2px}
+.soncas-card.argent .soncas-letter{color:var(--orange)}.soncas-card.securite .soncas-letter{color:var(--blue)}
+.soncas-mot{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.soncas-arg{font-size:11.5px;color:var(--muted);line-height:1.55;margin-bottom:6px}
+.soncas-ex{font-size:11.5px;padding:5px 8px;border-radius:5px;line-height:1.5}
+.soncas-card.argent .soncas-ex{color:var(--orange);background:rgba(255,107,0,0.08);border-left:2px solid rgba(255,107,0,0.3)}
+.soncas-card.securite .soncas-ex{color:var(--blue);background:rgba(0,170,255,0.08);border-left:2px solid rgba(0,170,255,0.3)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+@media(max-width:540px){.info-grid{grid-template-columns:1fr}}
+.info-card{background:var(--navy3);border-radius:9px;padding:11px 13px;border-left:3px solid var(--orange)}
+.info-label{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.info-val{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.info-sub{font-size:11.5px;color:var(--muted);line-height:1.45}
+.obj-block{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:6px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.verb{font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:9px}
+.qhead{padding:11px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.02)}
+.qnum{min-width:25px;height:25px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:5px 15px 13px 49px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:6px;padding:3px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:7px;font-size:12px;color:var(--muted);padding:7px 10px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 4px;margin:5px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.4}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:7px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:8px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col.blue2{background:rgba(0,170,255,0.07);border:0.5px solid rgba(0,170,255,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.class-col.red .class-col-title{color:#ff9999}.class-col.green .class-col-title{color:var(--green)}.class-col.amber .class-col-title{color:#ffb347}.class-col.blue2 .class-col-title{color:var(--blue)}
+.class-item{font-size:11px;line-height:1.5;margin-bottom:3px;padding-left:11px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.class-col.blue2 .class-item::before{content:"🔵";font-size:8px;color:var(--blue)}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:11px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:36px;flex-shrink:0}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:12px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 15px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:9px;background:var(--navy3);border-radius:10px;padding:10px 13px;margin-bottom:7px;align-items:flex-start}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.desc-method{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.desc-method-title{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.desc-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:5px}
+.desc-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--blue);min-width:24px;flex-shrink:0}
+.desc-content{font-size:13px;line-height:1.55}.desc-content strong{color:#fff}
+.alert-box{display:flex;gap:10px;background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2);border-radius:10px;padding:11px 14px;margin-bottom:12px}
+.alert-icon{font-size:16px;flex-shrink:0}.alert-text{font-size:12.5px;color:#ff9999;line-height:1.6}
+.alert-text strong{color:#ffaaaa}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🏦</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Banque &amp; Assurance — Conseil &amp; Risque</div>
+<div class="pole-desc">Rebond commercial · Recouvrement · Conformité KYC · SONCAS Argent/Sécurité</div>
+</div>
+<div class="pole-badge">Assurance Mobile (Rebond)</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-assurance">
+<div class="meta-row">
+<span class="meta orange">⏱ 13 min</span><span class="meta blue">📱 Assurance bancaire · 11 étapes</span>
+<span class="meta green">👥 Individuel</span><span class="meta purple">💡 Rebond · SONCAS A+S</span>
+</div>
+<div class="tabs" id="tabs-assurance">
+<div class="tab active" onclick="st('assurance','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('assurance','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('assurance','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('assurance','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="assurance-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant incarne un(e) <strong>conseiller(ère) bancaire</strong> en fin de rendez-vous d'ouverture de compte. Le client <strong>Lucas</strong> (23 ans, premier CDI) croit que la réunion est terminée. Mission : réaliser un <strong>rebond commercial</strong> pour lui vendre l'assurance <em>Moyens de Paiement &amp; Mobile</em> en s'appuyant sur les motivations <strong>SONCAS Argent et Sécurité</strong>.<br/><br/>La difficulté : Lucas vient de dépenser 1 200€ dans un iPhone 15 Pro Max et est réticent à toute nouvelle dépense. Le scénario se déroule en <strong>11 étapes</strong> avec 3 fins possibles. Le coach donne un débriefing personnalisé, suivi d'un quiz de validation.</div>
+</div>
+<div class="section"><div class="sec-title">Profil client — Lucas</div>
+<div class="profil-lucas">
+<div class="profil-label">🧑 Lucas · 23 ans · Digital Native</div>
+<div class="profil-line">Premier CDI signé · Vient d'ouvrir un compte courant</div>
+<div class="profil-line">A acheté un iPhone 15 Pro Max 1 200€ avec son premier salaire</div>
+<div class="profil-line">Passion : la photographie (raison du choix du modèle Pro)</div>
+<div class="profil-line">Budget actuel : compte vide, "manger des pâtes jusqu'à la fin du mois"</div>
+<div class="profil-line">Profil digital native : déteste la paperasse, veut tout gérer sur l'appli</div>
+<div class="profil-line">Frein principal : 16€/mois chez Apple lui semblait trop cher au moment de l'achat</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 2 leviers SONCAS activés</div>
+<div class="soncas-duo">
+<div class="soncas-card argent">
+<div class="soncas-letter">A</div>
+<div class="soncas-mot">Argent — ROI &amp; Calcul</div>
+<div class="soncas-arg">Lucas est sensible au rapport coût/valeur. Il a refusé 16€/mois chez Apple car "trop cher". L'argument doit montrer qu'il paie MOINS pour avoir PLUS.</div>
+<div class="soncas-ex">→ "8€/mois vs 1 200€ de remplacement. 50€ de franchise vs le coût total. Le calcul est imparable."</div>
+</div>
+<div class="soncas-card securite">
+<div class="soncas-letter">S</div>
+<div class="soncas-mot">Sécurité — Douleur &amp; Risque</div>
+<div class="soncas-arg">Lucas craint de perdre son investissement. Il habite Paris et a peur du vol dans le métro. Projeter la douleur concrète déclenche l'acte d'achat.</div>
+<div class="soncas-ex">→ "Si demain il tombe dans le métro, votre budget actuel vous permet-il de le remplacer ?"</div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 11 étapes du rebond commercial</div>
+<div class="steps">
+<div class="step"><span class="step-n">Étape 1</span><div class="step-body">
+<strong>La Transition — Le Rebond Social</strong><br/>Créer du lien personnel avant d'aborder le produit.
+        <div class="badges">
+<span class="b-ok">✓ "Félicitations pour votre premier poste ! Team Photo ? C'est pour ça que vous avez pris le Pro." (lien via sa passion)</span>
+<span class="b-ko">❌ "Avant de vous quitter, il faudrait vous parler de l'assurance mobile." (transition froide)</span>
+<span class="b-ko">❌ "Je dois légalement vous présenter l'assurance. C'est une étape obligatoire." (tue la relation)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 2</span><div class="step-body">
+<strong>La Découverte — Le Coût Réel</strong><br/>Amener Lucas à révéler lui-même la valeur de l'achat.
+        <div class="badges">
+<span class="b-ok">✓ "Quand vous dites 'toutes vos économies', c'est vraiment un achat conséquent pour votre budget ?" (question ouverte qui invite à chiffrer)</span>
+<span class="b-ko">❌ "Mettre tout son salaire dans un téléphone, c'est risqué." (jugement = rupture)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 3</span><div class="step-body">
+<strong>La Concurrence — L'Objection "Déjà vu"</strong><br/>Traiter la résistance Apple/opérateur sans dénigrer.
+        <div class="badges">
+<span class="b-ok">✓ "Le vendeur vous a proposé une assurance en caisse ? On refuse souvent car la facture est déjà salée." (valider son comportement passé)</span>
+<span class="b-ko">❌ "Leurs vendeurs sont souvent des arnaqueurs." (dénigrement = méfiance envers vous)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 4</span><div class="step-body">
+<strong>La Mise en Situation — La Douleur</strong><br/>Projeter Lucas dans le scénario catastrophe concret.
+        <div class="badges">
+<span class="b-ok">✓ "Si demain il tombe dans le métro, financièrement, votre budget actuel permet-il de le remplacer ?" (douleur réelle)</span>
+<span class="b-ok">✓ "Donc s'il casse demain, vous devez ressortir 1 200€. Vous avez cette somme disponible ?" (chiffrer la douleur)</span>
+<span class="b-ko">❌ "Si vous le faites tomber en sortant d'ici, vous avez perdu 1 200€ bêtement." (culpabilisation)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 5</span><div class="step-body">
+<strong>L'Offre Globale — Le "Game Changer"</strong><br/>Révéler la couverture multi-appareils comme surprise positive.
+        <div class="badges">
+<span class="b-ok">✓ "Pour le prix d'un McDo (8€), j'assure votre iPhone, votre ordi et votre tablette." (ancre prix du quotidien)</span>
+<span class="b-ko">❌ Annoncer "Sécur'Media à 8,50€" sans l'ancre émotionnelle (trop administratif)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 6</span><div class="step-body">
+<strong>L'Objection "Petites Lignes" — La Transparence</strong><br/>Annoncer proactivement les exclusions avant qu'il ne les découvre.
+        <div class="badges">
+<span class="b-ok">✓ "Soyons francs : la perte n'est pas couverte. Mais le vol (même sans agression) et la casse accidentelle le sont à 100%." (honnêteté = confiance)</span>
+<span class="b-ko">❌ "Ne vous inquiétez pas, c'est une offre Premium bancaire, tout est prévu pour vous." (vague = méfiance)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 7</span><div class="step-body">
+<strong>L'Objection Prix — La Franchise</strong><br/>Traiter la franchise de 50€ par l'arbitrage concret.
+        <div class="badges">
+<span class="b-ok">✓ "La question est : préférez-vous payer 50€ ou 1 200€ en cas de pépin ?" (choix chiffré)</span>
+<span class="b-ko">❌ "C'est une franchise standard pratiquée par toutes les banques." (comparaison abstraite)</span>
+<span class="b-ko">❌ "50€ c'est rien du tout." (minimise la contrainte budgétaire réelle de Lucas)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 8</span><div class="step-body">
+<strong>La Loi Hamon — La Liberté</strong><br/>Lever la peur du contrat piège qui se renouvelle tout seul.
+        <div class="badges">
+<span class="b-ok">✓ "Grâce à la loi Hamon, après la première année, vous résiliez quand vous voulez en un clic sur l'appli." (digital native = appli)</span>
+<span class="b-ko">❌ "Vous envoyez un courrier à la date anniversaire." (paperasse = blocage pour Lucas)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 9</span><div class="step-body">
+<strong>L'Hésitation — L'Urgence</strong><br/>Créer une raison contextuelle d'agir maintenant.
+        <div class="badges">
+<span class="b-ok">✓ "Vous avez une soirée ce soir. Pour le prix d'un verre, voulez-vous vraiment risquer votre téléphone dès le premier week-end ?" (contextualisation réelle)</span>
+<span class="b-ko">❌ "Pourquoi réfléchir ? Je ne comprends pas votre hésitation." (pression = rejet)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 10</span><div class="step-body">
+<strong>Le Closing — La Facilité</strong><br/>Proposer la souscription la plus simple possible pour ce profil.
+        <div class="badges">
+<span class="b-ok">✓ "On sécurise ça maintenant ? Je vous envoie la notif sur l'appli, validation FaceID, c'est réglé." (zéro friction, digital native)</span>
+<span class="b-ko">❌ "Je vais imprimer trois exemplaires du contrat. Vous paraphèrerez chaque page." (Lucas : "Oh non, de la paperasse...")</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 11</span><div class="step-body">
+<strong>La Consolidation — Le Parrainage</strong><br/>Transformer la vente en nouvelle opportunité.
+        <div class="badges">
+<span class="b-ok">✓ "Vous êtes couvert ! Et si vous parrainez un ami équipé comme vous, c'est 30€ offerts — soit 3 mois gratuits." (levier Argent)</span>
+<span class="b-ko">❌ "N'hésitez pas à parler de nous à vos amis." (trop vague, pas d'incitation)</span>
+</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">3 fins possibles</div>
+<div class="fins-grid">
+<div class="fin ok"><div class="fin-icon">🏆</div><div class="fin-body">
+<div class="fin-title">Fin 1 — Souscription + parrainage · "C'est du grand art"</div>
+<div class="fin-text">Coach : <em>"Tu as su créer du lien émotionnel avant de parler technique, et ton calcul de rentabilité (8€ vs 1 200€) est imparable. En proposant l'offre multi-produits, tu as maximisé le panier tout en rendant service au client."</em> Lucas recommande son ami Thomas (Mac).</div>
+</div></div>
+<div class="fin med"><div class="fin-icon">🟡</div><div class="fin-body">
+<div class="fin-title">Fin 2 — Souscription sans parrainage · Trop administratif</div>
+<div class="fin-text">Coach : <em>"Tu restes trop administratif. Ton client s'ennuie car tu lui parles de procédures au lieu de lui parler de sa vie et de ses risques. Mets plus d'émotion et moins de paperasse dans ton discours. L'assurance ne se vend pas parce qu'elle est obligatoire, mais parce qu'elle est utile."</em></div>
+</div></div>
+<div class="fin ko"><div class="fin-icon">❌</div><div class="fin-body">
+<div class="fin-title">Fin 3 — Refus · "Séance de rattrapage"</div>
+<div class="fin-text">Coach : <em>"Attention à ne pas devenir moralisateur. Juger les dépenses du client ou utiliser la peur comme seul levier est contre-productif et éthiquement limite. De plus, cacher les exclusions du contrat te posera de graves problèmes en cas de sinistre. Sois transparent."</em></div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 4 piliers à retenir</div>
+<div class="piliers-grid">
+<div class="pilier">
+<div class="pilier-num">Pilier 1 — Rebond commercial</div>
+<div class="pilier-title">Lien personnel avant produit</div>
+<div class="pilier-desc">La transition doit s'appuyer sur un lien humain avant d'aborder le produit.</div>
+<div class="pilier-ex">"Team Photo" → crée un dialogue naturel, pas une procédure administrative. Présenter l'assurance comme une "obligation légale" coupe immédiatement la relation de confiance.</div>
+</div>
+<div class="pilier">
+<div class="pilier-num">Pilier 2 — Mise en situation</div>
+<div class="pilier-title">La douleur concrète &gt; l'argument technique</div>
+<div class="pilier-desc">Projeter Lucas dans sa douleur réelle déclenche l'achat.</div>
+<div class="pilier-ex">"Si il tombe dans le métro demain, vous ressortez 1 200€" est plus puissant que n'importe quel argumentaire produit.</div>
+</div>
+<div class="pilier">
+<div class="pilier-num">Pilier 3 — Offre + Transparence</div>
+<div class="pilier-title">Multi-appareils + franchise annoncée</div>
+<div class="pilier-desc">L'argument décisif est la couverture étendue (iPhone + Mac + tablette) à 8€/mois.</div>
+<div class="pilier-ex">Mais cacher la franchise (50€) et les exclusions crée de la méfiance et expose à des litiges. Transparence = confiance durable.</div>
+</div>
+<div class="pilier">
+<div class="pilier-num">Pilier 4 — Closing sans friction</div>
+<div class="pilier-title">FaceID + Loi Hamon = zéro obstacle</div>
+<div class="pilier-desc">Lucas est digital native — tout doit se faire sur l'appli, sans papier.</div>
+<div class="pilier-ex">Notification FaceID = oui immédiat. Trois exemplaires à parapher = Lucas part. Loi Hamon (résiliation en clic après 1 an) = lève la dernière peur du contrat "piège".</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ══════════════ OBJECTIFS ══════════════ -->
+<div class="tab-panel" id="assurance-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">L'apprenant joue le rôle d'un(e) conseiller(ère) bancaire en fin de rendez-vous. À chacune des 11 étapes du dialogue, il choisit la meilleure formulation parmi 3 options. L'état émotionnel de Lucas (réticent → curieux → convaincu) évolue selon les choix. Un débriefing coach personnalisé (3 niveaux) évalue la posture commerciale et la transparence contractuelle. Un quiz de validation consolide les apprentissages.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">
+      Définir le rebond commercial et ses conditions de réussite en contexte bancaire. Nommer les 11 étapes du scénario (de la transition au parrainage). Expliquer les garanties et exclusions de l'assurance Moyens de Paiement &amp; Mobile (vol, casse, perte, franchise). Citer les dispositions de la loi Hamon applicables à la résiliation d'assurance.
+      <div class="verbs"><span class="verb">Définir</span><span class="verb">Nommer</span><span class="verb">Expliquer</span><span class="verb">Citer</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">
+      Réaliser une transition vers la vente additionnelle par un lien personnel (passion, usage) plutôt qu'une obligation légale. Projeter le client dans une douleur financière concrète pour activer les leviers SONCAS Sécurité et Argent. Présenter proactivement les exclusions du contrat pour prévenir les litiges futurs. Traiter l'objection franchise par un arbitrage chiffré (50€ vs 1 200€). Proposer un closing adapté au profil digital native (notification FaceID, zéro paperasse). Déclencher un parrainage en prolongement immédiat de la vente.
+      <div class="verbs"><span class="verb">Réaliser</span><span class="verb">Projeter</span><span class="verb">Présenter</span><span class="verb">Traiter</span><span class="verb">Proposer</span><span class="verb">Déclencher</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">
+      Adopter une posture de conseil bienveillant sans jugement sur les choix financiers du client. Démontrer la transparence sur les limites du produit comme vecteur de confiance. Adapter son discours et son processus de souscription au profil du client (digital native, anti-paperasse).
+      <div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Adapter</span></div>
+</div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game dialogué — 11 étapes avec 3 fins possibles + débriefing coach personnalisé + quiz de validation<br/><br/>
+<strong style="color:var(--orange)">Groupement :</strong> Individuel (jeu + quiz) — jeu de rôle en binôme pour le débriefing<br/><br/>
+<strong style="color:var(--orange)">Durée totale :</strong> 13 min module + 20 min débriefing formateur<br/><br/>
+<strong style="color:var(--orange)">Évaluation :</strong> Score du scénario (fin obtenue) + score quiz + grille d'observation jeu de rôle<br/><br/>
+<strong style="color:var(--orange)">Prérequis :</strong> Notions SONCAS, bases de la relation client bancaire</div>
+</div>
+</div>
+<!-- ══════════════ QUIZ ══════════════ -->
+<div class="tab-panel" id="assurance-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Rebond Commercial Assurance (7 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span>
+<div class="qtext">Quelle est la mission du conseiller bancaire dans ce scénario ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Réaliser un rebond commercial en fin de RDV pour vendre l'assurance "Moyens de Paiement &amp; Mobile" en s'appuyant sur les motivations SONCAS Argent et Sécurité</div>
+<div class="ans ko"><span class="mark">✗</span>Ouvrir un livret épargne à Lucas pour reconstituer son budget après l'achat de l'iPhone</div>
+<div class="ans ko"><span class="mark">✗</span>Expliquer à Lucas que son achat d'iPhone était irresponsable</div>
+<div class="expl">💡 La mission est précise : rebond commercial sur l'assurance, pas jugement moral ni vente d'un autre produit. Lucas est venu pour un compte courant — la vente additionnelle doit partir de son vécu (l'iPhone acheté) pour créer une connexion naturelle.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span>
+<div class="qtext">Associez chaque étape du scénario avec l'action clé du conseiller.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">La Transition — Rebond Social</td><td class="col-arrow">→</td><td class="col-b">"Team Photo ? C'est pour ça que vous avez pris le Pro." — créer du lien avant de parler produit</td></tr>
+<tr><td class="col-a">La Mise en Situation — La Douleur</td><td class="col-arrow">→</td><td class="col-b">"Si demain il tombe dans le métro, votre budget permet-il de le remplacer ?"</td></tr>
+<tr><td class="col-a">L'Offre Globale — Game Changer</td><td class="col-arrow">→</td><td class="col-b">"Pour le prix d'un McDo (8€), j'assure votre iPhone, votre ordi et votre tablette."</td></tr>
+<tr><td class="col-a">Le Closing — La Facilité</td><td class="col-arrow">→</td><td class="col-b">"Je vous envoie la notif sur l'appli, validation FaceID, c'est réglé." — zéro friction</td></tr>
+</table>
+<div class="expl">💡 Chaque étape répond à un verrou psychologique spécifique de Lucas : le lien (méfiance initiale) → la douleur (prise de conscience) → le game changer (surprise positive sur le prix) → le closing facile (profil digital native).</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Classement</span>
+<div class="qtext">Classez chaque élément dans la bonne catégorie.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="class-cols">
+<div class="class-col red"><div class="class-col-title">⚠️ Objections Lucas</div>
+<div class="class-item">"C'est encore une dépense — je mange déjà des pâtes"</div>
+<div class="class-item">"Le vendeur Apple voulait déjà me vendre 16€/mois"</div>
+<div class="class-item">"Je déteste les trucs qui se renouvellent tout seuls"</div>
+</div>
+<div class="class-col green"><div class="class-col-title">✓ Arguments gagnants</div>
+<div class="class-item">8€/mois vs 1 200€ de remplacement — calcul imparable</div>
+<div class="class-item">Couverture multi-appareils : iPhone + MacBook + tablette</div>
+<div class="class-item">Loi Hamon : résiliation en un clic sur l'appli après 1 an</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">❌ Erreurs fatales</div>
+<div class="class-item">Présenter l'assurance comme une "étape légalement obligatoire"</div>
+<div class="class-item">Cacher la franchise de 50€ et les exclusions du contrat</div>
+<div class="class-item">Proposer l'impression de trois exemplaires à parapher</div>
+</div>
+</div>
+<div class="expl">💡 Les 3 erreurs fatales détruisent chacune une dimension : l'argument légal tue la relation de confiance, la franchise cachée crée un litige futur, les exemplaires papier font fuir un digital native.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span>
+<div class="qtext">Lucas découvre qu'il y a une franchise de 50€ en cas de sinistre. Quelle est la meilleure réponse du conseiller ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>"La question est : préférez-vous payer 50€ ou 1 200€ en cas de pépin ?" — ancrer l'arbitrage dans la réalité financière de Lucas</div>
+<div class="ans ko"><span class="mark">✗</span>Minimiser : "C'est le tarif standard pratiqué par toutes les banques et assurances"</div>
+<div class="ans ko"><span class="mark">✗</span>Rassurer vaguement : "Ne vous inquiétez pas, c'est une offre Premium bancaire, tout est prévu pour vous"</div>
+<div class="expl">💡 La franchise ne se minimise pas, elle se contextualise. Pour Lucas qui vient de dépenser 1 200€, "50€ vs 1 200€" est un arbitrage évident. Lucas lui-même conclut : "50€ peuvent représenter une gêne, mais 1 200€ c'est une véritable catastrophe financière."</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span>
+<div class="qtext">Grâce à la loi Hamon, Lucas peut résilier son assurance mobile en un clic sur l'application bancaire dès la première année du contrat.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong> — La loi Hamon s'active après la première année (pas dès la souscription)</div>
+<div class="expl">💡 La loi Hamon (2015) permet de résilier une assurance à tout moment après la première année, sans frais ni justificatif. Avant 1 an : résiliation possible uniquement à la date anniversaire. Annoncer "dès la première année" est inexact et peut constituer un manquement au devoir d'information.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span>
+<div class="qtext">Dans ce scénario, le conseiller cible les motivations "Argent" et "Sécurité" de Lucas. Ces motivations font partie de la méthode d'argumentation commerciale appelée __________.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">SONCAS</strong></div>
+<div class="expl">💡 SONCAS (Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie). Ici : Sécurité = peur de perdre 1 200€ sans recours / Argent = 8€ &lt; 16€ Apple + couvre aussi Mac et tablette. Ces 2 leviers combinés répondent à la double résistance de Lucas : "je n'ai plus d'argent" + "j'ai peur de me faire avoir".</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">7</div><span class="qtype">QCM</span>
+<div class="qtext">Pourquoi annoncer proactivement les exclusions du contrat (perte non couverte, franchise 50€) est-il un argument de vente et non un frein ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>C'est une obligation légale du conseiller bancaire</div>
+<div class="ans ko"><span class="mark">✗</span>Ça permet à Lucas de comparer avec les offres concurrentes</div>
+<div class="ans ok"><span class="mark">✓</span>La transparence sur les limites du contrat crée de la confiance, prévient les litiges futurs et différencie le conseiller des vendeurs qui "cachent les petites lignes"</div>
+<div class="expl">💡 Lucas lui-même dit : "Ok, au moins c'est honnête." Un client qui a l'impression d'avoir reçu une information complète et sans artifice signe plus facilement et est moins litigieux en cas de sinistre. La transparence est le meilleur outil de fidélisation long terme d'un conseiller bancaire.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ══════════════ DÉROULEMENT ══════════════ -->
+<div class="tab-panel" id="assurance-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 – 40 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Mise en situation "Fin de RDV"</div>
+<div class="tl-desc">Décrire le contexte : "Lucas vient d'ouvrir son compte. Il range ses affaires, il croit que c'est terminé. Vous voyez son téléphone neuf dépasser de sa poche. Quelle est votre première phrase ?" Relever les réponses avant le module — les comparer après.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">5 – 18 min</div><div class="tl-title">Module individuel (13 min)</div>
+<div class="tl-desc">Jeu complet. Les apprenants notent la fin obtenue et les 2 étapes où ils ont hésité. Le formateur relève les erreurs les plus fréquentes (généralement étapes 1 et 6 : transition légale vs émotionnelle, et franchise cachée).</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">18 – 28 min</div><div class="tl-title">Débriefing collectif — Les 4 piliers</div>
+<div class="tl-desc">Projeter les 4 piliers. Pour chaque pilier : demander quel comportement de Lucas valide ce principe. Insister sur le paradoxe de la transparence : annoncer les exclusions crée plus de confiance que les cacher.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">28 – 38 min</div><div class="tl-title">Jeu de rôle "Rebond commercial"</div>
+<div class="tl-desc">En binôme : A joue le conseiller, B joue Lucas avec un profil légèrement différent (sans iPhone, mais avec un MacBook Pro). Le conseiller doit adapter le rebond au nouvel objet. Grille : transition, douleur, offre multi, closing adapté.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">38 – 45 min</div><div class="tl-title">Quiz + synthèse</div>
+<div class="tl-desc">Quiz individuel (7 questions). Insister sur la Q5 (loi Hamon — après 1 an, pas dès la 1re année) et la Q7 (transparence = argument de vente). Bilan collectif sur les réflexes à ancrer.</div></div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">📱</div><div class="tip-text"><strong>Apporter un vrai téléphone premium en jeu de rôle.</strong> Poser un iPhone (ou équivalent) sur la table. La présence physique de l'objet ancre la simulation dans le concret et rend la "douleur" de la casse immédiatement compréhensible.</div></div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Faire calculer le ROI collectivement.</strong> "8€ × 12 mois = 96€/an. Si vous cassez l'iPhone, la franchise est de 50€. Remboursement : 1 200€ - 50€ = 1 150€. Ratio : 1 150/96 = 12 ans de cotisation couverts par un seul sinistre." Rendre le calcul visible au tableau.</div></div>
+<div class="tip"><div class="tip-icon">🔑</div><div class="tip-text"><strong>Pratiquer la phrase de transition à voix haute.</strong> Entraîner spécifiquement : "Team Photo ? C'est pour ça que vous avez pris le Pro." vs "Je dois légalement vous présenter l'assurance." La différence d'impact est immédiatement perceptible à l'oral.</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Insister sur la responsabilité de la transparence.</strong> Un conseiller qui cache la franchise expose sa banque à un litige RGPD/AMF et sa propre crédibilité en cas de sinistre. La transparence n'est pas seulement éthique — elle est professionnellement protectrice pour le conseiller lui-même.</div></div>
+</div>
+</div>
+</div></div>
+<!-- ══════ MODULE 2 — ASSURANCE AUTO ══════ -->
+
+<!-- ══════ MODULE 3 — GESTION IMPAYÉS IMMOBILIER ══════ -->
+
+<!-- ══════ MODULE 4 — COMPTE JOINT & PRÊT CONFORMITÉ ══════ -->
+
+<div class="footer">Avatar Sales Academy</div>
+</div>
+<script>
+const MODS=['assurance','auto','impayes','pret'];
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  MODS.forEach(m=>{
+    document.getElementById('panel-'+m).classList.toggle('active',m===id);
+    document.getElementById('btn-'+m).classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
