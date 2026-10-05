@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestion des Objections — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:940px;min-height:100vh;display:flex;flex-direction:column}
+/* HEADER */
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+/* POLE */
+.pole-header{padding:13px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:24px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.pole-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+/* MODULE SELECTOR */
+.mod-selector{padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:7px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:9px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.13)}
+.mod-btn-icon{font-size:15px}
+.mod-btn-info{display:flex;flex-direction:column;gap:1px}
+.mod-btn-title{font-size:12px;font-weight:500;line-height:1.25}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.65);display:flex;gap:4px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+/* CONTENT */
+.content{flex:1;padding:20px 18px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:12px;padding:40px}
+.welcome-icon{font-size:46px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:420px}
+/* MODULE PANEL */
+.module-panel{display:none}
+.module-panel.active{display:block}
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:8px 15px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+/* META */
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.meta{font-size:11px;padding:4px 10px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.meta.red{background:rgba(255,77,77,0.1);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+/* SECTIONS */
+.section{margin-bottom:20px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;line-height:1.75;color:var(--light)}
+/* PROFILS GRID */
+.profils-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:620px){.profils-grid{grid-template-columns:1fr}}
+.profil-card{background:var(--navy3);border-radius:11px;padding:13px 14px;border-top:3px solid var(--orange);position:relative}
+.profil-card.good{border-top-color:var(--green)}
+.profil-card.bad{border-top-color:#ff4d4d}
+.profil-card.med{border-top-color:#ffb347}
+.profil-nom{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.profil-surnom{font-size:10px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.profil-card.good .profil-surnom{color:var(--green)}
+.profil-card.bad .profil-surnom{color:#ff9999}
+.profil-card.med .profil-surnom{color:#ffb347}
+.profil-cv{font-size:11.5px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.profil-trait{font-size:12px;line-height:1.55;color:var(--light);margin-bottom:4px;padding-left:12px;position:relative}
+.profil-trait::before{content:"→";position:absolute;left:0;color:var(--orange);font-size:10px}
+.profil-verdict{margin-top:8px;font-size:11.5px;padding:5px 8px;border-radius:6px}
+.profil-verdict.ok{background:rgba(0,204,136,0.08);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.profil-verdict.ko{background:rgba(255,77,77,0.08);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+.profil-verdict.warn{background:rgba(255,179,71,0.08);color:#ffb347;border:0.5px solid rgba(255,179,71,0.2)}
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:9px;background:var(--navy3);border-radius:9px;padding:9px 12px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 7px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 7px}
+/* OBJECTIVES */
+.obj-block{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:6px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.verb{font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+/* QUIZ */
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:11px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.02)}
+.qnum{min-width:25px;height:25px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:5px 15px 13px 49px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:6px;padding:3px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:7px;font-size:12px;color:var(--muted);padding:7px 10px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:44%}
+.col-arrow{text-align:center;color:var(--muted);width:12%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:44%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0}
+@media(max-width:540px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+/* DISC GRID */
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:580px){.disc-grid{grid-template-columns:1fr}}
+.disc-card{background:var(--navy3);border-radius:11px;padding:13px 14px;border-top:3px solid}
+.disc-card.d{border-top-color:#ff4d4d}
+.disc-card.i{border-top-color:#FF6B00}
+.disc-card.s{border-top-color:var(--green)}
+.disc-card.c{border-top-color:var(--blue)}
+.disc-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:2px}
+.disc-card.d .disc-letter{color:#ff4d4d}
+.disc-card.i .disc-letter{color:#FF6B00}
+.disc-card.s .disc-letter{color:var(--green)}
+.disc-card.c .disc-letter{color:var(--blue)}
+.disc-mot{font-size:13px;font-weight:500;color:#fff;margin-bottom:6px}
+.disc-trait{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:3px;padding-left:10px;position:relative}
+.disc-trait::before{content:"•";position:absolute;left:0;font-size:10px;color:var(--muted)}
+.disc-vente{margin-top:8px;font-size:12px;padding:6px 9px;background:rgba(255,255,255,0.05);border-radius:6px;border-left:2px solid rgba(255,255,255,0.1);color:var(--light);line-height:1.5}
+.disc-vente strong{color:var(--orange);font-size:10px;display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+/* SONCAS GRID */
+.soncas-full{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+@media(max-width:640px){.soncas-full{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.soncas-full{grid-template-columns:1fr}}
+.soncas-card{background:var(--navy3);border-radius:10px;padding:11px 13px;border-left:3px solid var(--orange)}
+.soncas-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--orange);margin-bottom:2px}
+.soncas-mot{font-size:12.5px;font-weight:500;color:#fff;margin-bottom:5px}
+.soncas-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.soncas-arg{font-size:11.5px;color:var(--green);padding:5px 8px;background:rgba(0,204,136,0.07);border-radius:5px;line-height:1.5}
+.soncas-arg::before{content:"→ ";font-weight:700}
+/* OBJECTIONS */
+.obj-list{display:flex;flex-direction:column;gap:8px}
+.obj-item{background:var(--navy3);border-radius:10px;padding:11px 14px}
+.obj-item-top{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:flex-start}
+@media(max-width:560px){.obj-item-top{grid-template-columns:1fr}}
+.obj-prospect{font-size:12.5px;color:#ff9999;line-height:1.5}
+.obj-prospect::before{content:"💬 ";font-size:11px}
+.obj-label-small{font-size:9px;font-weight:700;color:#ff9999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.rep-label-small{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.obj-rep-ok{font-size:12.5px;color:var(--green);line-height:1.5}
+.obj-rep-ok::before{content:"✓ "}
+.obj-rep-ko{font-size:12px;color:rgba(138,155,181,0.5);line-height:1.5}
+.obj-rep-ko::before{content:"✗ "}
+/* TIMELINE */
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:11px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:36px;flex-shrink:0}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:12px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 16px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+/* TIPS */
+.tip{display:flex;gap:9px;background:var(--navy3);border-radius:10px;padding:10px 13px;margin-bottom:7px;align-items:flex-start}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.perso{background:var(--navy3);border-radius:9px;padding:9px 13px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:580px){.err-grid{grid-template-columns:1fr}}
+.err-card{background:var(--navy3);border-radius:10px;padding:11px 13px;border-left:3px solid var(--orange)}
+.err-num{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.err-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px}
+.err-obs{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:5px}
+.err-fix{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.err-fix::before{content:"✓ ";font-weight:700}
+.footer{padding:5px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🧠</div>
+<div class="pole-info">
+<div class="pole-name">Fondamentaux &amp; Psychologie de Vente</div>
+<div class="pole-desc">Soft skills, SONCAS, DISC, objections et analyse comportementale commerciale</div>
+</div>
+<div class="pole-badge">Gestion des Objections</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-objections">
+<div class="meta-row">
+<span class="meta purple">🧠 Fondamentaux</span><span class="meta orange">⏱ 10 min</span>
+<span class="meta blue">🥊 15 objections types · Chrono 2 min</span><span class="meta green">👥 Individuel</span>
+</div>
+<div class="tabs" id="tabs-objections">
+<div class="tab active" onclick="st('objections','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('objections','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('objections','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('objections','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="objections-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est confronté à <strong>15 objections réelles</strong> d'un prospect dans un contexte de vente B2B. Pour chaque objection, 3 réponses sont proposées — l'apprenant doit identifier celle qui rapproche le plus de la vente. Le module est chronométré : <strong>2 minutes</strong> pour répondre au maximum de questions. Idriss (formateur) donne un feedback de performance en fin de session.</div>
+</div>
+<div class="section"><div class="sec-title">Les 15 objections et leurs meilleures réponses</div>
+<div class="obj-list">
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">C'est trop cher pour nous</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je comprends votre préoccupation. Pouvons-nous discuter de la valeur que notre produit apportera à votre entreprise ?</div><div class="obj-rep-ko">C'est le prix du marché / On peut faire une remise</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Nous n'avons pas de budget</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je comprends. Analysons ensemble comment cet investissement pourrait s'inscrire dans votre stratégie financière à long terme.</div><div class="obj-rep-ko">Notre produit permettra des économies / On peut revoir les fonctionnalités</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Je préfère réfléchir avant de décider</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je comprends que vous ayez besoin de réfléchir. Souhaitez-vous un résumé des points clés pour vous aider dans votre réflexion ?</div><div class="obj-rep-ko">Notre offre est valable pour une durée limitée (urgence artificielle) / Rappelez-moi quand vous aurez décidé (abandon)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Je n'aurai pas le temps d'étudier votre solution</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je sais que votre temps est précieux. Puis-je vous montrer comment notre solution peut vous faire gagner du temps ?</div><div class="obj-rep-ko">Notre produit est pour les professionnels actifs comme vous (flatterie vide) / Je peux rappeler plus tard (abandon)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Je ne suis pas intéressé !</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je comprends. Pourrais-je savoir ce qui vous a conduit à cette conclusion ? Cela m'aiderait à mieux comprendre vos besoins.</div><div class="obj-rep-ko">Vous n'avez pas encore découvert tous les avantages (déni) / Je n'insisterai pas (abandon total)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Je ne suis pas satisfait de mon fournisseur actuel</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je suis convaincu que nous pouvons surpasser la qualité de votre fournisseur actuel. Qu'est-ce qui vous déçoit chez lui ?</div><div class="obj-rep-ko">C'est super que vous ayez un bon fournisseur (incohérence) / Je ne vais pas vous faire perdre votre temps (abandon)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Je ne connais pas votre entreprise</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je suis spécialisé dans la formation depuis 17 ans et ai aidé de nombreuses entreprises à augmenter leur performance commerciale de 40%.</div><div class="obj-rep-ko">Notre entreprise jeune a un taux de satisfaction de 98% (flou/peu crédible)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Nous n'avons pas les ressources pour intégrer votre solution</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Notre solution est conçue pour être simple à déployer. Notre équipe d'experts s'occupera de l'installation et de la configuration.</div><div class="obj-rep-ko">Ça demande du temps mais on est là pour vous soutenir (minimise sans rassurer vraiment)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Nous n'avons aucune raison de changer</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Je réalise que vous entretenez une excellente relation avec votre fournisseur. Néanmoins, il est toujours avantageux d'envisager de nouvelles opportunités.</div><div class="obj-rep-ko">Votre fournisseur est dépassé, vous devriez changer immédiatement (agressif = dénigrement)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Votre produit est trop compliqué à utiliser</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Nous offrons une formation complète et un accompagnement personnalisé pour faciliter l'utilisation.</div><div class="obj-rep-ko">Notre produit n'est pas compliqué — si vous ne comprenez pas c'est que vous n'êtes pas assez compétent (inadmissible)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Votre entreprise ne respecte pas l'environnement !</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Nous nous engageons pour l'environnement. Contactez-nous pour en savoir plus sur nos initiatives durables.</div><div class="obj-rep-ko">Ce sont des mensonges de concurrents, nous n'avons rien à nous reprocher (défensif et contre-productif)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Nous préférons travailler avec des acteurs plus importants</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Notre agilité nous permet d'offrir un service personnalisé et une attention particulière à chaque client.</div><div class="obj-rep-ko">La taille n'a pas d'importance, nous sommes meilleurs que les grandes entreprises (arrogant)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Nous sommes en pleine restructuration</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Il serait judicieux d'explorer comment notre solution pourrait s'intégrer dans votre nouvelle structure et faciliter cette transition.</div><div class="obj-rep-ko">Je vous recontacterai quand la restructuration sera terminée (perte définitive du timing)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Votre produit semble trop complexe pour nos besoins</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Pourrions-nous discuter de vos besoins spécifiques afin d'ajuster notre solution ?</div><div class="obj-rep-ko">Notre produit n'est pas si complexe une fois qu'on l'utilise / Vous avez raison, il est très avancé (les deux mauvaises)</div></div></div></div>
+<div class="obj-item"><div class="obj-item-top"><div><div class="obj-label-small">Objection prospect</div><div class="obj-prospect">Votre concurrent propose plus de fonctionnalités !</div></div><div><div class="rep-label-small">Meilleure réponse</div><div class="obj-rep-ok">Toutes les fonctionnalités ne sont pas nécessairement utiles dans votre cas. Quelles sont celles qui comptent vraiment pour vous ?</div><div class="obj-rep-ko">Oui c'est vrai mais ça coûte aussi plus cher (comparaison abstraite sans ciblage)</div></div></div></div>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="objections-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">L'apprenant est confronté en temps réel (2 minutes chrono) à des objections de prospects. Pour chaque objection, il doit identifier la meilleure réponse parmi 3 options. La répétition rapide crée des automatismes de réponse. Le feedback d'Idriss en fin de session donne une évaluation de performance et des pistes d'amélioration.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">Nommer les 5 types d'objections les plus fréquentes en vente B2B (prix, budget, temps, intérêt, fournisseur actuel). Définir ce qu'est une réponse d'empathie + pivot vs une réponse défensive ou de capitulation.<div class="verbs"><span class="verb">Nommer</span><span class="verb">Définir</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">Répondre à une objection prix en reformulant en valeur. Traiter une objection "fournisseur actuel" sans dénigrer. Rebondir sur une objection "pas intéressé" par une question de compréhension. Distinguer abandon (capitulation) / empathie + pivot / réponse agressive.<div class="verbs"><span class="verb">Répondre</span><span class="verb">Traiter</span><span class="verb">Rebondir</span><span class="verb">Distinguer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">Adopter un réflexe d'écoute empathique avant de contre-argumenter. Maintenir une posture professionnelle face aux objections environnementales ou éthiques. Résister à la tentation de la capitulation ou de l'attaque frontale.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Maintenir</span><span class="verb">Résister</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Module chronométré (2 min) — QCM avec 3 propositions de réponse par objection + feedback performance<br/><br/><strong style="color:var(--orange)">Groupement :</strong> Individuel (score personnel) — débriefing collectif recommandé<br/><br/><strong style="color:var(--orange)">Durée totale :</strong> 10 min module + 15 min débriefing + jeu de rôle<br/><br/><strong style="color:var(--orange)">Évaluation :</strong> Score de performance + nombre d'objections traitées en 2 min<br/><br/><strong style="color:var(--orange)">Prérequis :</strong> Aucun — idéal en première session de vente</div>
+</div>
+</div>
+<div class="tab-panel" id="objections-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Gestion des Objections (5 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Face à l'objection "C'est trop cher pour nous", quelle est la meilleure première réaction ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Expliquer que c'est le prix du marché pour ce niveau de qualité</div>
+<div class="ans ko"><span class="mark">✗</span>Proposer immédiatement une petite remise</div>
+<div class="ans ok"><span class="mark">✓</span>Accepter la préoccupation et ouvrir une discussion sur la valeur : "Je comprends. Pouvons-nous discuter de la valeur que notre produit apportera à votre entreprise ?"</div>
+<div class="expl">💡 Proposer une remise immédiatement signale que le prix était gonflé, et crée un précédent de négociation systématique. L'empathie + pivot vers la valeur est toujours la première étape avant tout ajustement commercial.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Classement</span><div class="qtext">Classez ces 3 types de réponses à une objection du mieux au moins efficace.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols">
+<div class="class-col green"><div class="class-col-title">✓ Optimal</div><div class="class-item">Empathie + Pivot : valider le ressenti puis rediriger vers la valeur ou la question ouverte</div></div>
+<div class="class-col amber"><div class="class-col-title">⚡ Acceptable</div><div class="class-item">Contre-argument factuel : donner une preuve, un chiffre ou un exemple sans valider d'abord le ressenti</div></div>
+</div>
+<div class="class-cols">
+<div class="class-col red"><div class="class-col-title">❌ À éviter</div><div class="class-item">Capitulation : "Je vous rappellerai plus tard" ou "D'accord, je comprends" sans rebondir</div></div>
+<div class="class-col red"><div class="class-col-title">❌ Fatal</div><div class="class-item">Attaque frontale : dénigrer le concurrent, minimiser la préoccupation ou mettre le prospect en faute</div></div>
+</div>
+<div class="expl">💡 La capitulation perd la vente immédiatement. L'attaque perd la relation définitivement. L'empathie + pivot maintient le dialogue ouvert dans tous les cas.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span><div class="qtext">Face à "Je ne suis pas intéressé !", quelle est la réponse qui ouvre le plus de portes ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>"Je comprends. Pourrais-je savoir ce qui vous a conduit à cette conclusion ? Cela m'aiderait à mieux comprendre vos besoins."</div>
+<div class="ans ko"><span class="mark">✗</span>"Peut-être n'avez-vous pas encore découvert tous les avantages de notre offre ?"</div>
+<div class="ans ko"><span class="mark">✗</span>"D'accord, je ne vais pas insister davantage."</div>
+<div class="expl">💡 "Pas intéressé" est rarement une vraie objection — c'est souvent un réflexe de défense. La question "Qu'est-ce qui vous a conduit à cette conclusion ?" transforme un refus en découverte. Elle oblige le prospect à articuler sa vraie résistance, que vous pouvez alors traiter.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">Vrai / Faux</span><div class="qtext">Face à "Votre concurrent propose plus de fonctionnalités", la bonne réponse est d'admettre que c'est vrai mais que leur prix est plus élevé.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div>
+<div class="expl">💡 Admettre "plus de fonctionnalités = plus cher" sans qualifier les besoins du prospect est une comparaison abstraite qui ne sert à rien. La bonne réponse : "Toutes les fonctionnalités ne sont pas nécessairement utiles dans votre cas. Quelles sont celles qui comptent vraiment pour vous ?" Ce recentrage sur les besoins réels repositionne la conversation.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">QCM</span><div class="qtext">Le prospect dit "Votre entreprise ne respecte pas l'environnement !" Quelle est l'erreur absolue à éviter ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>S'engager à partager des informations sur les initiatives durables de l'entreprise</div>
+<div class="ans ko"><span class="mark">✗</span>Exprimer une volonté de dialogue sur le sujet</div>
+<div class="ans ok"><span class="mark">✓</span>Répondre : "Ce sont des mensonges propagés par nos concurrents, nous n'avons rien à nous reprocher"</div>
+<div class="expl">💡 Nier catégoriquement une accusation éthique en la renvoyant vers les concurrents est une posture défensive qui aggrave la situation. Une objection éthique se traite par l'ouverture et la transparence, jamais par l'attaque ou la dénégation.</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="objections-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (25 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Introduction — "Qu'est-ce qui vous déstabilise ?"</div><div class="tl-desc">Demander aux apprenants : "Quelle objection vous déstabilise le plus ?" Relever les réponses. Le module leur donnera des automatismes sur ces cas précis.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Module chronométré individuel</div><div class="tl-desc">Jeu individuel de 2 minutes. Les apprenants notent leur score. Le formateur relève les objections les plus souvent mal traitées.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 22 min</div><div class="tl-title">Débriefing des 3 objections les plus ratées</div><div class="tl-desc">Pour chaque objection : formuler la réponse à voix haute en 15 secondes. Travail sur le réflexe et la rapidité.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">22 – 30 min</div><div class="tl-title">Jeu de rôle "Feu nourri"</div><div class="tl-desc">Le formateur balance des objections au hasard. Les apprenants répondent en moins de 10 secondes. Variante : un apprenant joue le prospect difficile, les autres répondent à tour de rôle.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">⚡</div><div class="tip-text"><strong>Insister sur le réflexe "Je comprends" en premier.</strong> 90% des erreurs viennent de la contre-argumentation immédiate sans validation du ressenti. Ce réflexe seul transforme la qualité des réponses.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Pratiquer à voix haute.</strong> La gestion des objections est un réflexe verbal, pas intellectuel. La répétition orale crée l'automatisme que la lecture seule ne crée pas.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien avec SONCAS.</strong> Certaines objections révèlent le profil dominant du prospect : "C'est trop cher" = Argent / "J'ai peur des arnaques" = Sécurité / "Pas le temps" = Confort. L'objection est une source d'information sur le profil.</div></div>
+</div>
+</div>
+</div></div></div>
+<script>
+const MODS=['headhunter','entretien','objections','soncas','disc','motivation'];
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  MODS.forEach(m=>{
+    const p=document.getElementById('panel-'+m);
+    const b=document.getElementById('btn-'+m);
+    if(p)p.classList.toggle('active',m===id);
+    if(b)b.classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const panel=document.getElementById('panel-'+mod);
+  if(!panel)return;
+  panel.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));
+  });
+  panel.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active',p.id===mod+'-'+tab);
+  });
+}
+function tQ(card){card.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
