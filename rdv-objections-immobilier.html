@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestion des Objections Immobilières — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:860px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:28px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(255,107,0,0.12);color:var(--orange);border:1px solid rgba(255,107,0,0.25);border-radius:20px;padding:3px 10px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 18px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+/* 10 ÉTAPES */
+.etapes{display:flex;flex-direction:column;gap:8px}
+.etape{display:flex;gap:12px;background:var(--navy3);border-radius:11px;padding:12px 14px;align-items:flex-start}
+.etape-badge{font-size:10px;font-weight:700;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:6px;padding:3px 8px;flex-shrink:0;margin-top:2px;text-transform:uppercase;letter-spacing:.3px;min-width:80px;text-align:center}
+.etape-body{flex:1;font-size:13px;line-height:1.65}
+.etape-title{font-weight:600;color:#fff;margin-bottom:4px}
+.etape-desc{color:var(--muted);font-size:12.5px;line-height:1.55;margin-bottom:5px}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+/* FINS */
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+/* PERSO */
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:160px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+/* OBJ BLOCKS */
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+/* QUIZ */
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+/* TIMELINE */
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.alert-box{display:flex;gap:10px;background:rgba(255,107,0,0.08);border:0.5px solid rgba(255,107,0,0.25);border-radius:10px;padding:11px 14px;margin-bottom:14px}
+.alert-icon{font-size:16px;flex-shrink:0}
+.alert-text{font-size:12.5px;color:var(--orange);line-height:1.6}
+.alert-text strong{color:#fff}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiche Pédagogique — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🏠</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Immobilier — Négociation</div>
+<div class="pole-desc">Gestion des objections · Prise de mandat</div>
+</div>
+<div class="pole-badge">Gestion des Objections Immobilières</div>
+</div>
+<div class="content" id="content">
+<div class="meta-row">
+<span class="meta orange">⏱ 13 min</span>
+<span class="meta blue">🏠 Scénario immobilier · 10 étapes</span>
+<span class="meta green">👥 Individuel + binôme</span>
+<span class="meta purple">🏠 Immobilier · Négociation</span>
+</div>
+<div class="tabs">
+<div class="tab active" onclick="st('scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('deroulement')">🗓 Déroulement</div>
+</div>
+<!-- ══════════════ SCÉNARIO ══════════════ -->
+<div class="tab-panel active" id="tab-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant incarne un <strong>agent immobilier</strong> qui rencontre <strong>Mme Lefort</strong>, propriétaire qui vend sa maison seule sur LeBonCoin. Elle n'apprécie pas les agences et veut minimiser les frais. L'objectif <strong>n'est pas de signer le mandat aujourd'hui</strong>, mais d'obtenir le rendez-vous de visite du bien.<br/><br/>Le scénario se déroule en <strong>10 étapes</strong>, chacune avec 3 choix de réponse. L'état émotionnel de Mme Lefort évolue selon les décisions prises. 3 fins possibles selon le score. Un coach donne un débriefing personnalisé en fin de session, suivi d'un quiz de validation.</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">🕴️ L'Agent</div><div class="perso-role">Vous — agent immobilier en première prise de contact</div></div>
+<div class="perso"><div class="perso-name">👩 Mme Lefort</div><div class="perso-role">Propriétaire méfiante · 10 visites sans offre · Mari muté dans le sud cet été · Anti-agence</div></div>
+<div class="perso"><div class="perso-name">👨‍🏫 Le Coach</div><div class="perso-role">Débriefing personnalisé en fin de scénario selon la performance</div></div>
+</div>
+</div>
+<div class="alert-box">
+<div class="alert-icon">🎯</div>
+<div class="alert-text"><strong>Objectif du rendez-vous :</strong> Obtenir le RDV de visite du bien — PAS signer le mandat ce jour-là. Présenter les formulaires dès les premières minutes = erreur fatale.</div>
+</div>
+<div class="section"><div class="sec-title">Les 10 étapes clés</div>
+<div class="etapes">
+<div class="etape">
+<span class="etape-badge">Étape 1</span>
+<div class="etape-body">
+<div class="etape-title">Briser la Glace</div>
+<div class="etape-desc">Créer un climat de confiance dès l'arrivée. Accueil chaleureux, question d'accroche humaine.</div>
+<div class="badges">
+<span class="b-ok">✓ "Vous avez trouvé facilement ? Un café ou un verre d'eau ?"</span>
+<span class="b-ko">❌ Sortir les formulaires de mandat exclusif dès le départ</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 2</span>
+<div class="etape-body">
+<div class="etape-title">Validation du Contexte</div>
+<div class="etape-desc">Confirmer que le bien est toujours disponible, sans jugement sur l'annonce.</div>
+<div class="badges">
+<span class="b-ok">✓ "J'ai vu la mise à jour de votre annonce hier soir. Votre projet est toujours d'actualité ?"</span>
+<span class="b-ko">❌ "Votre annonce date de plus d'un mois ! Vous devriez baisser votre prix." (donner une leçon)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 3</span>
+<div class="etape-body">
+<div class="etape-title">Validation du Refus (Empathie)</div>
+<div class="etape-desc">Mme Lefort annonce qu'elle veut minimiser les frais. Valider avant de contre-argumenter.</div>
+<div class="badges">
+<span class="b-ok">✓ "Je comprends tout à fait. C'est légitime de vouloir défendre son net vendeur. Depuis 3 mois, vous avez eu des touches sérieuses ?"</span>
+<span class="b-ko">❌ "Nous pouvons fournir un effort, néanmoins il convient de ne pas exagérer." (défensif)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 4</span>
+<div class="etape-body">
+<div class="etape-title">Le Diagnostic (Creuser la Douleur)</div>
+<div class="etape-desc">10 visites sans offre = problème à identifier. Quelle est l'objection principale des acheteurs ?</div>
+<div class="badges">
+<span class="b-ok">✓ "10 visites ! C'est que votre annonce attire. Mais si les gens n'achètent pas, quelle est l'objection principale ?"</span>
+<span class="b-ko">❌ "Aucune offre ? Votre prix est trop élevé." (conclusion prématurée)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 5</span>
+<div class="etape-body">
+<div class="etape-title">L'Expertise Technique (La Solution)</div>
+<div class="etape-desc">Mme Lefort révèle : cuisine et salle de bain "dans leur jus". Les acheteurs ne se projettent pas.</div>
+<div class="badges">
+<span class="b-ok">✓ "Classique. Avez-vous des devis artisans ou des visuels 3D pour prouver que ce n'est pas si cher ?"</span>
+<span class="b-ko">❌ "Il faut rénover avant de vendre." (impose une dépense)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 6</span>
+<div class="etape-body">
+<div class="etape-title">L'Urgence (Le Tempo)</div>
+<div class="etape-desc">Mme Lefort se dit "pas pressée". Révéler l'urgence cachée : mutation du mari en été.</div>
+<div class="badges">
+<span class="b-ok">✓ "Pour votre mutation, mieux vaut vendre au prix du marché maintenant qu'affronter une négociation difficile dans 2 mois."</span>
+<span class="b-ko">❌ "Si vous n'êtes pas pressée, je vous contacte dans 6 mois." (abandon total)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 7</span>
+<div class="etape-body">
+<div class="etape-title">L'Offre de Valeur (Le Pitch)</div>
+<div class="etape-desc">Répondre à "Qu'est-ce que vous feriez de plus que moi ?" Différenciation concrète.</div>
+<div class="badges">
+<span class="b-ok">✓ "Je ne vends pas des murs mais une solution : architecte + plan 3D + devis pour lever l'objection travaux et déclencher l'offre au prix."</span>
+<span class="b-ko">❌ "J'ai une immense base de données clients." (vague, non différenciant)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 8</span>
+<div class="etape-body">
+<div class="etape-title">L'Objection Prix (Le mur de l'argent)</div>
+<div class="etape-desc">Mme Lefort dit que les honoraires vont manger son bénéfice. ROI, pas remise.</div>
+<div class="badges">
+<span class="b-ok">✓ "Oubliez la commission. Si le plan 3D génère 10 000€ de plus, mes honoraires sont couverts par cette plus-value."</span>
+<span class="b-ko">❌ "Je peux vous accorder une remise de 20 % si on conclut." → Mme Lefort : "Si vous baissez en 2 minutes, c'était trop cher avant !"</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 9</span>
+<div class="etape-body">
+<div class="etape-title">La Peur de l'Engagement (Le Mandat)</div>
+<div class="etape-desc">Mme Lefort ne veut pas "être bloquée 3 mois avec une agence mauvaise". Lever cette peur.</div>
+<div class="badges">
+<span class="b-ok">✓ "Contrat Confiance : si vous n'êtes pas satisfaite sous 45 jours, résiliez par simple lettre. Zéro risque."</span>
+<span class="b-ko">❌ "C'est la loi Hoguet, préavis irrévocable de 3 mois dans toute la France." (mensonge + pression)</span>
+</div>
+</div>
+</div>
+<div class="etape">
+<span class="etape-badge">Étape 10</span>
+<div class="etape-body">
+<div class="etape-title">La Prise de RDV (Le Closing)</div>
+<div class="etape-desc">Mme Lefort doit en parler à son mari. Proposer l'estimation comme prochaine étape concrète.</div>
+<div class="badges">
+<span class="b-ok">✓ "Je passe demain pour l'estimation sans engagement — il aura des chiffres concrets pour décider. 14h30 ou 16h00 ?" (alternative fermée)</span>
+<span class="b-ko">❌ "Donnez-moi son numéro, je le contacte ce soir !" (intrusif, Mme Lefort : "ne soyez pas insistant")</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">3 fins possibles</div>
+<div class="fins-grid">
+<div class="fin ok">
+<div class="fin-icon">🏆</div>
+<div class="fin-body">
+<div class="fin-title">Fin 1 — RDV obtenu · Posture de consultant</div>
+<div class="fin-text">Mme Lefort dit oui à l'estimation. RDV fixé en alternative fermée. Coach : <em>"Tu as su cadrer l'entretien, chercher la douleur avant de proposer ton remède. Ton refus de brader tes honoraires prouve que tu as conscience de ta valeur ajoutée. C'est ainsi qu'on signe des mandats exclusifs."</em></div>
+</div>
+</div>
+<div class="fin med">
+<div class="fin-icon">🟡</div>
+<div class="fin-body">
+<div class="fin-title">Fin 2 — RDV flou · Manque de leadership</div>
+<div class="fin-text">Mme Lefort dit "appelez avant de venir" sans confirmer. Coach : <em>"Tu es sympathique mais tu manques de leadership. Ose dire les vérités qui fâchent plus tôt. Le client a besoin d'un guide, pas d'un ami."</em></div>
+</div>
+</div>
+<div class="fin ko">
+<div class="fin-icon">❌</div>
+<div class="fin-body">
+<div class="fin-title">Fin 3 — RDV perdu · Agression ou capitulation</div>
+<div class="fin-text">Mme Lefort met fin au RDV furieuse ou indifférente. Coach : <em>"La vente est une conséquence de la confiance, pas un braquage. Sortir le contrat trop tôt ou juger la maison est le meilleur moyen de faire fuir le client."</em></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 4 piliers à retenir</div>
+<div class="card">
+<strong style="color:var(--orange)">1. Objectif du RDV :</strong> Le but n'est PAS de signer le mandat aujourd'hui, mais d'obtenir la visite du bien. Présenter les formulaires dès le départ détruit la confiance.<br/><br/>
+<strong style="color:var(--orange)">2. Diagnostic avant solution :</strong> Identifier la douleur ("quelle est l'objection principale des acheteurs ?") avant d'offrir une solution permet de cibler le bon argument — ici le plan 3D + devis artisan.<br/><br/>
+<strong style="color:var(--orange)">3. Valeur ajoutée contre remise :</strong> L'objection honoraires se traite par le ROI, jamais par la remise. "Si le plan 3D génère 10 000€ de plus, mes honoraires sont couverts." Réduire ses honoraires de 20% en 2 minutes discrédite l'agent immédiatement.<br/><br/>
+<strong style="color:var(--orange)">4. Contrat Confiance + Alternative fermée :</strong> Lever la peur de l'engagement (45 jours résiliables) + closing par alternative fermée ("14h30 ou 16h00 ?") = l'équation du RDV obtenu.
+    </div>
+</div>
+</div>
+<!-- ══════════════ OBJECTIFS ══════════════ -->
+<div class="tab-panel" id="tab-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">L'apprenant joue le rôle d'un agent immobilier en première prise de contact avec Mme Lefort (propriétaire anti-agence, 10 visites sans offre, mari muté en été). À chacune des 10 étapes du dialogue, il choisit la meilleure formulation parmi 3 options. L'état émotionnel de Mme Lefort évolue. Un débriefing coach personnalisé évalue la performance (3 niveaux). Le quiz de validation consolide les apprentissages.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block">
+<div class="obj-block-title">Savoirs (Connaître)</div>
+<div class="obj-block-body">
+        Définir l'objectif réel d'un premier RDV vendeur en immobilier (visite ≠ mandat immédiat). Nommer les 10 étapes de la négociation immobilière (de la glace au closing). Expliquer la technique du "net vendeur" et du "Contrat Confiance". Citer les 3 erreurs fatales à éviter (formulaire trop tôt, remise 20%, abandon face au "je réfléchis").
+        <div class="verbs"><span class="verb">Définir</span><span class="verb">Nommer</span><span class="verb">Expliquer</span><span class="verb">Citer</span></div>
+</div>
+</div>
+<div class="obj-block">
+<div class="obj-block-title">Savoir-faire (Appliquer)</div>
+<div class="obj-block-body">
+        Conduire un entretien de découverte en identifiant la douleur client avant de proposer une solution. Traiter l'objection "honoraires trop élevés" par un argument ROI chiffré (plus-value &gt; commission). Utiliser la technique d'alternative fermée pour fixer un RDV sans pression. Désamorcer la peur de l'engagement par une clause de résiliation flexible. Proposer un plan 3D et des devis artisan comme argument technique différenciant.
+        <div class="verbs"><span class="verb">Conduire</span><span class="verb">Traiter</span><span class="verb">Utiliser</span><span class="verb">Désamorcer</span><span class="verb">Proposer</span></div>
+</div>
+</div>
+<div class="obj-block">
+<div class="obj-block-title">Savoir-être (Adopter)</div>
+<div class="obj-block-body">
+        Adopter une posture de consultant (guide expert) plutôt que de commercial pressé de signer. Démontrer de l'empathie face à la méfiance de la cliente sans perdre son autorité professionnelle. Valoriser sa valeur ajoutée sans brader ses honoraires sous la pression.
+        <div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Valoriser</span></div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card">
+<strong style="color:var(--orange)">Format :</strong> Serious Game dialogué — 10 étapes avec 3 fins possibles + débriefing coach personnalisé (3 niveaux) + quiz de validation (6 questions)<br/><br/>
+<strong style="color:var(--orange)">Groupement :</strong> Individuel (jeu + quiz) — jeu de rôle en binôme pour le débriefing<br/><br/>
+<strong style="color:var(--orange)">Durée totale :</strong> 13 min module + 20 min débriefing formateur<br/><br/>
+<strong style="color:var(--orange)">Évaluation :</strong> Score du scénario (fin obtenue 1/2/3) + score quiz + grille d'observation jeu de rôle<br/><br/>
+<strong style="color:var(--orange)">Prérequis :</strong> Bases de la négociation commerciale, notions d'entretien de vente — connaissance du secteur immobilier non requise
+    </div>
+</div>
+</div>
+<!-- ══════════════ QUIZ ══════════════ -->
+<div class="tab-panel" id="tab-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Négociation Immobilière (6 questions)</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span>
+<div class="qtext">Quel est l'objectif principal de l'agent immobilier lors de ce premier rendez-vous avec Mme Lefort ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Obtenir le rendez-vous de visite du bien en instaurant la confiance — sans chercher à signer le mandat ce jour-là</div>
+<div class="ans ko"><span class="mark">✗</span>Signer immédiatement le mandat exclusif en présentant les formulaires dès le début de l'entretien</div>
+<div class="ans ko"><span class="mark">✗</span>Convaincre Mme Lefort de baisser son prix de vente pour être en ligne avec le marché immédiatement</div>
+<div class="expl">💡 La règle d'or de la prise de mandat : la confiance précède le contrat. Sortir les formulaires dès les premières minutes signale "je suis là pour vous vendre un contrat, pas pour vous aider à vendre". Mme Lefort réagit immédiatement : "Hola doucement ! Je suis venue me renseigner, je ne signe rien aujourd'hui !"</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span>
+<div class="qtext">Associez chaque étape du scénario avec l'action clé de l'agent.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<table class="match-table">
+<tr><td class="col-err">Briser la Glace</td><td class="col-arrow">→</td><td class="col-fix">"Vous avez trouvé facilement ? Vous voulez un café ou un verre d'eau ?" — accueil chaleureux et humain</td></tr>
+<tr><td class="col-err">Le Diagnostic</td><td class="col-arrow">→</td><td class="col-fix">"10 visites mais pas d'offre : quelle est l'objection principale des acheteurs ?" — identifier la douleur avant la solution</td></tr>
+<tr><td class="col-err">L'Offre de Valeur</td><td class="col-arrow">→</td><td class="col-fix">Proposer plan 3D + devis artisan pour lever l'objection "travaux" et déclencher l'offre au prix</td></tr>
+<tr><td class="col-err">La Prise de RDV</td><td class="col-arrow">→</td><td class="col-fix">"Je serai dans votre quartier demain. Vous préférez 14h30 ou 16h00 ?" — alternative fermée</td></tr>
+</table>
+<div class="expl">💡 La structure Briser la glace → Diagnostic → Solution → Closing est universelle. En immobilier, le diagnostic est particulièrement crucial car il permet d'identifier LA vraie objection des acheteurs (ici : les travaux cuisine/salle de bain) et de cibler un argument technique précis plutôt qu'une réduction de prix.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">3</div><span class="qtype">Classement</span>
+<div class="qtext">Classez chaque élément dans la bonne catégorie.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="class-cols">
+<div class="class-col red"><div class="class-col-title">⚠️ Objections Mme Lefort</div>
+<div class="class-item">"Les agences coûtent trop cher, je préfère LeBonCoin"</div>
+<div class="class-item">"Je dois en parler à mon mari avant de décider"</div>
+<div class="class-item">"Je ne veux pas être bloquée 3 mois si vous êtes mauvais"</div>
+</div>
+<div class="class-col green"><div class="class-col-title">✓ Arguments gagnants</div>
+<div class="class-item">Plan 3D + devis artisan pour lever l'objection travaux</div>
+<div class="class-item">"Contrat Confiance" résiliable par lettre sous 45 jours</div>
+<div class="class-item">ROI : les honoraires couverts par la plus-value du dossier technique</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">❌ Erreurs fatales</div>
+<div class="class-item">Sortir les formulaires de mandat dès les premières minutes</div>
+<div class="class-item">Accorder une remise de 20% sur les honoraires pour forcer la signature</div>
+<div class="class-item">Répondre "je vous contacte dans 6 mois" face à une cliente peu pressée</div>
+</div>
+</div>
+<div class="expl">💡 Les 3 erreurs fatales détruisent chacune une dimension différente de la relation : le formulaire détruit la confiance, la remise détruit la crédibilité, l'abandon détruit l'opportunité.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span>
+<div class="qtext">Mme Lefort dit : "Je ne peux pas décider seule, je dois en parler à mon mari ce soir." Quelle est la meilleure réponse de l'agent ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Proposer de passer le lendemain pour l'estimation afin que le mari dispose d'éléments concrets pour décider — et fixer le RDV en alternative fermée : "14h30 ou 16h00 ?"</div>
+<div class="ans ko"><span class="mark">✗</span>Demander le numéro de téléphone du mari pour lui présenter l'offre directement ce soir</div>
+<div class="ans ko"><span class="mark">✗</span>Insister pour obtenir une signature immédiate car l'offre expire à la fin du rendez-vous</div>
+<div class="expl">💡 "Je dois en parler à mon mari" est une objection de délai, pas un refus. La bonne approche : transformer l'obstacle (le mari) en allié (lui donner des chiffres concrets). L'estimation gratuite sans engagement est la prochaine étape logique — elle répond au besoin d'information du mari tout en ancrant physiquement l'agent dans le processus de vente.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span>
+<div class="qtext">L'objectif principal du premier rendez-vous avec Mme Lefort est de signer le mandat exclusif avant de quitter les lieux.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div>
+<div class="expl">💡 L'objectif est d'obtenir le RDV de visite du bien. La signature du mandat viendra après la visite et l'estimation argumentée. En vente consultative, la confiance se construit étape par étape — vouloir brûler les étapes en signant lors du premier contact détruit précisément la confiance nécessaire pour signer ensuite.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)">
+<div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span>
+<div class="qtext">Pour fixer le rendez-vous de visite, l'agent propose deux créneaux : "Vous préférez 14h30 ou 16h00 ?" Cette technique de closing s'appelle l'__________ fermée.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">Alternative</strong> — technique de l'alternative fermée</div>
+<div class="expl">💡 L'alternative fermée déplace la décision de "est-ce que j'accepte le RDV ?" vers "quand est-ce que je reçois l'agent ?" — une nuance psychologique décisive. Elle présuppose l'accord et ne laisse au client qu'un choix de modalité. Applicable dans tous les contextes de vente pour les prises de RDV et les closings.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ══════════════ DÉROULEMENT ══════════════ -->
+<div class="tab-panel" id="tab-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 – 40 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Mise en contexte immobilier</div>
+<div class="tl-desc">Présenter Mme Lefort en 3 mots : méfiante, 10 visites sans offre, mutation de son mari en été. Poser la question de lancement : "Quelle est votre première phrase quand vous sonnez chez elle ?" Relever les réponses — les comparer après le module.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">5 – 18 min</div><div class="tl-title">Serious Game individuel (13 min)</div>
+<div class="tl-desc">Jeu complet. Les apprenants notent leur fin obtenue et les 2-3 étapes où ils ont hésité. Le formateur relève les étapes les plus souvent ratées (généralement : étape 8 remise honoraires et étape 10 closing).</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">18 – 28 min</div><div class="tl-title">Débriefing collectif — Les 4 piliers</div>
+<div class="tl-desc">Projeter les 4 piliers au tableau. Pour chaque pilier : demander pourquoi c'est crucial et quel comportement de Mme Lefort valide ce principe. Insister sur l'erreur remise 20% (son effet "retour de boomerang" sur la crédibilité).</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">28 – 38 min</div><div class="tl-title">Jeu de rôle RDV vendeur</div>
+<div class="tl-desc">En binôme : A joue l'agent, B joue Mme Lefort avec 1 profil tiré au sort (très méfiante / peu pressée / objection prix). Objectif : arriver au closing RDV en alternative fermée. Grille formateur sur les 4 piliers.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">38 – 45 min</div><div class="tl-title">Quiz + synthèse</div>
+<div class="tl-desc">Quiz individuel (6 questions). Projection de la synthèse des 4 piliers. Lien avec les compétences E4 et la préparation aux mises en situation d'examen BTS.</div></div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Commencer par l'erreur classique.</strong> Demander à un apprenant de jouer "l'agent qui sort les formulaires dès l'arrivée". La réaction de Mme Lefort (simulée par un autre apprenant) est immédiate et mémorable. L'apprentissage par l'erreur volontaire est plus efficace que la règle annoncée.</div></div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Calculer le ROI de la remise en direct.</strong> "Si Mme Lefort vend 250 000€ et que les honoraires sont à 5% = 12 500€. Si le plan 3D génère 10 000€ de plus-value, l'agent est justifié à 2 500€ nets pour la cliente. Accorder une remise de 20% = 2 500€ de moins sans aucune contrepartie." Chiffrer rend l'argument irrésistible.</div></div>
+<div class="tip"><div class="tip-icon">🔑</div><div class="tip-text"><strong>Entraîner l'alternative fermée spécifiquement.</strong> Après le module, faire répéter à voix haute : "Je serai dans votre quartier demain. Vous préférez 14h30 ou 16h00 ?" jusqu'à ce que ça vienne naturellement. C'est un réflexe à automatiser, pas une technique à comprendre.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Transférable à d'autres secteurs.</strong> Les techniques utilisées (alternative fermée, ROI vs remise, Contrat Confiance) sont universelles. Idéal pour préparer des mises en situation de négociation dans tout contexte de vente de services à valeur ajoutée.</div></div>
+</div>
+</div>
+</div><!-- fin content -->
+<div class="footer">Avatar Sales Academy</div>
+</div>
+<script>
+function st(tab){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active',p.id==='tab-'+tab);
+  });
+}
+function tQ(card){card.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
