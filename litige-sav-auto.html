@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Soft Skills — Gestion de litige — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🚗</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Automobile — Expertise Relationnelle</div>
+<div class="pole-desc">Gestion de litige · Écoute active · Relation client en concession</div>
+</div>
+<div class="pole-badge">Soft Skills — Gestion de litige</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-litige">
+<div class="meta-row">
+<span class="meta orange">⏱ 14 min</span>
+<span class="meta blue">⚡ Véhicule électrique · 7 étapes</span>
+<span class="meta green">👥 Individuel</span>
+<span class="meta purple">🚗 Concession automobile</span>
+</div>
+<div class="tabs" id="tabs-litige">
+<div class="tab active" onclick="st('litige','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('litige','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('litige','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('litige','deroulement')">🗓 Déroulement</div>
+</div>
+<!-- SCÉNARIO -->
+<div class="tab-panel active" id="litige-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant incarne <strong>Diane</strong>, conseillère commerciale alternante dans une concession automobile. Une cliente mécontente arrive en colère : son véhicule électrique neuf n'a pas chargé pendant la nuit malgré le branchement — elle a dû prendre un taxi pour venir.<br/><br/>Mission : transformer une situation explosive en moment de réassurance en 7 étapes. L'état émotionnel de la cliente évolue selon chaque choix. 3 fins possibles. Un essai de véhicule de remplacement constitue un acte 2 du scénario.</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">👩 Diane</div><div class="perso-role">Conseillère commerciale alternante — vous incarnez ce rôle</div></div>
+<div class="perso"><div class="perso-name">😤 La Cliente</div><div class="perso-role">Véhicule électrique neuf · Panne de batterie · Venue en taxi · Très mécontente</div></div>
+<div class="perso"><div class="perso-name">🧑 Idriss</div><div class="perso-role">Alternant — prend le relai lors de l'essai du véhicule de remplacement</div></div>
+<div class="perso"><div class="perso-name">🎓 Johan</div><div class="perso-role">Coach — débriefing personnalisé en fin de scénario</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 7 étapes du traitement de litige</div>
+<div class="steps">
+<div class="step"><span class="step-n">Étape 1</span><div class="step-body">
+<strong>Accueillir la cliente</strong> — Premier contact malgré la colère. Ouvrir positivement.
+          <div class="badges">
+<span class="b-ok">✓ "Bonjour Madame, je vous écoute." (accueil ouvert + disponibilité)</span>
+<span class="b-ko">❌ "La politesse, vous connaissez ?" (contre-attaque)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 2</span><div class="step-body">
+<strong>Déterminer le problème</strong> — Comprendre précisément la nature du litige sans jugement.
+          <div class="badges">
+<span class="b-ok">✓ "Nous sommes désolés pour la gêne. Votre véhicule a-t-il eu un problème technique ?" (empathie + question ouverte)</span>
+<span class="b-ko">❌ "Quel est le souci ?" (trop sec) ou "Vous avez acheté un véhicule impeccable." (déni)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 3</span><div class="step-body">
+<strong>Reconnaître les torts de la concession</strong> — Assumer la responsabilité sans minimiser.
+          <div class="badges">
+<span class="b-ok">✓ "Je suis désolée, vous avez raison. Cela n'aurait jamais dû arriver." (reconnaissance pleine)</span>
+<span class="b-ko">❌ "Il s'agit seulement d'un bug technique." (minimisation) ou "Nous ferons plus attention à l'avenir." (flou, sans action)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 4</span><div class="step-body">
+<strong>Proposer une solution</strong> — Réponse concrète et rapide adaptée au problème.
+          <div class="badges">
+<span class="b-ok">✓ "Nous allons envoyer quelqu'un pour faire des tests chez vous et appeler une dépanneuse si nécessaire." (solution terrain)</span>
+<span class="b-ko">❌ "Quelqu'un passera sous 48h si notre planning le permet." (conditionnel = insatisfaisant)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 5</span><div class="step-body">
+<strong>Anticiper les demandes</strong> — Proposer le véhicule de remplacement avant qu'elle ne le demande.
+          <div class="badges">
+<span class="b-ok">✓ "En attendant, désirez-vous un véhicule de remplacement ? Je vous propose le modèle Premium avec recharge rapide." (proactivité)</span>
+<span class="b-ko">❌ "Détendez-vous Madame, ce n'est pas si grave." (minimisation de l'émotion — ligne rouge)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 6</span><div class="step-body">
+<strong>Geste commercial</strong> — Valeur ajoutée tangible pour compenser l'expérience négative.
+          <div class="badges">
+<span class="b-ok">✓ "Que diriez-vous d'une carte cadeau de 40€ valable dans plus de 150 enseignes ?" (valeur perçue concrète)</span>
+<span class="b-ko">❌ "Ce sera tout ?" (banal, aucune proactivité de compensation)</span>
+</div>
+</div></div>
+<div class="step"><span class="step-n">Étape 7</span><div class="step-body">
+<strong>Prendre congé</strong> — Clôturer positivement et donner confiance sur la suite.
+          <div class="badges">
+<span class="b-ok">✓ "Vous remarquerez que ce véhicule Premium est notre modèle le plus sophistiqué. Retournez-le dès que le vôtre est réparé. Garantie d'essais irréprochables." + "Bonne journée Madame."</span>
+<span class="b-ko">❌ "Au revoir." (sec, sans réassurance sur la suite)</span>
+</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Acte 2 — Essai du véhicule de remplacement</div>
+<div class="card">Idriss (alternant) prend le relai pour l'essai du véhicule de prêt Premium. Pendant l'essai, la cliente signale un bouton clignotant sur le tableau de bord.<br/><br/>
+<strong style="color:var(--green)">✓ Bonne réponse :</strong> "Ce phénomène est fréquent sur ce type de véhicule et ne nécessite aucune intervention. Cependant, n'hésitez pas à me contacter si cela vous préoccupe — je suis là pour vous accompagner."<br/><br/>
+<strong style="color:#ff9999">❌ Mauvaise réponse :</strong> "C'est embêtant ! J'appelle le SAV tout de suite." → recrée une anxiété inutile sur un comportement normal du véhicule.</div>
+</div>
+<div class="section"><div class="sec-title">3 fins possibles</div>
+<div class="fins-grid">
+<div class="fin ok"><div class="fin-icon">🏆</div><div class="fin-body">
+<div class="fin-title">Fin 1 — Cliente satisfaite · "C'est du grand art"</div>
+<div class="fin-text">Coach : <em>"Tu as transformé une situation explosive en moment de réassurance. Écoute active sans couper la parole, émotions validées, explication technique vulgarisée. Le petit plus : ta proposition de véhicule de remplacement a clôturé le débat avant même qu'elle ne le demande."</em></div>
+</div></div>
+<div class="fin med"><div class="fin-icon">🟡</div><div class="fin-body">
+<div class="fin-title">Fin 2 — Résolution correcte · Trop vite sur l'empathie</div>
+<div class="fin-text">Coach : <em>"Très bon travail sur la résolution, mais attention à la forme. Tu es passé trop vite sur la phase d'empathie. La cliente avait besoin de se sentir écoutée avant d'entendre tes solutions. Axe de progrès : ralentis au début pour mieux 'accuser réception' du mécontentement."</em></div>
+</div></div>
+<div class="fin ko"><div class="fin-icon">❌</div><div class="fin-body">
+<div class="fin-title">Fin 3 — Cliente furieuse · Séance de rattrapage</div>
+<div class="fin-text">Coach : <em>"Tu as eu tendance à te justifier ou rejeter la faute sur le constructeur. En tant qu'interlocuteur unique, tu incarnes la marque. Accueille la colère sans la prendre personnellement. L'objectif n'est pas d'avoir raison, mais de ramener le calme par la transparence et le professionnalisme."</em></div>
+</div></div>
+</div>
+</div>
+</div>
+<!-- OBJECTIFS -->
+<div class="tab-panel" id="litige-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">L'apprenant incarne Diane, conseillère alternante, face à une cliente en colère pour une panne de véhicule électrique. À chacune des 7 étapes du dialogue, il sélectionne la meilleure formulation parmi 3 options. L'état émotionnel de la cliente évolue en temps réel. Un débriefing coach personnalisé (3 niveaux) évalue la posture relationnelle. Un acte 2 (essai véhicule de remplacement avec Idriss) prolonge le scénario.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">
+        Nommer les 7 étapes du traitement d'un litige client en concession automobile. Définir ce qu'est un geste commercial et son rôle dans la fidélisation post-litige. Expliquer la différence entre minimiser une émotion et y répondre avec empathie.
+        <div class="verbs"><span class="verb">Nommer</span><span class="verb">Définir</span><span class="verb">Expliquer</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">
+        Accueillir un client mécontent sans contre-attaque ni minimisation de l'émotion. Diagnostiquer précisément le problème par une question ouverte empathique. Reconnaître les torts de l'entreprise sans déflection vers le constructeur ou la technique. Proposer une solution terrain concrète et rapide. Anticiper les besoins (véhicule de remplacement) avant que le client ne le demande. Formuler un geste commercial adapté et valorisant.
+        <div class="verbs"><span class="verb">Accueillir</span><span class="verb">Diagnostiquer</span><span class="verb">Reconnaître</span><span class="verb">Proposer</span><span class="verb">Anticiper</span><span class="verb">Formuler</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">
+        Adopter une posture d'écoute active sans interrompre ni se justifier. Incarner la marque et la concession face au client sans déflection. Maintenir son calme et son professionnalisme face à une colère exprimée avec force.
+        <div class="verbs"><span class="verb">Adopter</span><span class="verb">Incarner</span><span class="verb">Maintenir</span></div>
+</div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game dialogué — 7 étapes + acte 2 (essai véhicule) · 3 fins possibles · débriefing coach personnalisé<br/><br/>
+<strong style="color:var(--orange)">Groupement :</strong> Individuel — jeu de rôle en binôme pour le débriefing<br/><br/>
+<strong style="color:var(--orange)">Durée totale :</strong> 14 min module + 20 min débriefing formateur<br/><br/>
+<strong style="color:var(--orange)">Évaluation :</strong> Score du scénario (fin obtenue) + grille d'observation jeu de rôle (accueil, empathie, reconnaissance, solution, geste)<br/><br/>
+<strong style="color:var(--orange)">Prérequis :</strong> Aucun — module accessible en entrée de formation</div>
+</div>
+</div>
+<!-- QUIZ -->
+<div class="tab-panel" id="litige-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Gestion de Litige (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span>
+<div class="qtext">La cliente arrive en colère. Quelle est la meilleure première réponse de Diane ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>"La politesse, vous connaissez ?" — remettre le client à sa place</div>
+<div class="ans ko"><span class="mark">✗</span>"Bonjour Madame." — trop neutre, aucune invitation à s'exprimer</div>
+<div class="ans ok"><span class="mark">✓</span>"Bonjour Madame, je vous écoute." — accueil ouvert + signal immédiat de disponibilité</div>
+<div class="expl">💡 "Je vous écoute" est une formule magique dans la gestion de litige. Elle signifie : je ne me défends pas, je n'attaque pas, je donne la priorité à votre vécu. Un client mécontent qui se sent entendu dès les premiers mots modère immédiatement son niveau d'intensité émotionnelle.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Classement</span>
+<div class="qtext">Classez ces réponses à l'étape "Reconnaître les torts" du plus au moins approprié.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="class-cols">
+<div class="class-col green"><div class="class-col-title">✓ Optimal</div>
+<div class="class-item">"Je suis désolée, vous avez raison. Cela n'aurait jamais dû arriver." — reconnaissance pleine sans condition</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">⚡ Insuffisant</div>
+<div class="class-item">"Nous ferons plus attention à l'avenir." — vague, sans reconnaissance explicite de la faute et sans action immédiate</div>
+</div>
+<div class="class-col red"><div class="class-col-title">❌ À éviter</div>
+<div class="class-item">"Il s'agit seulement d'un problème d'affichage / d'un bug technique." — minimisation qui invalide le vécu de la cliente</div>
+</div>
+</div>
+<div class="expl">💡 La reconnaissance de la responsabilité est l'étape la plus difficile psychologiquement mais la plus efficace commercialement. Un client qui entend "vous avez raison, cela n'aurait pas dû arriver" voit son niveau d'hostilité baisser de 60 à 70% en moyenne.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span>
+<div class="qtext">La cliente n'a pas encore demandé de véhicule de remplacement. Quelle est la meilleure attitude de Diane à l'étape 5 ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Attendre que la cliente le demande pour ne pas paraître condescendante</div>
+<div class="ans ko"><span class="mark">✗</span>Lui proposer de revenir demain quand le véhicule sera réparé</div>
+<div class="ans ok"><span class="mark">✓</span>Proposer proactivement le véhicule de remplacement Premium avec recharge rapide avant qu'elle ne le demande</div>
+<div class="expl">💡 Coach Johan : "Le petit plus : ta proposition de solution immédiate (véhicule de remplacement) a clôturé le débat avant même qu'elle n'ait à le demander." Anticiper les besoins est la marque d'un service client d'excellence — c'est transformer une obligation (réparer la panne) en démonstration de considération.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">Appariement</span>
+<div class="qtext">Associez chaque comportement problématique avec son impact sur la cliente.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">"Détendez-vous, ce n'est pas si grave."</td><td class="col-arrow">→</td><td class="col-b">Invalide le ressenti — la cliente se sent incomprise et méprisée, escalade l'agressivité</td></tr>
+<tr><td class="col-a">"Il s'agit seulement d'un bug technique."</td><td class="col-arrow">→</td><td class="col-b">Minimisation — personne ne prend ses responsabilités, la cliente demande à voir le directeur</td></tr>
+<tr><td class="col-a">Rejeter la faute sur le constructeur</td><td class="col-arrow">→</td><td class="col-b">Déflection — donne l'impression que personne n'est responsable, détruit la confiance envers la marque</td></tr>
+<tr><td class="col-a">"Ce sera tout ?" après la solution</td><td class="col-arrow">→</td><td class="col-b">Manque de proactivité — pas de geste commercial = occasion de fidélisation ratée</td></tr>
+</table>
+<div class="expl">💡 Chaque comportement inadapté déclenche une réaction prévisible. Connaître ces réactions permet de les anticiper et d'adapter sa posture en temps réel — c'est l'intelligence relationnelle au service du service client.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span>
+<div class="qtext">Pendant l'essai du véhicule de remplacement, un bouton clignote sur le tableau de bord. La bonne réaction d'Idriss est d'appeler immédiatement le SAV pour ne pas rassurer faussement la cliente.</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div>
+<div class="expl">💡 Si ce phénomène est normal pour ce type de véhicule, appeler le SAV en urgence crée une anxiété inutile et remet en question la fiabilité du véhicule de remplacement censé rassurer la cliente. La bonne réponse : expliquer calmement que c'est normal + ouvrir la porte à une question si besoin. Le professionnel qui connaît son produit rassure par sa sérénité.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">QCM</span>
+<div class="qtext">Selon le coach Johan, quelle est la principale différence entre la fin "Chapeau" et la fin "Séance de rattrapage" ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>La maîtrise technique du problème électrique</div>
+<div class="ans ok"><span class="mark">✓</span>La posture relationnelle : écoute active sans interruption, validation des émotions et incarnation de la marque (vs justification et déflection)</div>
+<div class="ans ko"><span class="mark">✗</span>La rapidité de la solution proposée</div>
+<div class="expl">💡 Fin 1 : "Tu as pratiqué l'écoute active sans couper la parole, validé les émotions, fourni une explication technique vulgarisée." Fin 3 : "Tu as eu tendance à te justifier ou rejeter la faute sur le constructeur." La différence n'est pas dans la solution technique — elle est dans la posture. Même solution, posture différente = résultat radicalement différent.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- DÉROULEMENT -->
+<div class="tab-panel" id="litige-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Mise en situation "Choc émotionnel"</div>
+<div class="tl-desc">Décrire la cliente sans révéler l'issue : "Une cliente arrive. Elle tremble légèrement, son regard est dur. Elle vient de passer 30 minutes dans un taxi pour arriver. Son véhicule neuf n'a pas démarré ce matin." Demander : "Qu'est-ce que vous ressentez ? Quelle est votre première phrase ?"</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">5 – 19 min</div><div class="tl-title">Module individuel (14 min)</div>
+<div class="tl-desc">Jeu complet. Les apprenants notent leur fin obtenue et l'étape la plus difficile. Le formateur relève les erreurs les plus fréquentes (souvent étapes 3 et 5 : reconnaissance + anticipation).</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">19 – 28 min</div><div class="tl-title">Débriefing — "L'escalier de la désescalade"</div>
+<div class="tl-desc">Projeter les 7 étapes comme un escalier descendant l'intensité émotionnelle de la cliente. Pour chaque étape ratée, montrer comment le niveau de colère remonte. Insister sur "Détendez-vous, c'est pas si grave" comme ligne rouge absolue.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">28 – 40 min</div><div class="tl-title">Jeu de rôle "Cliente difficile"</div>
+<div class="tl-desc">En binôme : A joue Diane, B joue la cliente avec intensité maximale. Objectif : atteindre le "Merci beaucoup, bonne journée" en moins de 5 minutes. Le formateur peut interrompre et demander de rejouer une étape ratée. Quiz final.</div></div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🎭</div><div class="tip-text"><strong>Jouer la cliente en "mode maximal"</strong> lors du jeu de rôle. Frapper sur le bureau, parler fort, interrompre. Les apprenants qui gèrent bien la version maximale seront à l'aise avec la vraie version. La préparation au pire crée la résilience pour le réel.</div></div>
+<div class="tip"><div class="tip-icon">🚫</div><div class="tip-text"><strong>Faire lister les phrases interdites.</strong> Demander aux apprenants d'écrire les 5 phrases à ne jamais dire à un client mécontent. "Ce n'est pas si grave", "C'est de votre faute", "Je ne suis pas responsable"... La liste collective crée une mémoire partagée durable.</div></div>
+<div class="tip"><div class="tip-icon">💡</div><div class="tip-text"><strong>Insister sur "incarner la marque".</strong> Que ce soit la faute du constructeur, du SAV ou de la logistique, le client en face de Diane ne voit qu'une seule entité : la concession. "Je suis désolée, vous avez raison" = la concession assume. Jamais "Ce n'est pas nous, c'est l'usine."</div></div>
+<div class="tip"><div class="tip-icon">🎁</div><div class="tip-text"><strong>Chiffrer la valeur du geste commercial.</strong> Une carte cadeau de 40€ coûte à la concession nettement moins que la perte d'un client fidèle (valeur vie client automobile = plusieurs dizaines de milliers d'euros sur 10 ans). Le geste commercial est le meilleur ROI du service après-vente.</div></div>
+</div>
+</div>
+</div></div></div>
+<!-- ══════ MODULE 3 — ATELIER DOSSIERS ACHETEURS ══════ -->
+
+<div class="footer">Avatar Sales Academy</div>
+
+<script>
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  ['litige','ecoute','atelier'].forEach(m=>{
+    document.getElementById('panel-'+m).classList.toggle('active',m===id);
+    document.getElementById('btn-'+m).classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
