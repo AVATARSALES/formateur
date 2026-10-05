@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pitch Commercial — FreshNotes — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:920px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:12px 18px 14px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px}
+.mod-grid{display:flex;gap:8px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.mod-btn:hover:not(.locked){border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn.locked{opacity:.4;cursor:not-allowed}
+.mod-btn-icon{font-size:16px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px}
+.tag-soon{background:rgba(255,255,255,0.06);color:var(--muted);border-radius:4px;padding:1px 6px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.err-grid{grid-template-columns:1fr}}
+.err-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.err-num{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.err-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.err-obs{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.err-fix{font-size:11.5px;color:var(--green);padding:5px 9px;background:rgba(0,204,136,0.07);border-radius:6px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.err-fix::before{content:"✓ ";font-weight:700}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:46%}
+.col-arrow{text-align:center;color:var(--muted);width:8%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:46%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+@media(max-width:540px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:10px 12px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.pitch-struct{display:flex;flex-direction:column;gap:7px}
+.pitch-step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.pitch-label{font-size:9px;font-weight:700;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;text-transform:uppercase;letter-spacing:.3px;min-width:60px;text-align:center}
+.pitch-body{flex:1;font-size:13px;line-height:1.6}
+.pitch-body strong{color:#fff}
+.pitch-body .good{color:var(--green);font-size:12px}
+.pitch-body .bad{color:#ff9999;font-size:12px}
+.perso-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:160px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.etapes-recrutement{display:flex;flex-direction:column;gap:8px}
+.etape-rec{display:flex;gap:12px;background:var(--navy3);border-radius:10px;padding:11px 14px;align-items:flex-start}
+.etape-num{font-size:11px;font-weight:700;color:var(--orange);background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.25);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.etape-body{flex:1;font-size:13px;line-height:1.6}
+.etape-body strong{color:#fff}
+.etape-body em{color:var(--muted);font-size:12px;font-style:normal}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">💻</div>
+<div class="pole-info">
+<div class="pole-name">Pôle IT &amp; Digital</div>
+<div class="pole-desc">Vente, recrutement et relation client dans les métiers tech et digitaux</div>
+</div>
+<div class="pole-badge">Pitch Commercial — FreshNotes</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-pitch">
+<div class="meta-row">
+<span class="meta purple">💻 Pôle IT &amp; Digital</span>
+<span class="meta orange">⏱ 8 min</span>
+<span class="meta blue">🎤 Étude de cas · Construction + Classement</span>
+<span class="meta green">👥 Individuel</span>
+</div>
+<div class="tabs" id="tabs-pitch">
+<div class="tab active" onclick="switchTab('pitch','scenario')">📖 Scénario</div>
+<div class="tab" onclick="switchTab('pitch','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="switchTab('pitch','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="switchTab('pitch','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="pitch-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant construit et valide un pitch commercial pour <strong>FreshNotes</strong> (application mobile de gestion des notes de frais) face à un prospect DAF de PME. Le module se déroule en 2 phases : <strong>Phase 1</strong> — construction étape par étape du pitch en choisissant les bonnes formulations parmi des options. <strong>Phase 2</strong> — étude de cas : analyser 3 pitchs existants et les classer du plus au moins pertinent.</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">🧑‍💼 Tarik</div><div class="perso-role">Commercial FreshNotes — coach et guide du module</div></div>
+<div class="perso"><div class="perso-name">👩‍💼 Soraya</div><div class="perso-role">Sales Manager évaluatrice — valide le pitch final</div></div>
+<div class="perso"><div class="perso-name">📱 FreshNotes</div><div class="perso-role">Application mobile + plateforme web de gestion des notes de frais</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Structure du pitch en 6 étapes</div>
+<div class="pitch-struct">
+<div class="pitch-step"><span class="pitch-label">Présentation</span><div class="pitch-body"><strong>Se présenter et contextualiser</strong><br/><span class="good">✓ "Bonjour, je suis Tarik de FreshNotes. Nous sommes leader sur le marché des solutions de gestion des notes de frais."</span><br/><span class="bad">✗ Introduire avec un slogan vague ou générique</span></div></div>
+<div class="pitch-step"><span class="pitch-label">Problème</span><div class="pitch-body"><strong>Pain Point — la douleur du client</strong><br/><span class="good">✓ "La gestion des notes de frais est un casse-tête : pertes de justificatifs, erreurs de saisie, délais de remboursement. Frustration employés + perte de temps service comptable."</span><br/><span class="bad">✗ "Le marché du Cloud est en expansion" (hors sujet)</span></div></div>
+<div class="pitch-step"><span class="pitch-label">Solution</span><div class="pitch-body"><strong>Présenter FreshNotes comme le remède simple</strong><br/><span class="good">✓ "Imaginez : scan de reçus par smartphone, données extraites automatiquement, remboursements en un clic."</span><br/><span class="bad">✗ "Notre solution est la meilleure du marché. Elle est complète, innovante et facile à utiliser." (sans preuve)</span></div></div>
+<div class="pitch-step"><span class="pitch-label">Bénéfices</span><div class="pitch-body"><strong>Arguments clients concrets (x2)</strong><br/><span class="good">✓ Arg 1 : simplifier et accélérer le remboursement → motivation et engagement des collaborateurs</span><br/><span class="good">✓ Arg 2 : réduire les risques d'erreurs et de fraudes → économies de temps et d'argent</span><br/><span class="bad">✗ "Elle vous permettra d'économiser du temps et de l'argent." (trop vague, pas de chiffre)</span></div></div>
+<div class="pitch-step"><span class="pitch-label">Différenciation</span><div class="pitch-body"><strong>Se distinguer des solutions traditionnelles</strong><br/><span class="good">✓ "Accessible à tous les niveaux informatiques. Intégration directe avec les principaux logiciels comptables."</span><br/><span class="bad">✗ "Nous avons de nombreuses fonctionnalités que nos concurrents n'ont pas." (sans précision)</span></div></div>
+<div class="pitch-step"><span class="pitch-label">Preuve</span><div class="pitch-body"><strong>Social Proof — preuve tangible</strong><br/><span class="good">✓ "ComptaBils a adopté FreshNotes → réduction de 70% du temps passé sur les notes de frais."</span><br/><span class="bad">✗ "Tous nos clients sont satisfaits." (vague, non mesurable)</span></div></div>
+<div class="pitch-step"><span class="pitch-label">CTA</span><div class="pitch-body"><strong>Appel à l'action — engagement concret</strong><br/><span class="good">✓ "Je vous propose une démonstration personnalisée pour voir comment FreshNotes s'intègre à vos processus. Qu'en dites-vous ?"</span><br/><span class="bad">✗ "Voulez-vous en savoir plus ?" (trop passif, peu engageant)</span></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Étude de cas — Classement des 3 Pitchs</div>
+<div class="card">
+<strong style="color:var(--green)">Pitch 1 — LE MEILLEUR</strong> : Approche centrée sur le client, clarté, précision, démonstration de valeur avec exemples concrets et preuves tangibles (chiffres, cas clients). CTA actif et engageant.<br/><br/>
+<strong style="color:var(--orange)">Pitch 2 — ACCEPTABLE</strong> : Correct mais trop vague. Manque de focus client, peu de détails concrets, différenciation faible, preuve sociale imprécise. CTA passif.<br/><br/>
+<strong style="color:var(--orange)">Pitch 3 — À REJETER</strong> : Faiblesses identiques au Pitch 2 mais plus marquées. Discours générique, pas de personnalisation, appel à l'action inexistant.<br/><br/>
+<strong style="color:var(--muted)">Critère clé commun aux Pitchs 2 et 3 :</strong> manque de focus sur le client et ses besoins spécifiques, différenciation faible, preuve sociale vague, CTA peu engageant.
+      </div>
+</div>
+</div>
+<div class="tab-panel" id="pitch-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">Phase 1 : L'apprenant construit un pitch commercial complet en 6 étapes en sélectionnant les bonnes formulations à chaque étape. Feedback immédiat de Tarik (pitch validé / à améliorer / problématique). Phase 2 : L'apprenant analyse 3 pitchs existants et les classe par ordre de pertinence, en justifiant son choix. Soraya donne un retour détaillé sur les forces et faiblesses de chaque pitch.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">Nommer les 6 composantes d'un pitch commercial efficace (Présentation, Problème, Solution, Bénéfices, Différenciation, Preuve, CTA). Définir ce qu'est un Social Proof et son rôle dans la crédibilité. Citer les caractéristiques d'un CTA engageant vs passif.<div class="verbs"><span class="verb">Nommer</span><span class="verb">Définir</span><span class="verb">Citer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">Construire un pitch en 6 étapes adapté à un produit SaaS. Formuler un pain point centré sur les problèmes concrets du client. Sélectionner et argumenter des bénéfices chiffrés et mesurables. Rédiger un CTA actif et engageant. Analyser et hiérarchiser des pitchs selon des critères de pertinence.<div class="verbs"><span class="verb">Construire</span><span class="verb">Formuler</span><span class="verb">Sélectionner</span><span class="verb">Rédiger</span><span class="verb">Analyser</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">Adopter une posture centrée client (problèmes et bénéfices) plutôt que centrée produit. Démontrer un esprit d'analyse critique sur des discours commerciaux existants. Personnaliser le discours au contexte du prospect.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Personnaliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game en 2 phases : construction de pitch par sélection + étude de cas comparative (classement de 3 pitchs)<br/><br/><strong style="color:var(--orange)">Groupement :</strong> Individuel — débriefing collectif recommandé en Phase 2<br/><br/><strong style="color:var(--orange)">Durée totale :</strong> 8 min module + 10 min débriefing<br/><br/><strong style="color:var(--orange)">Évaluation :</strong> Score Phase 1 (formulations choisies) + pertinence du classement Phase 2<br/><br/><strong style="color:var(--orange)">Prérequis :</strong> Connaissance des bases de la vente, notions de produit SaaS/B2B</div>
+</div>
+</div>
+<div class="tab-panel" id="pitch-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Pitch Commercial (5 questions)</div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Quelle est la bonne formulation pour présenter le Pain Point dans un pitch FreshNotes ?</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ok"><span class="mark">✓</span>"La gestion des notes de frais est souvent un casse-tête : pertes de justificatifs, erreurs de saisie, délais de remboursement interminables — frustration employés et perte de temps pour la comptabilité."</div><div class="ans ko"><span class="mark">✗</span>"Le marché des solutions de gestion est en pleine expansion et les entreprises cherchent à se moderniser."</div><div class="ans ko"><span class="mark">✗</span>"Notre solution est la meilleure du marché pour résoudre vos problèmes de gestion."</div><div class="expl">💡 Le Pain Point efficace nomme des problèmes précis et concrets vécus par le client (perte de justificatifs, erreurs, délais), pas le marché en général. Il crée de la résonnance émotionnelle : "C'est exactement mon problème."</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">QCM</span><div class="qtext">Quel est l'élément le plus souvent oublié dans un pitch commercial et qui génère pourtant le plus de crédibilité ?</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ko"><span class="mark">✗</span>La présentation de l'entreprise</div><div class="ans ko"><span class="mark">✗</span>La description détaillée du produit</div><div class="ans ok"><span class="mark">✓</span>La preuve sociale (Social Proof) : chiffres mesurables, cas clients nommés, résultats quantifiés</div><div class="ans ko"><span class="mark">✗</span>L'appel à l'action (CTA)</div><div class="expl">💡 "Tous nos clients sont satisfaits" ne vaut rien. "ComptaBils a réduit de 70% le temps passé sur les notes de frais" est irrésistible. La preuve chiffrée et nommée transforme la promesse en réalité vérifiable.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le CTA "Voulez-vous en savoir plus ?" est-il considéré comme faible ?</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ko"><span class="mark">✗</span>Il est trop long et difficile à mémoriser</div><div class="ans ok"><span class="mark">✓</span>Il est passif et fermé — il invite au refus sans proposer d'étape concrète ni de valeur immédiate</div><div class="ans ko"><span class="mark">✗</span>Il ne respecte pas la structure officielle d'un pitch commercial</div><div class="ans ko"><span class="mark">✗</span>Il manque de personnalisation par rapport au secteur du prospect</div><div class="expl">💡 Un bon CTA est actif, concret et propose une prochaine étape à faible engagement. "Je vous propose une démo personnalisée de 20 minutes — mardi ou jeudi ?" est infiniment plus engageant car il déplace la question de "est-ce que je veux continuer ?" vers "quand est-ce qu'on se parle ?"</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">Classement</span><div class="qtext">Ordonnez ces 3 pitchs du plus pertinent au moins pertinent pour convaincre un DAF de PME.</div><div class="qarrow">▶</div></div><div class="qbody"><div class="class-cols"><div class="class-col green"><div class="class-col-title">✓ Ordre correct</div><div class="class-item"><strong>1er — Pitch 1</strong> : centré client, précis, preuves tangibles (70% de gain de temps), CTA actif avec démonstration personnalisée</div><div class="class-item"><strong>2ème — Pitch 2</strong> : correct mais vague, manque de spécificité et de preuve sociale chiffrée, CTA acceptable</div><div class="class-item"><strong>3ème — Pitch 3</strong> : discours générique, différenciation faible, preuve vague, CTA passif ou inexistant</div></div><div class="class-col red"><div class="class-col-title">❌ Faiblesses communes 2 &amp; 3</div><div class="class-item">Manque de focus sur le client et ses besoins spécifiques</div><div class="class-item">Pas de détails concrets sur les bénéfices</div><div class="class-item">Différenciation faible et peu convaincante</div><div class="class-item">Preuve sociale vague et peu impactante</div><div class="class-item">CTA passif et peu engageant</div></div></div><div class="expl">💡 Le Pitch 1 se démarque car il répond aux 3 questions que se pose mentalement un DAF : "En quoi c'est mon problème ? Pourquoi cette solution ? Pourquoi vous ?"</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">QCM</span><div class="qtext">Pour rendre un pitch plus percutant, Tarik recommande :</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ko"><span class="mark">✗</span>Utiliser un maximum de termes techniques pour montrer l'expertise produit</div><div class="ans ok"><span class="mark">✓</span>Adapter le pitch aux besoins spécifiques du prospect, utiliser un langage émotionnel et mettre en avant les bénéfices concrets que l'entreprise ciblée pourrait retirer</div><div class="ans ko"><span class="mark">✗</span>Présenter toutes les fonctionnalités du produit pour maximiser la valeur perçue</div><div class="ans ko"><span class="mark">✗</span>Commencer par les arguments de différenciation pour se démarquer immédiatement</div><div class="expl">💡 Le pitch parfait part du problème du client (pas du produit), parle en bénéfices (pas en fonctionnalités) et adapte le registre émotionnel au profil décisionnaire. Un DAF veut entendre "économies" et "risques réduits", pas "interface intuitive".</div></div></div>
+</div>
+</div>
+<div class="tab-panel" id="pitch-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (20 – 25 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Introduction — "Qu'est-ce qu'un bon pitch ?"</div><div class="tl-desc">Faire répondre à main levée : "Qu'est-ce qui fait un pitch percutant ?" Lister les réponses au tableau. Ne pas corriger — les apprenants valideront/invalideront eux-mêmes après le module.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 13 min</div><div class="tl-title">Phase 1 — Construction du pitch</div><div class="tl-desc">Jeu individuel : construction du pitch FreshNotes en 6 étapes. Le formateur observe les hésitations récurrentes (souvent : différenciation vs preuve, CTA passif).</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">13 – 20 min</div><div class="tl-title">Phase 2 — Étude de cas : classement</div><div class="tl-desc">Lecture des 3 pitchs, classement individuel, puis mise en commun collective. Débat : pourquoi le Pitch 1 l'emporte sur les 2 autres.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">20 – 30 min</div><div class="tl-title">Mise en pratique orale</div><div class="tl-desc">En binôme : l'apprenant A pitche FreshNotes à l'apprenant B (qui joue le DAF). 90 secondes chrono. Rôles inversés. Le formateur évalue sur grille : Pain Point / Bénéfices / Preuve / CTA.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">⏱</div><div class="tip-text"><strong>Chronométrer le pitch oral à 90 secondes.</strong> La contrainte de temps révèle immédiatement ce que l'apprenant considère comme prioritaire — souvent le produit avant le client.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Corriger en priorité les CTAs passifs.</strong> "Voulez-vous en savoir plus ?" est l'erreur la plus fréquente. Travailler la reformulation en CTA actif avec choix binaire.</div></div>
+<div class="tip"><div class="tip-icon">📊</div><div class="tip-text"><strong>Exiger des chiffres dans la preuve sociale.</strong> Si un apprenant dit "nos clients sont satisfaits", poser la question : "satisfaits de combien ?" L'habitude de quantifier se forge à cette étape.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien avec le module Recrutement Cloudfake.</strong> Le même pitch en 5 étapes (Hook, Problème, Solution, Preuve, CTA) se retrouve dans le module suivant. Faire le lien explicite.</div></div>
+</div>
+</div>
+</div></div><!-- fin content -->
+</div><!-- fin app -->
+<script>
+function sel(id) {
+  document.getElementById('welcome').style.display = 'none';
+  ['marketing','pitch','recrutement','boutique'].forEach(m => {
+    const p = document.getElementById('panel-'+m);
+    const b = document.getElementById('btn-'+m);
+    if(p) p.classList.toggle('active', m===id);
+    if(b) b.classList.toggle('active', m===id);
+  });
+  document.getElementById('content').scrollTop = 0;
+}
+function switchTab(mod, tab) {
+  const panel = document.getElementById('panel-'+mod);
+  if(!panel) return;
+  panel.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+tab+"'"));
+  });
+  panel.querySelectorAll('.tab-panel').forEach(p => {
+    p.classList.toggle('active', p.id === mod+'-'+tab);
+  });
+}
+function toggleQ(card) { card.classList.toggle('open'); }
+</script>
+
+
+
+</body>
+</html>
