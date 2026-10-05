@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Renforcez votre écoute active ! — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🚗</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Automobile — Expertise Relationnelle</div>
+<div class="pole-desc">Gestion de litige · Écoute active · Relation client en concession</div>
+</div>
+<div class="pole-badge">Renforcez votre écoute active !</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-ecoute">
+<div class="meta-row">
+<span class="meta orange">⏱ 10 min</span>
+<span class="meta blue">👂 Écoute active · Mémorisation · Quiz</span>
+<span class="meta green">👥 Individuel</span>
+<span class="meta purple">🚗 Vente SUV — Mme Loto</span>
+</div>
+<div class="tabs" id="tabs-ecoute">
+<div class="tab active" onclick="st('ecoute','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('ecoute','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('ecoute','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('ecoute','deroulement')">🗓 Déroulement</div>
+</div>
+<!-- SCÉNARIO -->
+<div class="tab-panel active" id="ecoute-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant observe et interagit avec <strong>Ousmane</strong> (vendeur automobile) qui accueille <strong>Mme Loto</strong>, une cliente à la recherche d'un SUV familial spacieux et économique (budget ~30 000€, famille de 4, trajets quotidiens + école). L'objectif : <strong>écouter activement</strong>, mémoriser chaque information donnée par la cliente, et répondre correctement au quiz de validation en fin de scénario.<br/><br/>Format en 4 phases : prise de contact → découverte des besoins → test du véhicule Vectus → validation et conclusion de la vente.</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">🧑 Ousmane</div><div class="perso-role">Vendeur automobile — conduit l'entretien de vente</div></div>
+<div class="perso"><div class="perso-name">👩 Mme Loto</div><div class="perso-role">Cliente · Famille de 4 · Budget 30 000€ · Cherche SUV économique · Toit ouvrant + caméra de recul</div></div>
+<div class="perso"><div class="perso-name">🎓 Johan</div><div class="perso-role">Coach — animation du quiz de mémorisation</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 5 compétences d'écoute active illustrées</div>
+<div class="ecoute-grid">
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 1</div>
+<div class="ecoute-title">Découverte usage avant produit</div>
+<div class="ecoute-desc">Comprendre l'utilisation réelle avant de montrer les modèles et les prix.</div>
+<div class="ecoute-ex">→ "Quelle est votre utilisation quotidienne ? Quel est votre budget ?" avant de montrer le Vectus.</div>
+</div>
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 2</div>
+<div class="ecoute-title">Reformulation des besoins</div>
+<div class="ecoute-desc">Répéter les éléments clés pour valider la compréhension et montrer qu'on a écouté.</div>
+<div class="ecoute-ex">→ "D'après vos besoins, je pense que le modèle Vectus pourrait vous convenir parfaitement."</div>
+</div>
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 3</div>
+<div class="ecoute-title">Questions ouvertes de précision</div>
+<div class="ecoute-desc">Approfondir les besoins exprimés par des questions qui invitent à développer.</div>
+<div class="ecoute-ex">→ "Préférez-vous une version plus basique ou plus équipée pour le confort ?"</div>
+</div>
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 4</div>
+<div class="ecoute-title">Mémorisation des critères</div>
+<div class="ecoute-desc">Retenir et réutiliser les critères exprimés par la cliente tout au long de l'entretien.</div>
+<div class="ecoute-ex">→ Mme Loto a dit : toit ouvrant + caméra de recul. Ousmane les mentionne dans le devis.</div>
+</div>
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 5</div>
+<div class="ecoute-title">Gestion de l'objection prix</div>
+<div class="ecoute-desc">Traiter la résistance tarifaire sans brader, en négociant intelligemment.</div>
+<div class="ecoute-ex">→ "Hmm c'est un peu juste... Je peux vous faire 9,5% soit 3 000€ d'économies. C'est OK ?"</div>
+</div>
+<div class="ecoute-card">
+<div class="ecoute-num">Compétence 6</div>
+<div class="ecoute-title">Closing par validation totale</div>
+<div class="ecoute-desc">Répondre à toutes les questions avant de valider — garantie, financement, reprise, délais.</div>
+<div class="ecoute-ex">→ "Avant de procéder, je souhaite répondre à toutes vos questions." → garantie 10 ans / 100 000 km.</div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Le véhicule Vectus — données à mémoriser</div>
+<div class="card">
+<strong style="color:var(--orange)">Modèle :</strong> Vectus (SUV compact) · Version Essence 150 ch<br/>
+<strong style="color:var(--orange)">Consommation :</strong> 5 litres aux 100 km en cycle mixte<br/>
+<strong style="color:var(--orange)">Prix catalogue :</strong> 31 580€ · Prix négocié : 28 580€ (remise 9,5% = 3 000€)<br/>
+<strong style="color:var(--orange)">Options choisies :</strong> Toit ouvrant panoramique + caméra de recul (+ sièges chauffants dans la version Premium)<br/>
+<strong style="color:var(--orange)">Garantie :</strong> 10 ans ou 100 000 kilomètres<br/>
+<strong style="color:var(--orange)">Délai de livraison :</strong> 6 à 8 semaines<br/>
+<strong style="color:var(--orange)">Financement :</strong> Prêt auto + reprise de l'ancien véhicule possible<br/>
+<strong style="color:var(--orange)">Rôle du vendeur :</strong> Répondre aux questions + aider à décider (pas pression)
+      </div>
+</div>
+</div>
+<!-- OBJECTIFS -->
+<div class="tab-panel" id="ecoute-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">L'apprenant suit l'entretien de vente Ousmane/Mme Loto en 4 phases (prise de contact, découverte, test véhicule, validation). Il doit mémoriser les informations données par la cliente et les données produit présentées par Ousmane. En fin de module, Johan anime un quiz de mémorisation de 10 questions pour évaluer le niveau d'écoute active. Le feedback final identifie les lacunes et donne des conseils de progression.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">
+        Définir l'écoute active et la distinguer de l'écoute passive. Nommer les 6 compétences d'écoute active illustrées dans le scénario. Expliquer l'importance de la mémorisation des critères clients dans une vente automobile.
+        <div class="verbs"><span class="verb">Définir</span><span class="verb">Nommer</span><span class="verb">Expliquer</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">
+        Mémoriser et restituer avec précision les besoins exprimés par un client pendant un entretien de vente. Reformuler les critères d'achat pour valider sa compréhension. Identifier le bon modèle et la bonne version à recommander à partir des besoins exprimés. Traiter une objection prix par une négociation argumentée sans brader. Gérer les questions post-essai (garantie, financement, délais, reprise) avec précision.
+        <div class="verbs"><span class="verb">Mémoriser</span><span class="verb">Restituer</span><span class="verb">Reformuler</span><span class="verb">Identifier</span><span class="verb">Traiter</span><span class="verb">Gérer</span></div>
+</div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">
+        Adopter une posture d'attention soutenue pendant tout l'entretien (sans décrocher ni anticiper). Démontrer un rôle de conseil plutôt que de pression (rôle principal : aider à décider, pas forcer). Personnaliser la recommandation finale à partir des éléments réellement exprimés par la cliente.
+        <div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Personnaliser</span></div>
+</div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Scénario de vente observé + quiz de mémorisation (10 questions · QCM) · Feedback Johan personnalisé selon score<br/><br/>
+<strong style="color:var(--orange)">Groupement :</strong> Individuel — jeu de rôle en binôme en débriefing<br/><br/>
+<strong style="color:var(--orange)">Durée totale :</strong> 10 min module + 15 min débriefing formateur<br/><br/>
+<strong style="color:var(--orange)">Évaluation :</strong> Score quiz mémorisation + qualité de reformulation en jeu de rôle<br/><br/>
+<strong style="color:var(--orange)">Prérequis :</strong> Aucun — idéal en entrée de formation vente automobile</div>
+</div>
+</div>
+<!-- QUIZ -->
+<div class="tab-panel" id="ecoute-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Écoute Active (8 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span>
+<div class="qtext">Quel est le modèle de SUV recommandé par Ousmane à Mme Loto ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Le modèle Vectis</div>
+<div class="ans ok"><span class="mark">✓</span>Le modèle Vectus</div>
+<div class="ans ko"><span class="mark">✗</span>Le modèle Vectos</div>
+<div class="expl">💡 Question de mémorisation pure — Vectus (pas Vectis, pas Vectos). En vente automobile, se tromper sur le nom du modèle devant un client est une erreur professionnelle majeure qui signale un manque de maîtrise produit.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">QCM</span>
+<div class="qtext">Quelle est la principale caractéristique du Vectus qui attire Mme Loto ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Son design sportif</div>
+<div class="ans ko"><span class="mark">✗</span>Son prix abordable</div>
+<div class="ans ok"><span class="mark">✓</span>Son espace intérieur généreux — sièges arrière spacieux, coffre large, adapté famille de 4</div>
+<div class="expl">💡 Mme Loto l'a dit explicitement : "J'ai besoin d'un SUV qui puisse accueillir confortablement ma famille de 4 personnes et nos bagages." L'écoute active consiste à retenir et utiliser ces mots précis — "spacieux" était son premier critère.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span>
+<div class="qtext">Quelle est la consommation moyenne du Vectus annoncée par Ousmane ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>5 litres aux 100 km en cycle mixte</div>
+<div class="ans ko"><span class="mark">✗</span>10 litres aux 100 km</div>
+<div class="ans ko"><span class="mark">✗</span>100 litres aux 100 km</div>
+<div class="expl">💡 Mme Loto : "J'ai entendu dire que ce modèle était très économique en carburant. Est-ce vrai ?" → Ousmane : "5 litres aux 100 km en cycle mixte." → Mme Loto : "C'est impressionnant ! Cela me conforte dans mon choix." Ce chiffre était décisif dans sa décision d'achat.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span>
+<div class="qtext">Quelles options supplémentaires Mme Loto souhaite-t-elle avoir dans son SUV ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Un toit ouvrant et des sièges chauffants uniquement</div>
+<div class="ans ko"><span class="mark">✗</span>Des sièges chauffants et un système de navigation</div>
+<div class="ans ok"><span class="mark">✓</span>Un toit ouvrant panoramique et une caméra de recul (exprimés dès la phase de découverte)</div>
+<div class="expl">💡 Mme Loto l'a dit clairement lors de la découverte : "J'aimerais bien avoir un toit ouvrant et la caméra de recul." Retenir et restituer ces 2 options spécifiques est la preuve d'une écoute active réelle. Un vendeur qui propose sièges chauffants + navigation n'a pas écouté.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">QCM</span>
+<div class="qtext">Combien de temps faut-il en moyenne pour recevoir un Vectus neuf selon Ousmane ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Entre 6 et 8 semaines</div>
+<div class="ans ko"><span class="mark">✗</span>Entre 6 et 8 mois</div>
+<div class="ans ko"><span class="mark">✗</span>Entre 1 et 2 ans</div>
+<div class="expl">💡 Information clé pour la décision d'achat — confondre 6-8 semaines avec 6-8 mois est une erreur qui peut faire perdre la vente si la cliente a besoin du véhicule rapidement.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">QCM</span>
+<div class="qtext">Quelle est la durée de la garantie constructeur sur le Vectus ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>5 ans ou 50 000 kilomètres</div>
+<div class="ans ok"><span class="mark">✓</span>10 ans ou 100 000 kilomètres</div>
+<div class="ans ko"><span class="mark">✗</span>15 ans ou 150 000 kilomètres</div>
+<div class="expl">💡 La garantie est souvent l'argument décisif pour un profil Sécurité. Ousmane l'a présentée précisément : "10 ans ou 100 000 kilomètres, couvrant tous les défauts de fabrication et de matériaux." C'est un chiffre concurrentiel fort à retenir.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">7</div><span class="qtype">QCM</span>
+<div class="qtext">Quelle question Mme Loto pose-t-elle lors de la phase de découverte ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>"Quelle est la couleur disponible pour ce modèle ?"</div>
+<div class="ans ok"><span class="mark">✓</span>"Pourrais-je essayer la voiture ?" — demande d'essai exprimée en phase découverte</div>
+<div class="ans ko"><span class="mark">✗</span>"Y a-t-il des frais de livraison ?"</div>
+<div class="expl">💡 "C'est ce que j'allais vous proposer !" — Ousmane anticipe la demande. Mme Loto a demandé l'essai AVANT qu'Ousmane ne propose, signe d'un fort engagement. Retenir cet indicateur d'intérêt permet d'adapter le rythme de vente.</div>
+</div>
+</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">8</div><span class="qtype">QCM</span>
+<div class="qtext">Quel est le rôle principal d'Ousmane dans ce scénario selon le coach Johan ?</div><div class="qarrow">▶</div></div>
+<div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Répondre aux questions de la cliente et l'aider à prendre une décision éclairée</div>
+<div class="ans ko"><span class="mark">✗</span>Faire pression sur la cliente pour qu'elle achète le modèle le plus cher</div>
+<div class="ans ko"><span class="mark">✗</span>Présenter exhaustivement tous les modèles de SUV disponibles</div>
+<div class="expl">💡 Coach Johan : "N'oubliez pas l'importance de l'écoute active dans vos interactions avec la clientèle." Le vendeur automobile n'est pas un démonstrateur de produits — il est un conseiller qui aide le client à prendre la meilleure décision pour lui. C'est cette posture qui crée la fidélité et les recommandations.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- DÉROULEMENT -->
+<div class="tab-panel" id="ecoute-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (25 – 30 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Introduction — "Test de concentration"</div>
+<div class="tl-desc">Annoncer : "Vous allez observer un entretien de vente. À la fin, un quiz de mémorisation vous attend. Prenez des notes mentales — pas écrites. C'est un test d'écoute active." La contrainte des notes mentales force l'attention soutenue.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Module individuel (10 min)</div>
+<div class="tl-desc">Jeu complet. Le formateur observe les comportements : certains prennent des notes (indice de mauvaise mémorisation active), d'autres regardent l'écran fixement (concentration).</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">15 – 22 min</div><div class="tl-title">Débriefing quiz + analyse des erreurs</div>
+<div class="tl-desc">Comparer les scores. Pour chaque question ratée par plusieurs apprenants : retrouver ensemble la réponse dans le dialogue. "À quel moment Mme Loto a-t-elle mentionné le toit ouvrant ?" L'exercice de reconstruction renforce l'ancrage.</div></div>
+</div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+<div class="tl-content"><div class="tl-time">22 – 32 min</div><div class="tl-title">Jeu de rôle — "Vendeur miroir"</div>
+<div class="tl-desc">En binôme : A joue Ousmane, B joue une nouvelle cliente (profil différent de Mme Loto). À la fin de l'entretien, B évalue si A a bien retenu et utilisé ses besoins exprimés. Grille : reformulation, options retenues, proposition adaptée.</div></div>
+</div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">👂</div><div class="tip-text"><strong>Interdire les notes écrites pendant le module.</strong> La note écrite est une béquille mémorielle — l'écoute active pure impose de retenir sans support. Les apprenants qui réussissent le quiz sans notes démontrent une réelle capacité d'attention soutenue.</div></div>
+<div class="tip"><div class="tip-icon">🔄</div><div class="tip-text"><strong>Faire rejouer le module en changeant les besoins.</strong> Variante : modifier mentalement les critères de Mme Loto (budget 22 000€, famille de 2, priorité performance). Les apprenants doivent identifier quel modèle Ousmane aurait dû proposer à la place. Active l'écoute analytique.</div></div>
+<div class="tip"><div class="tip-icon">📊</div><div class="tip-text"><strong>Calculer la remise en direct.</strong> "31 580€ × 9,5% = 2 999,10€ ≈ 3 000€." Ousmane a arrondi à 3 000€. Faire calculer les apprenants renforce la maîtrise des chiffres de la négociation et démontre que la remise a été préparée, pas accordée sous pression.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien avec la gestion de litige.</strong> Un client dont les besoins ont été vraiment écoutés lors de la vente est beaucoup plus indulgent en cas de problème. L'écoute active dans la vente est le meilleur investissement pour la gestion des litiges futurs.</div></div>
+</div>
+</div>
+</div></div></div>
+<!-- ══════ MODULE 3 — ATELIER DOSSIERS ACHETEURS ══════ -->
+
+<div class="footer">Avatar Sales Academy</div>
+
+<script>
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  ['litige','ecoute','atelier'].forEach(m=>{
+    document.getElementById('panel-'+m).classList.toggle('active',m===id);
+    document.getElementById('btn-'+m).classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
