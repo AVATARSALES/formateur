@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Motivation en Danger — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:940px;min-height:100vh;display:flex;flex-direction:column}
+/* HEADER */
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+/* POLE */
+.pole-header{padding:13px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:24px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.pole-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+/* MODULE SELECTOR */
+.mod-selector{padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:7px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:9px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.13)}
+.mod-btn-icon{font-size:15px}
+.mod-btn-info{display:flex;flex-direction:column;gap:1px}
+.mod-btn-title{font-size:12px;font-weight:500;line-height:1.25}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.65);display:flex;gap:4px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 5px;font-size:9px}
+/* CONTENT */
+.content{flex:1;padding:20px 18px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:12px;padding:40px}
+.welcome-icon{font-size:46px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:420px}
+/* MODULE PANEL */
+.module-panel{display:none}
+.module-panel.active{display:block}
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:8px 15px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+/* META */
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.meta{font-size:11px;padding:4px 10px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.meta.red{background:rgba(255,77,77,0.1);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+/* SECTIONS */
+.section{margin-bottom:20px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;line-height:1.75;color:var(--light)}
+/* PROFILS GRID */
+.profils-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:620px){.profils-grid{grid-template-columns:1fr}}
+.profil-card{background:var(--navy3);border-radius:11px;padding:13px 14px;border-top:3px solid var(--orange);position:relative}
+.profil-card.good{border-top-color:var(--green)}
+.profil-card.bad{border-top-color:#ff4d4d}
+.profil-card.med{border-top-color:#ffb347}
+.profil-nom{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.profil-surnom{font-size:10px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.profil-card.good .profil-surnom{color:var(--green)}
+.profil-card.bad .profil-surnom{color:#ff9999}
+.profil-card.med .profil-surnom{color:#ffb347}
+.profil-cv{font-size:11.5px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.profil-trait{font-size:12px;line-height:1.55;color:var(--light);margin-bottom:4px;padding-left:12px;position:relative}
+.profil-trait::before{content:"→";position:absolute;left:0;color:var(--orange);font-size:10px}
+.profil-verdict{margin-top:8px;font-size:11.5px;padding:5px 8px;border-radius:6px}
+.profil-verdict.ok{background:rgba(0,204,136,0.08);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.profil-verdict.ko{background:rgba(255,77,77,0.08);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+.profil-verdict.warn{background:rgba(255,179,71,0.08);color:#ffb347;border:0.5px solid rgba(255,179,71,0.2)}
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:9px;background:var(--navy3);border-radius:9px;padding:9px 12px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 6px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 7px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 7px}
+/* OBJECTIVES */
+.obj-block{background:var(--navy3);border-radius:10px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:6px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.verb{font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+/* QUIZ */
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:11px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.02)}
+.qnum{min-width:25px;height:25px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:5px 15px 13px 49px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:6px;padding:3px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:7px;font-size:12px;color:var(--muted);padding:7px 10px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:44%}
+.col-arrow{text-align:center;color:var(--muted);width:12%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:44%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0}
+@media(max-width:540px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+/* DISC GRID */
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:580px){.disc-grid{grid-template-columns:1fr}}
+.disc-card{background:var(--navy3);border-radius:11px;padding:13px 14px;border-top:3px solid}
+.disc-card.d{border-top-color:#ff4d4d}
+.disc-card.i{border-top-color:#FF6B00}
+.disc-card.s{border-top-color:var(--green)}
+.disc-card.c{border-top-color:var(--blue)}
+.disc-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:2px}
+.disc-card.d .disc-letter{color:#ff4d4d}
+.disc-card.i .disc-letter{color:#FF6B00}
+.disc-card.s .disc-letter{color:var(--green)}
+.disc-card.c .disc-letter{color:var(--blue)}
+.disc-mot{font-size:13px;font-weight:500;color:#fff;margin-bottom:6px}
+.disc-trait{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:3px;padding-left:10px;position:relative}
+.disc-trait::before{content:"•";position:absolute;left:0;font-size:10px;color:var(--muted)}
+.disc-vente{margin-top:8px;font-size:12px;padding:6px 9px;background:rgba(255,255,255,0.05);border-radius:6px;border-left:2px solid rgba(255,255,255,0.1);color:var(--light);line-height:1.5}
+.disc-vente strong{color:var(--orange);font-size:10px;display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+/* SONCAS GRID */
+.soncas-full{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+@media(max-width:640px){.soncas-full{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.soncas-full{grid-template-columns:1fr}}
+.soncas-card{background:var(--navy3);border-radius:10px;padding:11px 13px;border-left:3px solid var(--orange)}
+.soncas-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--orange);margin-bottom:2px}
+.soncas-mot{font-size:12.5px;font-weight:500;color:#fff;margin-bottom:5px}
+.soncas-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.soncas-arg{font-size:11.5px;color:var(--green);padding:5px 8px;background:rgba(0,204,136,0.07);border-radius:5px;line-height:1.5}
+.soncas-arg::before{content:"→ ";font-weight:700}
+/* OBJECTIONS */
+.obj-list{display:flex;flex-direction:column;gap:8px}
+.obj-item{background:var(--navy3);border-radius:10px;padding:11px 14px}
+.obj-item-top{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:flex-start}
+@media(max-width:560px){.obj-item-top{grid-template-columns:1fr}}
+.obj-prospect{font-size:12.5px;color:#ff9999;line-height:1.5}
+.obj-prospect::before{content:"💬 ";font-size:11px}
+.obj-label-small{font-size:9px;font-weight:700;color:#ff9999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.rep-label-small{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.obj-rep-ok{font-size:12.5px;color:var(--green);line-height:1.5}
+.obj-rep-ok::before{content:"✓ "}
+.obj-rep-ko{font-size:12px;color:rgba(138,155,181,0.5);line-height:1.5}
+.obj-rep-ko::before{content:"✗ "}
+/* TIMELINE */
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:11px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:36px;flex-shrink:0}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:12px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 16px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+/* TIPS */
+.tip{display:flex;gap:9px;background:var(--navy3);border-radius:10px;padding:10px 13px;margin-bottom:7px;align-items:flex-start}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.perso{background:var(--navy3);border-radius:9px;padding:9px 13px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:580px){.err-grid{grid-template-columns:1fr}}
+.err-card{background:var(--navy3);border-radius:10px;padding:11px 13px;border-left:3px solid var(--orange)}
+.err-num{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.err-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px}
+.err-obs{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:5px}
+.err-fix{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.err-fix::before{content:"✓ ";font-weight:700}
+.footer{padding:5px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🧠</div>
+<div class="pole-info">
+<div class="pole-name">Fondamentaux &amp; Psychologie de Vente</div>
+<div class="pole-desc">Soft skills, SONCAS, DISC, objections et analyse comportementale commerciale</div>
+</div>
+<div class="pole-badge">Motivation en Danger</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-motivation">
+<div class="meta-row">
+<span class="meta purple">🧠 Fondamentaux</span><span class="meta orange">⏱ 12 min</span>
+<span class="meta blue">🚔 Test connaissances BTS · Scénario ludique</span><span class="meta green">👥 Individuel</span>
+</div>
+<div class="tabs" id="tabs-motivation">
+<div class="tab active" onclick="st('motivation','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('motivation','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('motivation','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('motivation','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="motivation-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card"><strong>Julien</strong>, étudiant BTS NDRC en révisions, est arrêté chez lui à 22h par deux policiers pour... <strong>"manque évident de motivation"</strong> et baisse d'implication de 30% au dernier trimestre. Pour éviter le commissariat, il doit répondre en temps réel à des questions de culture commerciale et économique. Scénario humoristique et immersif qui transforme des révisions en enquête policière.</div>
+</div>
+<div class="section"><div class="sec-title">Structure narrative</div>
+<div class="steps">
+<div class="step"><span class="step-n">Acte 1</span><div class="step-body"><strong>L'arrestation (22h)</strong> — Julien est interrompu dans ses révisions. Les policiers lui posent une première question pour "tester sa motivation" avant de l'emmener.</div></div>
+<div class="step"><span class="step-n">Acte 2</span><div class="step-body"><strong>Le trajet + commissariat</strong> — Questions en rafale pendant 15 minutes de trajet. Julien doit prouver ses connaissances pour éviter la détention.</div></div>
+<div class="step"><span class="step-n">Acte 3</span><div class="step-body"><strong>L'interrogatoire</strong> — L'inspecteur confronte Julien à ses mauvais résultats. Julien se défend : "J'ai des soucis perso et je travaille 3 jours par semaine."</div></div>
+<div class="step"><span class="step-n">Fin</span><div class="step-body"><strong>Verdict</strong> — Selon les réponses, Julien est libéré (bonne performance) ou garde à vue prolongée (mauvaises réponses). Lien explicite : "Ton alternance est en jeu !"</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Thèmes de connaissances testés</div>
+<div class="card">
+<strong style="color:var(--orange)">Économie générale :</strong> Définition de l'entreprise (entité mobilisant facteurs de production), PIB (indicateur de richesse créée), valeur ajoutée<br/><br/>
+<strong style="color:var(--orange)">Techniques commerciales :</strong> Méthode SPIN (Situation, Problème, Implication, Need-Payoff), structure de pitch commercial, argumentation client<br/><br/>
+<strong style="color:var(--orange)">Culture BTS NDRC :</strong> Référentiel de compétences, activités commerciales, négociation, relation client<br/><br/>
+<strong style="color:var(--orange)">Format :</strong> QCM, textes à trous, vrai/faux — réponses chronométrées
+      </div>
+</div>
+</div>
+<div class="tab-panel" id="motivation-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">L'apprenant incarne Julien face aux policiers. Il répond à des questions de culture commerciale et économique dans un contexte narratif humoristique. Le scénario crée une tension ludique qui rend les révisions engageantes. Le feedback final évalue la "motivation réelle" de Julien selon le score obtenu.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">Rappeler les fondamentaux économiques du programme BTS NDRC (entreprise, PIB, valeur ajoutée). Nommer les méthodes de vente clés du référentiel (SPIN, SONCAS, CAP). Définir les étapes d'un entretien de vente et d'un pitch commercial.<div class="verbs"><span class="verb">Rappeler</span><span class="verb">Nommer</span><span class="verb">Définir</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">Répondre à des questions de culture commerciale en temps limité. Mobiliser ses connaissances théoriques dans un contexte de simulation à pression. Identifier ses lacunes de connaissances à partir des erreurs commises.<div class="verbs"><span class="verb">Répondre</span><span class="verb">Mobiliser</span><span class="verb">Identifier</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">Adopter une posture de curiosité et d'engagement vis-à-vis de la révision. Démontrer de la résilience face à une question difficile (rester dans le jeu plutôt que décrocher). Relier ses connaissances théoriques à leur utilité pratique en situation professionnelle.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Relier</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game narratif gamifié — QCM et textes à trous chronométrés dans un scénario policier humoristique<br/><br/><strong style="color:var(--orange)">Groupement :</strong> Individuel<br/><br/><strong style="color:var(--orange)">Durée totale :</strong> 12 min module + 10 min débriefing ciblé sur les erreurs<br/><br/><strong style="color:var(--orange)">Usage recommandé :</strong> Séance de révision avant évaluation, entrée en matière ludique, bilan de connaissances en cours de formation<br/><br/><strong style="color:var(--orange)">Prérequis :</strong> Programme BTS NDRC (économie générale + techniques commerciales)</div>
+</div>
+</div>
+<div class="tab-panel" id="motivation-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Connaissances BTS NDRC (5 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">Texte à trous</span><div class="qtext">Une _____________ est une entité qui mobilise des facteurs de production (travail, capital, matières premières) pour produire des biens ou services, avec pour la majorité un objectif à but lucratif.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">Entreprise</strong></div>
+<div class="expl">💡 La définition économique de l'entreprise : entité qui combine des facteurs de production (travail, capital, matières premières) pour créer de la valeur ajoutée. La majorité poursuit un objectif lucratif mais les associations, mutuelles et coopératives entrent aussi dans cette définition.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">QCM</span><div class="qtext">Qu'est-ce que le PIB (Produit Intérieur Brut) ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Un indicateur de la richesse créée par un pays, mesuré en additionnant la valeur ajoutée totale de toutes les entreprises et administrations résidentes sur une période donnée</div>
+<div class="ans ko"><span class="mark">✗</span>La somme de la valeur de tous les biens et services consommés par les ménages, administrations et entreprises du pays</div>
+<div class="expl">💡 Le PIB mesure la production (valeur ajoutée créée), pas la consommation. C'est l'indicateur principal de la santé économique d'un pays, utilisé pour mesurer la croissance et comparer les économies. La réponse B décrit davantage la dépense nationale que la production.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span><div class="qtext">La méthode de vente SPIN est un acronyme. Que signifient les 4 lettres ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Situation · Problème · Implication · Need-Payoff (Besoin de solution)</div>
+<div class="ans ko"><span class="mark">✗</span>Sécurité · Profit · Innovation · Négociation</div>
+<div class="ans ko"><span class="mark">✗</span>Stratégie · Persuasion · Intérêt · Négociation</div>
+<div class="expl">💡 SPIN (Neil Rackham, 1988) est une méthode de questionnement en 4 étapes : Situation (contexte actuel) → Problème (difficultés) → Implication (conséquences) → Need-Payoff (valeur de la solution). Plus efficace que l'argumentation directe car le client formule lui-même le besoin.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Dans le scénario, le policier dit à Julien : "Ton implication a baissé de 30% au dernier trimestre." À quoi ce chiffre correspond-il en termes de compétences BTS ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Une baisse du taux de présence en cours</div>
+<div class="ans ok"><span class="mark">✓</span>Une métaphore narrative sur la motivation de Julien — le scénario gamifie la notion d'engagement dans sa formation en la traitant comme un indicateur de performance commerciale (MRR, taux d'activité)</div>
+<div class="ans ko"><span class="mark">✗</span>Un indicateur de performance réel mesuré par l'école</div>
+<div class="expl">💡 C'est l'intelligence pédagogique du scénario : en utilisant le langage commercial (% d'implication, indicateurs, dossier d'accusation) pour parler de motivation scolaire, il transpose les outils du commercial (pilotage par KPIs) dans la vie de l'apprenant lui-même.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">QCM</span><div class="qtext">Quel est l'objectif principal du module "Motivation en Danger" dans un cursus BTS NDRC ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Tester les connaissances économiques avancées des apprenants</div>
+<div class="ans ok"><span class="mark">✓</span>Transformer une séance de révision en expérience immersive et engageante pour tester et consolider les connaissances commerciales de base par le jeu narratif</div>
+<div class="ans ko"><span class="mark">✗</span>Former les apprenants à la gestion de situations de stress professionnel</div>
+<div class="expl">💡 La gamification des révisions répond à un problème pédagogique réel : les révisions traditionnelles manquent d'engagement. Un scénario narratif humoristique (l'arrestation policière) crée de l'émotion, de la surprise et de la tension — trois facteurs qui favorisent la mémorisation.</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="motivation-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (20 – 25 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 3 min</div><div class="tl-title">Annonce mystère</div><div class="tl-desc">Ne pas décrire le scénario à l'avance. Juste : "Vous avez 12 minutes. C'est une révision... mais pas comme les autres." La surprise amplifier l'engagement.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">3 – 15 min</div><div class="tl-title">Module individuel</div><div class="tl-desc">Jeu complet. Les apprenants notent les questions auxquelles ils n'ont pas su répondre. Le formateur relève les thèmes les plus souvent ratés.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 22 min</div><div class="tl-title">Débriefing ciblé</div><div class="tl-desc">Reprendre uniquement les questions mal répondues par la majorité. Expliquer le contenu derrière chaque réponse. Lien avec le programme BTS.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">22 – 27 min</div><div class="tl-title">Quiz de validation</div><div class="tl-desc">5 questions ciblées sur les thèmes les moins maîtrisés. Score individuel final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🚔</div><div class="tip-text"><strong>Entrer dans le jeu narratif.</strong> Projeter l'intro du scénario au vidéoprojecteur avec le son. L'immersion visuelle et sonore amplifie l'engagement et la mémorisation.</div></div>
+<div class="tip"><div class="tip-icon">📊</div><div class="tip-text"><strong>Utiliser le score pour diagnostiquer les lacunes.</strong> Si 80% ratent la question PIB = reprendre ce chapitre en cours. "Motivation en Danger" est un outil diagnostic autant qu'un outil de révision.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien examen BTS.</strong> Idéal comme activité de révision 2-3 semaines avant les épreuves. Les thèmes testés (entreprise, PIB, SPIN, techniques commerciales) correspondent directement aux épreuves E1, E3 et E4.</div></div>
+</div>
+</div>
+</div></div></div>
+<script>
+const MODS=['headhunter','entretien','objections','soncas','disc','motivation'];
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  MODS.forEach(m=>{
+    const p=document.getElementById('panel-'+m);
+    const b=document.getElementById('btn-'+m);
+    if(p)p.classList.toggle('active',m===id);
+    if(b)b.classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const panel=document.getElementById('panel-'+mod);
+  if(!panel)return;
+  panel.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));
+  });
+  panel.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active',p.id===mod+'-'+tab);
+  });
+}
+function tQ(card){card.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
