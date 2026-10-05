@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Acheteurs — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🚗</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Automobile — Expertise Relationnelle</div>
+<div class="pole-desc">Gestion de litige · Écoute active · Relation client en concession</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Acheteurs</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 BMW 80 000€ · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>conseiller(ère) commercial(e) automobile</strong>. <strong>M. Ferrara</strong>, directeur de la concession, doit impérativement écouler une <strong>BMW Série 7 berline à 80 000€</strong> avant la fin du mois (clôture de bilan, objectif constructeur). Quatre acheteurs potentiels ont essayé le véhicule cette semaine.<br/><br/>Mission : analyser chaque dossier en 4 minutes, <strong>classer les 4 profils par pertinence</strong> pour M. Ferrara, et présenter la recommandation argumentée. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — M. Ferrara</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Clôture de bilan en fin de mois · Objectif constructeur à atteindre · Véhicule en stock immédiat<br/><br/><strong style="color:var(--orange)">Critères de sélection :</strong> Financement sécurisé · Délai de livraison compatible · Prix catalogue accepté · Dossier bancaire solide</div>
+</div>
+<div class="section"><div class="sec-title">Les 4 profils acheteurs</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Prudent</span><div class="step-body">
+<strong>CDI Ingénieur R&amp;D</strong> · Intéressé mais conditionne l'achat à la revente de son Audi A6 actuelle (2-3 mois) + réservation 6 semaines + inspection mécanique indépendante (+2 semaines) + remise –7% (74 400€)
+          <div class="badges">
+<span class="b-ko">❌ Délai total 8+ semaines — incompatible avec fin de mois</span>
+<span class="b-ko">❌ Remise –7% non justifiée</span>
+<span class="b-ko">❌ Immobilise le stock sans garantie de vente</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Profil viable pour un véhicule sans urgence, vendeur sans contrainte de stock</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Idriss<br/>Le Décideur</span><div class="step-body">
+<strong>Chef d'entreprise</strong> · 2e visite avec son associé · Dossier béton : financement bancaire professionnel validé, apport 25%, validé par expert-comptable · Accepte le prix catalogue 80 000€ sans négociation · Signature possible dès demain · Livraison souhaitée dans 3 semaines · Budget options 3 000€ prévu
+          <div class="badges">
+<span class="b-ok">✅ Financement bancaire validé avant la visite</span>
+<span class="b-ok">✅ Prix catalogue accepté sans négociation</span>
+<span class="b-ok">✅ Signature en 48h · Livraison 3 semaines = objectif fin de mois</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier — alignement parfait vendeur/acheteur</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Béatrice<br/>La Rêveuse</span><div class="step-body">
+<strong>CDI Responsable marketing</strong> · Coup de cœur total pour la BMW · Mais : en cours de séparation (dossier bancaire fragilisé), banquier en vacances 3 semaines, aucune simulation de crédit, envisage caution solidaire parents en cas de refus
+          <div class="badges">
+<span class="b-ko">❌ Aucun financement arrêté</span>
+<span class="b-ko">❌ Séparation récente = dossier bancaire à haut risque</span>
+<span class="b-ko">❌ Caution solidaire = procédure longue et incertaine</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Acheteur sincère mais financement trop incertain pour un véhicule urgent</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>La Pressée</span><div class="step-body">
+<strong>Gérante de société</strong> · Offre cash à 68 000€ (–15% du catalogue) · Justification : marché premium ralentit, absence de pack Premium · Tente de contourner la concession pour traiter directement avec M. Ferrara · Propose au conseiller de renoncer à sa commission
+          <div class="badges">
+<span class="b-ko">❌ Offre à –15% = 12 000€ de manque à gagner</span>
+<span class="b-ko">❌ Tentative de court-circuitage de la concession (toxique)</span>
+<span class="b-ko">❌ Demande au conseiller de renoncer à sa commission</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire — comportement toxique pour la transaction</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Idriss</strong> — Seul dossier viable pour M. Ferrara : financement validé + prix catalogue + signature 48h + livraison 3 semaines.<br/><br/>
+<strong style="color:#ffb347">🥈 Ousmane</strong> — Dossier sérieux mais inadapté au timing : viable sur un autre véhicule sans urgence de stock.<br/><br/>
+<strong style="color:#bb99ff">🥉 Béatrice</strong> — Motivation sincère mais dossier fragile : viable si elle sécurise son financement avec un véhicule moins cher.<br/><br/>
+<strong style="color:#ff9999">❌ Diane</strong> — Dossier éliminatoire quel que soit le contexte : comportement toxique pour la relation commerciale et les intérêts de la concession.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ff9999">Biais du cash (Diane) :</strong> "Elle paie cash" — Oui, mais à –15%. Une vente à 68k€ avec comportement toxique est pire qu'une vente à 80k€ qui prend 3 semaines de plus.<br/><br/>
+<strong style="color:#bb99ff">Biais de l'enthousiasme (Béatrice) :</strong> "Elle veut vraiment cette voiture" — Oui, mais l'enthousiasme ne rembourse pas un crédit refusé à J-10 de la livraison.<br/><br/>
+<strong style="color:#ffb347">Biais de la prudence (Ousmane) :</strong> "Il est sérieux et méthodique" — Oui, mais sa prudence bloque la vente contractuellement pendant 6-8 semaines. <strong>Sérieux ≠ solvable dans les délais.</strong>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 dossiers acheteurs en 4 minutes (accès via l'inventaire), lisent les dialogues de chaque entretien, analysent les signaux d'alerte et atouts financiers, puis classent les 4 profils par pertinence pour M. Ferrara. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir les critères d'évaluation d'un dossier acheteur automobile (solidité financement, délai, prix, comportement). Nommer les 3 biais classiques en analyse de dossier (cash, enthousiasme, prudence). Expliquer pourquoi une offre cash à –15% peut être pire qu'une offre à prix catalogue.<div class="verbs"><span class="verb">Définir</span><span class="verb">Nommer</span><span class="verb">Expliquer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Analyser un dossier acheteur en croisant 4 critères simultanément (financement, timing, prix, comportement). Identifier les signaux d'alerte éliminatoires d'un dossier (financement non arrêté, offre sous catalogue, tentative de contournement). Distinguer un acheteur motivé d'un acheteur solvable dans les délais. Réorienter un acheteur écarté vers un véhicule adapté à sa situation réelle.<div class="verbs"><span class="verb">Analyser</span><span class="verb">Identifier</span><span class="verb">Distinguer</span><span class="verb">Réorienter</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Adopter une posture d'analyse froide face à l'enthousiasme client. Défendre les intérêts de la concession face à une offre agressive et à une tentative de court-circuitage. Communiquer un refus argumenté à un acheteur en lui proposant une alternative commerciale constructive.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Défendre</span><span class="verb">Communiquer</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Classement en 4 minutes · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Prérequis :</strong> Notions de financement automobile (crédit, apport, accord de principe)</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Acheteurs (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi Idriss "Le Décideur" est-il le dossier idéal pour M. Ferrara ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Son financement est validé, il accepte le prix catalogue sans négociation, et sa disponibilité à signer en 48h correspond exactement à l'objectif de fin de mois</div>
+<div class="ans ko"><span class="mark">✗</span>Il est le plus expérimenté en négociation automobile avec un réseau de revendeurs établi</div>
+<div class="ans ko"><span class="mark">✗</span>Il propose de financer l'ajout d'options avant la livraison pour valoriser le véhicule</div>
+<div class="expl">💡 Célia : "Le meilleur dossier n'est pas celui qui veut le plus fort, mais celui dont le dossier sécurise la vente dans les délais de la concession." Idriss coche les 3 critères simultanément : financement sécurisé + prix catalogue + timing aligné.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque acheteur avec son principal signal d'alerte ou atout caractéristique.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">Ousmane "Le Prudent"</td><td class="col-arrow">→</td><td class="col-b">Reprise conditionnelle Audi A6 + délai 6-8 semaines + remise –7% = inadapté à l'urgence de fin de mois</td></tr>
+<tr><td class="col-a">Idriss "Le Décideur"</td><td class="col-arrow">→</td><td class="col-b">Financement bancaire validé + apport 25% + prix 80 000€ accepté + signature possible dès demain</td></tr>
+<tr><td class="col-a">Béatrice "La Rêveuse"</td><td class="col-arrow">→</td><td class="col-b">CDI mais séparation récente + banquier en vacances + aucune simulation = dossier de crédit à haut risque de refus</td></tr>
+<tr><td class="col-a">Diane "La Pressée"</td><td class="col-arrow">→</td><td class="col-b">Offre agressive à –15% + tentative de court-circuitage de la concession = toxique pour la transaction</td></tr>
+</table>
+<div class="expl">💡 Chaque profil a un signal identifiant unique : Ousmane = délai bloquant, Idriss = dossier béton, Béatrice = financement fragile, Diane = comportement toxique. En pratique, un commercial doit détecter ces signaux dès les premières minutes d'entretien.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte éliminatoires / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols">
+<div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div>
+<div class="class-item">Accord de financement bancaire validé avant la visite + apport 25%</div>
+<div class="class-item">Acceptation du prix catalogue sans négociation + signature en 48h</div>
+<div class="class-item">Délai livraison 3 semaines aligné sur clôture mensuelle concession</div>
+</div>
+<div class="class-col red"><div class="class-col-title">❌ Signaux éliminatoires</div>
+<div class="class-item">"J'ai besoin de 6 semaines pour revendre mon Audi" (Ousmane)</div>
+<div class="class-item">"Mon banquier est en vacances, mais je suis sûre que ça va passer" (Béatrice)</div>
+<div class="class-item">"Je peux traiter directement avec M. Ferrara, sans passer par vous" (Diane)</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div>
+<div class="class-item">Le Prudent → véhicule avec délai de livraison long, vendeur sans urgence</div>
+<div class="class-item">La Rêveuse → véhicule moins cher, co-emprunteur disponible</div>
+<div class="class-item">La Pressée → véhicule en surstock critique, vendeur en situation d'urgence extrême</div>
+</div>
+</div>
+<div class="expl">💡 Célia : "Les trois acheteurs écartés ne sont pas de mauvais acheteurs — ils sont dans le mauvais timing ou la mauvaise situation financière. Savoir réorienter un acheteur refusé vers un véhicule adapté est une compétence commerciale avancée."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un dossier sans financement validé (comme Béatrice), quelle est la réaction appropriée du conseiller commercial automobile ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Orienter l'acheteur vers un organisme de crédit partenaire et conditionner la réservation du véhicule à une simulation de financement sérieuse</div>
+<div class="ans ko"><span class="mark">✗</span>Bloquer quand même le véhicule avec une note "dossier à compléter" pour garder le contact commercial</div>
+<div class="ans ko"><span class="mark">✗</span>Organiser une réunion collective entre l'acheteur, M. Ferrara et le directeur financier</div>
+<div class="expl">💡 Bloquer un stock à 80 000€ sans garantie de financement expose la concession à une vente avortée à J-10 de la livraison — scenario catastrophique. La bonne réponse : proposer une simulation concrète (organisme partenaire) et conditionner la réservation à un accord de principe écrit.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Ousmane "Le Prudent" est le meilleur dossier car sa prudence et son exigence de sécurité garantissent une transaction sans mauvaise surprise pour la concession.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div>
+<div class="expl">💡 La prudence d'Ousmane est une qualité individuelle — pas un atout pour cette transaction. Sa reprise conditionnelle d'Audi + inspection indépendante = 8 semaines minimum de blocage du stock. M. Ferrara ne peut pas immobiliser 80 000€ sans garantie de vente. <strong>Sérieux ≠ solvable dans les délais.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un conseiller commercial automobile pour sécuriser une vente, c'est d'évaluer la __________ du financement de l'acheteur. Le meilleur acheteur n'est pas celui qui __________ le plus fort, mais celui dont le __________ sécurise la vente dans les délais.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">solidité / veut / dossier</strong></div>
+<div class="expl">💡 Célia : "La compétence clé n°1 en analyse de dossiers acheteurs : la solidité du financement. Un acheteur enthousiaste sans financement validé est un risque, pas une opportunité. Idriss prouve que l'alignement parfait entre solidité du dossier et contraintes du vendeur est la seule mesure qui compte."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (30 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing M. Ferrara</div><div class="tl-desc">Présenter l'urgence en une phrase : "BMW Série 7, 80 000€, fin de mois dans 8 jours. 4 acheteurs potentiels. Un seul peut acheter maintenant. Lequel ?" Ne rien révéler des profils — laisser les équipes découvrir.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 20 min</div><div class="tl-title">Atelier individuel (15 min chrono)</div><div class="tl-desc">Lecture des 4 dossiers + classement. Les apprenants notent leur ordre de préférence et leur argument principal pour le n°1.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">12 – 22 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Diane ? Pourquoi ?" → biais du cash. "Qui a choisi Béatrice ?" → biais de l'enthousiasme. "Qui a choisi Ousmane ?" → biais de la prudence. Faire argumenter avant de révéler. L'erreur formulée à voix haute est l'enseignement le plus durable.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">22 – 30 min</div><div class="tl-title">Réorientation commerciale + Quiz</div><div class="tl-desc">Pour chaque acheteur écarté : "Quel véhicule conviendrait à ce profil ?" Ousmane → véhicule en commande, délai 3 mois. Béatrice → modèle à 40k€, financement plus accessible. Diane → véhicule en difficulté d'écoulement si remise inévitable. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Chiffrer le coût de chaque erreur.</strong> Diane à 68 000€ = 12 000€ perdus + relation commerciale toxique. Béatrice refusée à J-10 = voiture re-stockée, objectif raté, délai supplémentaire. Ousmane 8 semaines = concurrence relancée, objectif M. Ferrara manqué. Les chiffres concrets rendent les erreurs inoubliables.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Insister sur la réorientation des refusés.</strong> "Non à ce véhicule" ne signifie pas "non à ce client". Un conseiller expert conserve le contact avec Béatrice et Ousmane pour les recontacter sur un autre stock adapté. La perte d'une vente ne doit jamais être une perte de relation.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien avec le module Écoute Active.</strong> L'atelier Dossiers Acheteurs révèle pourquoi l'écoute active est décisive : les signaux d'alerte de chaque profil (reprise conditionnelle, banquier en vacances, tentative de contournement) émergent dans les 2 premières minutes de dialogue si on écoute vraiment.</div></div>
+</div>
+</div>
+</div></div></div>
+<!-- ══════ MODULE 3 — ATELIER DOSSIERS ACHETEURS ══════ -->
+
+<div class="footer">Avatar Sales Academy</div>
+
+<script>
+function sel(id){
+  document.getElementById('welcome').style.display='none';
+  ['litige','ecoute','atelier'].forEach(m=>{
+    document.getElementById('panel-'+m).classList.toggle('active',m===id);
+    document.getElementById('btn-'+m).classList.toggle('active',m===id);
+  });
+  document.getElementById('content').scrollTop=0;
+}
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+<!-- ══════════════ CHATBOT FORMATEUR ══════════════ -->
+
+
+
+
+
+</body>
+</html>
