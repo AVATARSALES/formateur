@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analyse des 6 erreurs Marketing — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:920px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:12px 18px 14px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px}
+.mod-grid{display:flex;gap:8px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.mod-btn:hover:not(.locked){border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn.locked{opacity:.4;cursor:not-allowed}
+.mod-btn-icon{font-size:16px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px}
+.tag-soon{background:rgba(255,255,255,0.06);color:var(--muted);border-radius:4px;padding:1px 6px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.err-grid{grid-template-columns:1fr}}
+.err-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.err-num{font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.err-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.err-obs{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.err-fix{font-size:11.5px;color:var(--green);padding:5px 9px;background:rgba(0,204,136,0.07);border-radius:6px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.err-fix::before{content:"✓ ";font-weight:700}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:46%}
+.col-arrow{text-align:center;color:var(--muted);width:8%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:46%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+@media(max-width:540px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:10px 12px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.pitch-struct{display:flex;flex-direction:column;gap:7px}
+.pitch-step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.pitch-label{font-size:9px;font-weight:700;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;text-transform:uppercase;letter-spacing:.3px;min-width:60px;text-align:center}
+.pitch-body{flex:1;font-size:13px;line-height:1.6}
+.pitch-body strong{color:#fff}
+.pitch-body .good{color:var(--green);font-size:12px}
+.pitch-body .bad{color:#ff9999;font-size:12px}
+.perso-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:160px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.etapes-recrutement{display:flex;flex-direction:column;gap:8px}
+.etape-rec{display:flex;gap:12px;background:var(--navy3);border-radius:10px;padding:11px 14px;align-items:flex-start}
+.etape-num{font-size:11px;font-weight:700;color:var(--orange);background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.25);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.etape-body{flex:1;font-size:13px;line-height:1.6}
+.etape-body strong{color:#fff}
+.etape-body em{color:var(--muted);font-size:12px;font-style:normal}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">💻</div>
+<div class="pole-info">
+<div class="pole-name">Pôle IT &amp; Digital</div>
+<div class="pole-desc">Vente, recrutement et relation client dans les métiers tech et digitaux</div>
+</div>
+<div class="pole-badge">Analyse des 6 erreurs Marketing</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-marketing">
+<div class="meta-row">
+<span class="meta purple">💻 Pôle IT &amp; Digital</span>
+<span class="meta orange">⏱ 10 min</span>
+<span class="meta blue">🎭 Étude de cas linéaire</span>
+<span class="meta green">👥 Individuel</span>
+</div>
+<div class="tabs" id="tabs-marketing">
+<div class="tab active" onclick="switchTab('marketing','scenario')">📖 Scénario</div>
+<div class="tab" onclick="switchTab('marketing','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="switchTab('marketing','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="switchTab('marketing','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="marketing-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant observe la réunion entre <strong>Steven</strong> (Directeur Marketing) et <strong>Soraya</strong> (Directrice Commerciale). Steven présente son plan de campagne digitale pour <strong>CyberGuard Pro</strong> (cybersécurité B2B) en vue d'obtenir la validation du budget. Mission : identifier les <strong>6 erreurs flagrantes</strong>, analyser leur impact et proposer une meilleure approche pour chacune.</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">🧑‍💼 Steven</div><div class="perso-role">Directeur Marketing — commet les 6 erreurs volontaires</div></div>
+<div class="perso"><div class="perso-name">👩‍💼 Soraya</div><div class="perso-role">Directrice Commerciale — valide ou refuse le budget</div></div>
+<div class="perso"><div class="perso-name">🛡️ CyberGuard Pro</div><div class="perso-role">Antivirus, pare-feu, détection intrusion, sauvegarde + surveillance 24/7</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 6 erreurs de Steven</div>
+<div class="err-grid">
+<div class="err-card"><div class="err-num">Erreur 1 — Savoir-être</div><div class="err-title">📱 Téléphone non coupé</div><div class="err-obs">Son téléphone sonne en pleine présentation stratégique. Rupture de dynamique et signal de manque de préparation.</div><div class="err-fix">Couper ou mode "Ne pas déranger" avant toute réunion de validation stratégique.</div></div>
+<div class="err-card"><div class="err-num">Erreur 2 — Ciblage</div><div class="err-title">🎯 DSI au lieu de DG/DAF</div><div class="err-obs">Cible les profils techniques alors que Soraya vise les décisionnaires budget (DG, DAF des PME) qui craignent l'impact financier des cyberattaques.</div><div class="err-fix">Identifier le C-Level décisionnaire et adapter le discours aux enjeux business.</div></div>
+<div class="err-card"><div class="err-num">Erreur 3 — Canaux</div><div class="err-title">📸 Instagram &amp; TikTok pour du B2B</div><div class="err-obs">Rejette LinkedIn ("trop cher") sans calculer le CPL réel. Choisit des canaux grand public pour une cible C-Level de niche.</div><div class="err-fix">LinkedIn Ads &amp; Organic + YouTube (webinaires) — les canaux B2B incontournables pour les DG/DAF.</div></div>
+<div class="err-card"><div class="err-num">Erreur 4 — Contenu</div><div class="err-title">🎭 "Images de hackers" pour le buzz</div><div class="err-obs">Contenu spectaculaire et grand public, incompatible avec la crédibilité attendue par une cible dirigeante B2B.</div><div class="err-fix">Livres blancs, études de cas, chiffres sur les risques financiers — l'expertise prime sur le buzz.</div></div>
+<div class="err-card"><div class="err-num">Erreur 5 — Budget</div><div class="err-title">💰 2 000€ tout inclus + Ads "à voir"</div><div class="err-obs">Budget irréaliste pour création + publicité + gestion sur 1 mois. Budget Ads non défini "on verra en milieu de mois" — inacceptable en CODIR.</div><div class="err-fix">Budget basé sur le CPL : en B2B, 1 lead qualifié = 50-150€. Pour 20 leads → 1 000-3 000€ média seul.</div></div>
+<div class="err-card"><div class="err-num">Erreur 6 — KPI</div><div class="err-title">👍 Mesurer les likes et les vues</div><div class="err-obs">500 likes = objectif atteint. Ignore totalement les leads qualifiés, MQL et taux de transformation attendus par Soraya.</div><div class="err-fix">KPIs de conversion : MQL, CPL (Coût par Lead), Taux de transformation — les seuls métriques business.</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Point clé</div>
+<div class="card"><strong style="color:var(--orange)">Principe fondamental :</strong> Un mauvais persona entraîne mécaniquement un mauvais canal → mauvais contenu → budget sous-dimensionné → mauvais KPIs. <strong>Corriger le ciblage en premier aurait évité les 5 erreurs suivantes.</strong><br/><br/>
+<strong style="color:var(--orange)">LinkedIn B2B :</strong> Le CPL LinkedIn est souvent inférieur à Instagram car la cible est qualifiée dès le départ. Pas "le plus cher" — le plus rentable.<br/><br/>
+<strong style="color:var(--orange)">Vanity Metrics :</strong> Les likes font du bien à l'ego mais ne nourrissent pas le pipeline. Tout budget se justifie par CPL × nombre de leads attendus.</div>
+</div>
+</div>
+<div class="tab-panel" id="marketing-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">Les apprenants observent le dialogue Steven/Soraya. Pour chaque échange, ils identifient le comportement problématique, nomment l'erreur, analysent son impact sur la décision de validation budgétaire et proposent une meilleure approche. Un tableau d'analyse structuré (Ressources) sert de grille de travail. Le quiz consolide les apprentissages.</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">Définir les 6 dimensions d'une campagne marketing B2B (savoir-être, ciblage, canaux, contenu, budget, KPIs). Citer les canaux digitaux B2B adaptés à une cible C-Level. Expliquer la différence entre Vanity Metric et KPI de conversion.<div class="verbs"><span class="verb">Définir</span><span class="verb">Citer</span><span class="verb">Expliquer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">Identifier un persona B2B décisionnaire et distinguer ses enjeux de ceux d'un profil technique. Analyser une stratégie de canaux au regard d'une cible et d'un CPL réaliste. Calculer un budget média basé sur le coût par lead. Construire une grille de KPIs de conversion.<div class="verbs"><span class="verb">Identifier</span><span class="verb">Analyser</span><span class="verb">Calculer</span><span class="verb">Construire</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">Adopter une posture d'écoute du décisionnaire avant de proposer une stratégie. Démontrer un esprit critique face aux métriques d'apparence flatteuses. Préparer et structurer une présentation avec rigueur.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Démontrer</span><span class="verb">Préparer</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Scénario dialogué linéaire + tableau d'analyse + quiz (QCM, appariement, classement, vrai/faux, texte à trous)<br/><br/><strong style="color:var(--orange)">Groupement :</strong> Individuel (jeu + quiz) — débriefing collectif possible<br/><br/><strong style="color:var(--orange)">Durée totale :</strong> 10 min module + 10-15 min débriefing formateur<br/><br/><strong style="color:var(--orange)">Évaluation :</strong> Score quiz + tableau d'analyse complété<br/><br/><strong style="color:var(--orange)">Prérequis :</strong> Notions de marketing digital, bases de la stratégie commerciale B2B</div>
+</div>
+</div>
+<div class="tab-panel" id="marketing-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — 6 questions</div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Dès le début de la réunion, le téléphone de Steven sonne. Quelle bonne pratique aurait-il dû appliquer avant la présentation ?</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ok"><span class="mark">✓</span>Couper son téléphone ou activer "Ne pas déranger" avant d'entrer en réunion</div><div class="ans ko"><span class="mark">✗</span>Répondre rapidement puis se réexcuser auprès de Soraya</div><div class="ans ko"><span class="mark">✗</span>Ignorer la sonnerie et continuer à parler</div><div class="expl">💡 Une présentation de validation budgétaire est un moment stratégique. L'interruption signale un manque de respect envers le décisionnaire. Le professionnalisme commence avant d'entrer dans la salle.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque erreur de Steven avec la bonne pratique marketing correspondante.</div><div class="qarrow">▶</div></div><div class="qbody"><table class="match-table"><tr><td class="col-err">Cibler les DSI (profils techniques) alors que les DG/DAF signent le budget</td><td class="col-arrow">→</td><td class="col-fix">Identifier le C-Level (DG, DAF) et adapter le discours aux enjeux financiers</td></tr><tr><td class="col-err">Proposer Instagram et TikTok en rejetant LinkedIn comme "trop cher"</td><td class="col-arrow">→</td><td class="col-fix">Privilégier LinkedIn Ads &amp; YouTube — les canaux B2B incontournables pour les DG/DAF</td></tr><tr><td class="col-err">Vouloir diffuser des "images de hackers" pour créer le buzz</td><td class="col-arrow">→</td><td class="col-fix">Produire du contenu à valeur ajoutée : livres blancs, études de cas, chiffres clés</td></tr><tr><td class="col-err">Mesurer le succès en "likes" et "vues" au lieu des leads qualifiés</td><td class="col-arrow">→</td><td class="col-fix">Définir des KPIs de conversion : MQL, CPL, Taux de transformation</td></tr></table><div class="expl">💡 Chaque erreur est liée : un mauvais persona génère automatiquement un mauvais canal, un mauvais contenu et de mauvais KPIs.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Classement</span><div class="qtext">Classez chaque élément : Erreurs de Steven / Bonnes pratiques B2B.</div><div class="qarrow">▶</div></div><div class="qbody"><div class="class-cols"><div class="class-col red"><div class="class-col-title">❌ Erreurs de Steven</div><div class="class-item">Cibler les DSI plutôt que les DG/DAF décisionnaires</div><div class="class-item">Instagram et TikTok pour une solution B2B de niche</div><div class="class-item">Rejeter LinkedIn sans calculer le CPL réel</div><div class="class-item">"Images de hackers" — contenu inadapté au B2B</div><div class="class-item">Budget 2 000€ tout inclus — irréaliste</div><div class="class-item">Mesurer les likes au lieu des MQL et du CPA</div></div><div class="class-col green"><div class="class-col-title">✓ Bonnes pratiques</div><div class="class-item">LinkedIn Ads &amp; YouTube pour toucher DG/DAF</div><div class="class-item">Budget structuré sur le CPL : 50-150€/lead qualifié</div><div class="class-item">KPIs de conversion : MQL, CPL, Taux de transformation</div></div></div><div class="expl">💡 Une campagne sans tunnel de conversion (contenus → MQL → RDV commercial) ne produit que de la dépense.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Steven annonce 2 000€ tout inclus pour un mois de campagne. Quelle est la bonne approche budgétaire en B2B ?</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ok"><span class="mark">✓</span>Construire un budget basé sur le CPL : en B2B, 1 lead qualifié = 50–150€. Pour 20 leads → 1 000–3 000€ de budget média seul, séparé de la création et gestion</div><div class="ans ko"><span class="mark">✗</span>2 000€ est suffisant en optimisant les contenus organiques</div><div class="ans ko"><span class="mark">✗</span>Ne pas définir de budget précis et ajuster en cours de campagne</div><div class="expl">💡 Un budget "on verra en milieu de mois" ne passe jamais en CODIR. Tout budget se justifie par CPL cible × nombre de leads attendus.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Mesurer la campagne CyberGuard Pro par le nombre de "likes" et "vues" constitue les bons KPIs pour la Direction Commerciale.</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 Les likes et vues sont des Vanity Metrics. La Direction Commerciale attend des MQL, un CPL et un taux de transformation — les seuls indicateurs qui parlent au business.</div></div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">Un contact commercial ayant montré un intérêt suffisant (téléchargement livre blanc, demande de démo) transmissible à l'équipe commerciale s'appelle un _____ (abréviation anglaise).</div><div class="qarrow">▶</div></div><div class="qbody"><div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">MQL — Marketing Qualified Lead</strong></div><div class="expl">💡 Le MQL est le pont entre Marketing et Commerce. Sa génération et son coût (CPL) sont les vrais KPIs d'une campagne B2B.</div></div></div>
+</div>
+</div>
+<div class="tab-panel" id="marketing-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (25 – 30 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Mise en contexte</div><div class="tl-desc">Présenter CyberGuard Pro et les 2 personnages. Distribuer le tableau d'analyse vierge. Expliquer la consigne : repérer 6 erreurs volontaires.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Jeu individuel + tableau d'analyse</div><div class="tl-desc">Les apprenants jouent le scénario et complètent leur tableau en parallèle. Objectif : 6 lignes complètes.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 25 min</div><div class="tl-title">Débriefing collectif</div><div class="tl-desc">Révéler les 6 erreurs une par une. Pour chacune : impact identifié + meilleure approche. Insister sur le lien causal persona → canal → contenu → budget → KPI.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">25 – 35 min</div><div class="tl-title">Quiz de validation</div><div class="tl-desc">6 questions (QCM, appariement, classement, vrai/faux, texte à trous). Insister sur MQL et Vanity Metrics.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">35 – 40 min</div><div class="tl-title">Synthèse — 3 règles d'or</div><div class="tl-desc">(1) Le DG/DAF veut comprendre le risque financier, pas la tech. (2) LinkedIn n'est pas cher — il est rentable en CPL qualifié. (3) Un budget "on verra" ne passe jamais en CODIR.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Ne pas annoncer les 6 erreurs avant le jeu.</strong> La découverte active est plus mémorable qu'un cours magistral.</div></div>
+<div class="tip"><div class="tip-icon">💡</div><div class="tip-text"><strong>Insister sur le lien causal.</strong> Si la cible est DG/DAF, Instagram est mécaniquement le mauvais canal — peu importe son coût.</div></div>
+<div class="tip"><div class="tip-icon">📊</div><div class="tip-text"><strong>Faire calculer le CPL ensemble.</strong> "20 leads × 80€ = 1 600€ de média seul." Steven n'avait pas 2 000€ pour tout.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Variante avancée.</strong> Réécrire le pitch de Steven en corrigeant les 6 erreurs en 3 minutes. Vote collectif sur la meilleure version.</div></div>
+</div>
+</div>
+</div></div><!-- fin content -->
+</div><!-- fin app -->
+<script>
+function sel(id) {
+  document.getElementById('welcome').style.display = 'none';
+  ['marketing','pitch','recrutement','boutique'].forEach(m => {
+    const p = document.getElementById('panel-'+m);
+    const b = document.getElementById('btn-'+m);
+    if(p) p.classList.toggle('active', m===id);
+    if(b) b.classList.toggle('active', m===id);
+  });
+  document.getElementById('content').scrollTop = 0;
+}
+function switchTab(mod, tab) {
+  const panel = document.getElementById('panel-'+mod);
+  if(!panel) return;
+  panel.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+tab+"'"));
+  });
+  panel.querySelectorAll('.tab-panel').forEach(p => {
+    p.classList.toggle('active', p.id === mod+'-'+tab);
+  });
+}
+function toggleQ(card) { card.classList.toggle('open'); }
+</script>
+
+
+
+</body>
+</html>
