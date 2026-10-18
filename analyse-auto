@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grille d'analyse — Vente Automobile Concession</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8; --surface: #fff; --text: #1a1a2e; --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545; --s1-bg: #fef2f2;
+  --s2: #2563eb; --s2-bg: #eff6ff;
+  --tab-active: #1e40af; --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff; --hint-border: #818cf8;
+  --green: #16a34a; --green-bg: #f0fdf4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s2-bg: #111827;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+    --green-bg: #0c1f14;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s2-bg: #111827;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+  --green-bg: #0c1f14;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.page { max-width:1100px; margin:0 auto; padding:2rem 1.25rem; }
+h1 { font-size:1.5rem; font-weight:800; margin-bottom:.3rem; }
+.subtitle { color:var(--muted); font-size:.9rem; margin-bottom:1.5rem; }
+.tabs { display:flex; gap:.5rem; margin-bottom:1.75rem; }
+.tab-btn { padding:.55rem 1.4rem; border-radius:8px; border:none; font-family:inherit; font-size:.85rem; font-weight:600; cursor:pointer; background:var(--tab-bg); color:var(--muted); transition:all .2s; }
+.tab-btn.active { background:var(--tab-active); color:#fff; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.context-box { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.4rem; margin-bottom:1.5rem; font-size:.88rem; }
+.context-box strong { font-weight:700; }
+.level-badge { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-bottom:1rem; text-transform:uppercase; letter-spacing:.04em; }
+.level-bts { background:#dbeafe; color:#1e40af; }
+.level-mastere { background:#ede9fe; color:#5b21b6; }
+
+.g-table { width:100%; border-collapse:separate; border-spacing:0; font-size:.82rem; background:var(--surface); border-radius:10px; overflow:hidden; border:1px solid var(--border); margin-bottom:1.5rem; }
+.g-table thead th { padding:.7rem .9rem; font-weight:700; font-size:.75rem; text-align:left; border-bottom:2px solid var(--border); background:var(--bg); }
+.g-table thead th:first-child { width:20%; }
+.g-table thead th.h1 { color:var(--s1); }
+.g-table thead th.h2 { color:var(--s2); }
+.g-table tbody td { padding:.65rem .9rem; border-bottom:1px solid var(--border); vertical-align:top; }
+.g-table tbody tr:last-child td { border-bottom:none; }
+.g-table tbody td:first-child { font-weight:600; font-size:.78rem; color:var(--muted); }
+.g-table tbody td:nth-child(2) { background:var(--s1-bg); }
+.g-table tbody td:nth-child(3) { background:var(--s2-bg); }
+.write-cell { min-height:55px; }
+.hint-label { font-size:.65rem; font-weight:700; color:var(--hint-border); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.15rem; }
+.hint-box { background:var(--hint-bg); border-left:3px solid var(--hint-border); border-radius:0 8px 8px 0; padding:.5rem .8rem; font-size:.78rem; }
+.tag { display:inline-block; font-size:.65rem; font-weight:700; padding:.12rem .45rem; border-radius:4px; margin-bottom:.25rem; }
+.tag-issue { background:var(--s1); color:#fff; }
+.tag-you { background:var(--s2); color:#fff; }
+
+.q-section { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+.q-section h2 { font-size:1rem; font-weight:700; margin-bottom:.8rem; }
+.q-grid { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+@media (max-width:700px) { .q-grid { grid-template-columns:1fr; } .g-table { font-size:.74rem; } }
+.q-item { padding:.6rem .8rem; border-radius:6px; background:var(--bg); font-size:.83rem; }
+.q-item strong { font-weight:600; }
+.q-item .q-hint { margin-top:.35rem; font-size:.75rem; color:var(--hint-border); font-style:italic; }
+.footer { text-align:center; color:var(--muted); font-size:.72rem; margin-top:2rem; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Grille d'analyse — Entretien de vente en concession automobile</h1>
+<p class="subtitle">Ousmane (vendeur) × Mme Loto (prospect SUV familial) — Identifiez les axes d'amélioration et proposez votre approche</p>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('bts')">BTS / BUT</button>
+  <button class="tab-btn" onclick="switchTab('mastere')">Mastère</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB BTS / BUT — 5 critères + 4 questions -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div id="tab-bts" class="tab-content active">
+
+<span class="level-badge level-bts">Niveau BTS / BUT — 5 critères</span>
+
+<div class="context-box">
+  <strong>Contexte :</strong> Ousmane accueille Mme Loto en concession. Elle cherche un SUV familial, spacieux et économique pour ses trajets quotidiens avec ses enfants. Ousmane lui propose le modèle Vectus Premium à 31 580€. Mme Loto négocie à 27 000€. Ousmane accorde 9,5% de remise (3 000€) en moins de 2 minutes.
+  <br><strong>Consigne :</strong> Pour chaque critère, identifiez l'axe d'amélioration dans la vidéo, puis rédigez votre propre approche.
+</div>
+
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+  <tr>
+    <th>Critère</th>
+    <th class="h1">Scénario 1 — Axes d'amélioration</th>
+    <th class="h2">Votre approche</th>
+  </tr>
+</thead>
+<tbody>
+  <!-- 1 -->
+  <tr>
+    <td>1. Prise de contact</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane connaît le nom de Mme Loto dès le départ, mais que fait-il pour créer du lien humain avant de parler voiture ? Cherchez un moment de "warming" dans le dialogue.</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Comment auriez-vous brisé la glace ? Quelle question personnelle auriez-vous posée avant de parler du véhicule ?</div>
+    </td>
+  </tr>
+  <!-- 2 -->
+  <tr>
+    <td>2. Découverte des besoins</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane demande l'utilisation quotidienne et le budget. Mais pose-t-il des questions sur le véhicule actuel de Mme Loto, ses frustrations, ses critères de sécurité pour ses enfants ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Listez 3 questions supplémentaires que vous auriez posées pour mieux cerner le besoin réel de Mme Loto.</div>
+    </td>
+  </tr>
+  <!-- 3 -->
+  <tr>
+    <td>3. Présentation du véhicule</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane présente les caractéristiques techniques du Vectus (moteur, consommation, options). Mais utilise-t-il les mots de Mme Loto ("familiale", "enfants", "courses") pour relier les caractéristiques à ses besoins concrets ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Reformulez un argument produit d'Ousmane en le reliant directement à un besoin exprimé par Mme Loto.</div>
+    </td>
+  </tr>
+  <!-- 4 -->
+  <tr>
+    <td>4. Traitement de l'objection prix</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Mme Loto propose 27 000€ (vs 31 580€). Ousmane accorde 9,5% de remise en moins de 2 minutes, sans argumenter la valeur ni obtenir de contrepartie. Quel message cela envoie-t-il à la cliente ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Rédigez la réponse que vous auriez faite face à l'objection de 27 000€. Quel argument de valeur et quelle contrepartie auriez-vous proposés ?</div>
+    </td>
+  </tr>
+  <!-- 5 -->
+  <tr>
+    <td>5. Closing et prise de congé</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane propose la remise avec "C'est une offre à saisir de suite !". Observe-t-il les signaux d'achat de Mme Loto avant de conclure ? Propose-t-il une prochaine étape ou un suivi ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Comment auriez-vous conclu la vente ? Quelle technique de closing auriez-vous utilisée et quel suivi auriez-vous mis en place ?</div>
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="q-section">
+  <h2>Questions de réflexion — Analyse en groupe (BTS / BUT)</h2>
+  <div class="q-grid">
+    <div class="q-item">
+      <strong>Q1.</strong> Ousmane accorde 3 000€ de remise en moins de 2 minutes. Si vous étiez Mme Loto, qu'auriez-vous demandé de plus — et pourquoi auriez-vous eu raison de le faire ?
+      <div class="q-hint">Indice : quand un vendeur cède aussi vite, quelle perception cela crée-t-il chez l'acheteur ?</div>
+    </div>
+    <div class="q-item">
+      <strong>Q2.</strong> Ousmane dit : "C'est un prix très compétitif comparé à d'autres marques." Est-ce un argument de valeur ou un argument de positionnement ? Quelle est la différence ?
+      <div class="q-hint">Indice : un argument de valeur parle du client, un argument de positionnement parle du marché.</div>
+    </div>
+    <div class="q-item">
+      <strong>Q3.</strong> Mme Loto mentionne ses enfants et les activités scolaires. Ousmane n'utilise jamais ce mot dans son argumentation. Rédigez une phrase qui intègre "vos enfants" dans la présentation du coffre du Vectus.
+      <div class="q-hint">Indice : "Avec 520 litres de coffre, vous chargez le cartable, le sac de sport et la poussette sans rabattre les sièges."</div>
+    </div>
+    <div class="q-item">
+      <strong>Q4.</strong> Ousmane propose un essai routier pendant l'entretien. Que pourrait-il observer pendant cet essai pour renforcer son argumentation au retour ?
+      <div class="q-hint">Indice : les réactions spontanées de Mme Loto (confort, silence, visibilité) sont des signaux d'achat à reformuler.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- fin tab-bts -->
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB MASTÈRE — 9 critères + 4 questions -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div id="tab-mastere" class="tab-content">
+
+<span class="level-badge level-mastere">Niveau Mastère — 9 critères</span>
+
+<div class="context-box">
+  <strong>Contexte :</strong> Ousmane × Mme Loto — SUV Vectus Premium à 31 580€. Mme Loto négocie à 27 000€. Remise de 9,5% accordée en moins de 2 minutes sans argumentation ni contrepartie.
+  <br><strong>Consigne :</strong> Pour chaque critère, identifiez l'axe d'amélioration puis rédigez votre approche alternative. Les indices orientent votre analyse — l'argumentation complète est la vôtre.
+</div>
+
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+  <tr>
+    <th>Critère</th>
+    <th class="h1">Scénario 1 — Axes d'amélioration</th>
+    <th class="h2">Votre approche</th>
+  </tr>
+</thead>
+<tbody>
+  <!-- 1 -->
+  <tr>
+    <td>1. Prise de contact et création de lien</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane passe directement au besoin véhicule. Pas de question personnelle, pas de warming, pas de café. Quel impact sur le capital confiance ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Rédigez vos 3 premières phrases d'accueil, incluant un élément de personnalisation et de chaleur humaine.</div>
+    </td>
+  </tr>
+  <!-- 2 -->
+  <tr>
+    <td>2. Qualité de la découverte (méthode SPIN)</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane pose des questions de Situation (usage, budget) mais aucune question de Problème (frustrations), d'Implication (conséquences) ni de Need-Payoff (projection). Quelle profondeur de découverte manque-t-il ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Rédigez 1 question pour chaque type SPIN adaptée au contexte de Mme Loto.</div>
+    </td>
+  </tr>
+  <!-- 3 -->
+  <tr>
+    <td>3. Argumentation CAB (Caractéristique → Avantage → Bénéfice)</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane énonce des caractéristiques ("5L/100km", "150 chevaux") sans les transformer en bénéfices clients. Où s'arrête-t-il dans la chaîne CAB ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Transformez "5L/100km en cycle mixte" en argumentation CAB complète pour Mme Loto.</div>
+    </td>
+  </tr>
+  <!-- 4 -->
+  <tr>
+    <td>4. Utilisation du vocabulaire client</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Mme Loto dit "familiale", "enfants", "activités scolaires", "courses". Ousmane utilise "espace généreux", "sièges rabattables", "coffre large". Repère-t-il ses mots clés et les réutilise-t-il ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Reformulez la présentation du coffre en intégrant les mots exacts de Mme Loto.</div>
+    </td>
+  </tr>
+  <!-- 5 -->
+  <tr>
+    <td>5. Traitement de l'objection prix</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Remise de 9,5% en moins de 2 minutes, sans résistance, sans argument de valeur, sans contrepartie. Analysez l'impact sur la perception du prix par Mme Loto et sur la marge de la concession.</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Quelle séquence de traitement d'objection auriez-vous appliquée ? (Valider → Questionner → Argumenter valeur → Contrepartie)</div>
+    </td>
+  </tr>
+  <!-- 6 -->
+  <tr>
+    <td>6. Négociation et contreparties</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Ousmane accorde la remise sans rien demander en échange (ni reprise, ni engagement financement, ni accessoires). Calculez la valeur de ce qu'il laisse sur la table.</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Proposez 3 contreparties qu'Ousmane aurait pu demander en échange de la remise de 3 000€.</div>
+    </td>
+  </tr>
+  <!-- 7 -->
+  <tr>
+    <td>7. Exploitation de l'essai routier</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">L'essai est mentionné mais pas exploité. Au retour, Ousmane demande "Qu'avez-vous pensé ?" — question fermée qui n'ouvre rien. Comment transformer l'essai en levier de closing ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Rédigez 3 questions post-essai qui transforment les réactions de Mme Loto en arguments de vente.</div>
+    </td>
+  </tr>
+  <!-- 8 -->
+  <tr>
+    <td>8. Technique de closing</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">"C'est une offre à saisir de suite !" — fausse urgence. Ousmane utilise-t-il une alternative fermée, un récapitulatif des bénéfices, ou une projection dans l'usage ? Quelle technique serait plus adaptée ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Rédigez votre closing en utilisant la technique de l'alternative fermée ou du récapitulatif bénéfices.</div>
+    </td>
+  </tr>
+  <!-- 9 -->
+  <tr>
+    <td>9. Soft skills et posture commerciale</td>
+    <td>
+      <div class="hint-label">Indice</div>
+      <div class="hint-box">Écoute active présente mais partielle (pas de reformulation). Empathie visible mais absence de fermeté sur le prix. Communication adaptée mais argumentation trop technique. Quel soft skill manque pour transformer l'entretien ?</div>
+    </td>
+    <td class="write-cell">
+      <div class="hint-label">À vous</div>
+      <div class="hint-box">Identifiez le soft skill dominant d'Ousmane, celui qui lui manque, et expliquez comment ce manque impacte le résultat final.</div>
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="q-section">
+  <h2>Questions de réflexion — Analyse en groupe (Mastère)</h2>
+  <div class="q-grid">
+    <div class="q-item">
+      <strong>Q1.</strong> Ousmane ne pose aucune question SPIN de type "Implication" ni "Need-Payoff". Rédigez une question d'Implication et une question de Need-Payoff adaptées au contexte de Mme Loto (sécurité enfants, budget carburant).
+      <div class="q-hint">Indice : Implication = "Si votre voiture actuelle n'a pas d'Isofix, quel impact..." · Need-Payoff = "Si vous économisiez 80€/mois en carburant, comment..."</div>
+    </div>
+    <div class="q-item">
+      <strong>Q2.</strong> Calculez la marge perdue par Ousmane en accordant 9,5% de remise sans contrepartie. Puis calculez ce qu'il aurait conservé en négociant un financement maison (marge sur le crédit) + pack accessoires (tapis, barres de toit).
+      <div class="q-hint">Indice : marge directe perdue = 3 000€. Marge financement estimée = 800-1 200€ sur 48 mois. Pack accessoires = 400-600€ de marge brute.</div>
+    </div>
+    <div class="q-item">
+      <strong>Q3.</strong> Mme Loto dit "Je suis prête à négocier un peu" et Ousmane répond "Quel prix aviez-vous en tête ?" — il donne le pouvoir de négociation au client. Quelle question alternative aurait maintenu l'initiative du côté du vendeur ?
+      <div class="q-hint">Indice : au lieu de demander le prix du client, demandez ce qui est important pour lui au-delà du prix (financement, reprise, équipement).</div>
+    </div>
+    <div class="q-item">
+      <strong>Q4.</strong> Si vous étiez le directeur de la concession et que vous visionniez cet entretien, quels sont les 3 points de coaching prioritaires que vous aborderiez avec Ousmane lors du débrief ?
+      <div class="q-hint">Indice : pensez en termes de compétences (découverte), de posture (fermeté) et de process (contreparties systématiques).</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- fin tab-mastere -->
+
+<p class="footer">Avatar Sales Academy — Grille d'analyse vente automobile · Ousmane × Mme Loto · BTS/BUT & Mastère</p>
+
+</div>
+<script>
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="'+t+'"]').classList.add('active');
+}
+</script>
+</body>
+</html>
