@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Trainer Key — Analysis Grids</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+</style></head><body><div class="page">
+<h1>Trainer Key — CRM Negotiation Analysis Grids <span class="teacher">Trainer</span></h1>
+<p class="subtitle">Célia (CRM sales rep) × Arhan (SME Sales Director) — Scenario 1 vs Scenario 2</p>
+<div class="tabs"><button class="tab-btn active" onclick="switchTab('bts')">BTS / BUT</button><button class="tab-btn" onclick="switchTab('mastere')">Master's</button></div>
+<div class="tab-content active" id="tab-bts"><span class="level-badge level-bts">BTS / BUT level — 5 criteria + verdict</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Criterion</th><th class="h1">Scenario 1</th><th class="h1">Scenario 2</th></tr></thead><tbody><tr><td>1. Célia's overall approach</td><td class="ans">Reactive: she chains concessions one after another (volume discount, preferential rate, 5% discount). <b>Arhan leads the negotiation.</b></td><td class="ans"><b>Value first, price second</b>: Célia quantifies the ROI (+10% customer retention) before talking about discounts, then proposes a win-win framework. <b>Célia stays in control.</b></td></tr><tr><td>2. How Célia handles the price objection</td><td class="ans">She gives way very quickly: a 2-year contract + preferential rate are offered almost immediately, then another discount as soon as Arhan asks for more.</td><td class="ans">She <b>reframes around ROI</b> before any discount: by quantifying the business impact, Arhan himself puts the price in perspective (cost becomes investment).</td></tr><tr><td>3. What Célia gets in return</td><td class="ans">2-year commitment + 10 licences + testimonial… but the testimonial is <b>offered by Arhan</b>, not obtained by Célia. 3 concessions with no proportionate return.</td><td class="ans">Customer logo + testimonial + 3-year commitment in exchange for 12%. <b>Every concession is matched by a return of higher value</b>, proposed by Célia.</td></tr><tr><td>4. Length of the commitment obtained</td><td class="ans"><b>2 years.</b></td><td class="ans"><b>3 years</b> — the longest relationship, made acceptable by the demonstrated ROI and the win-win balance.</td></tr><tr><td>5. Célia's sales stance</td><td class="ans"><b>Accommodating</b>: Arhan only has to ask to get. Risk: it sets a precedent for future renegotiations.</td><td class="ans"><b>Proactive</b>: Célia proposes the framework, Arhan approves. More effective because she sets the rules instead of following them.</td></tr><tr class="verdict-row"><td>Verdict</td><td>❌ Sale closed but margin sacrificed: Célia gives more than she gets.</td><td>✅ Best scenario: quantified ROI, high-value concessions in return, long commitment, margin protected.</td></tr></tbody></table></div><div class="q-section"><h2>Discussion Questions — Model Answers (BTS / BUT)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> In scenario 1, Célia makes 3 successive concessions. If you were Arhan, what more would you have asked for?<div class="q-ans"><b>Model answer points:</b> Go further: extra discount, free services or longer support. Three concessions in a row signal wide room to manoeuvre; a savvy buyer would push harder since nothing is asked in return.</div></div><div class="q-item"><strong>Q2.</strong> In scenario 2, Arhan refuses a 2-year commitment… What intermediate length could Célia have proposed?<div class="q-ans"><b>Model answer points:</b> Idea: an intermediate length (e.g. 18 months) or 2 years with an exit/review clause at 12 months, in exchange for something (testimonial, logo, reference). <i>Adapt to the exact dialogue of the scenario.</i></div></div><div class="q-item"><strong>Q3.</strong> What is the precise moment in scenario 2 when Arhan sees the price as an investment?<div class="q-ans"><b>Model answer points:</b> The moment Célia quantifies the impact of the "+10% retention" on revenue, before moving on to the discount: the price is then compared with the gain, not with the budget.</div></div><div class="q-item"><strong>Q4.</strong> In an ideal negotiation, what would Célia's first 3 actions be?<div class="q-ans"><b>Model answer points:</b> 1) Quantify the ROI. 2) Propose the framework herself with returns (logo, testimonial). 3) Secure a long commitment (3 years) in exchange for a capped discount.</div></div></div></div></div>
+<div class="tab-content" id="tab-mastere"><span class="level-badge level-mastere">Master's level — 9 criteria + verdict</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Criterion</th><th class="h1">Scenario 1</th><th class="h1">Scenario 2</th></tr></thead><tbody><tr><td>1. Célia's overall approach</td><td class="ans">Reactive: she chains concessions one after another (volume discount, preferential rate, 5% discount). <b>Arhan leads the negotiation.</b></td><td class="ans"><b>Value first, price second</b>: Célia quantifies the ROI (+10% customer retention) before talking about discounts, then proposes a win-win framework. <b>Célia stays in control.</b></td></tr><tr><td>2. Quality of discovery</td><td class="ans">Restates the needs already identified, <b>without any new exploration</b>.</td><td class="ans">Rephrases the needs <b>and</b> projects the quantified ROI (+10% retention).</td></tr><tr><td>3. Handling the price objection</td><td class="ans">2-year contract + preferential rate + 5% discount: <b>three margin levers used up</b> quickly.</td><td class="ans">ROI presented <b>before</b> the price: a decisive sequence in consultative selling — the price is judged against the value.</td></tr><tr><td>4. Concessions obtained in return</td><td class="ans">Testimonial only, offered by Arhan: the balance of power tips towards the customer.</td><td class="ans">Logo + testimonial + 3 years for 12%: high marketing value in return, so the discount is "worth it".</td></tr><tr><td>5. Célia's sales stance</td><td class="ans"><b>Accommodating</b>: Arhan only has to ask to get. Risk: it sets a precedent for future renegotiations.</td><td class="ans"><b>Proactive</b>: Célia proposes the framework, Arhan approves. More effective because she sets the rules instead of following them.</td></tr><tr><td>6. Margin protection</td><td class="ans">Margin heavily eroded: <b>triple concession</b> (volume + preferential rate + 5%) with no resistance.</td><td class="ans">Optimised margin: 12% discount offset by 3 years of secured revenue + marketing visibility.</td></tr><tr><td>7. Length of commitment</td><td class="ans"><b>2 years</b>: customer acquisition cost amortised over a shorter period.</td><td class="ans"><b>3 years</b>: acquisition cost better amortised, revenue visibility, customer retained for longer.</td></tr><tr><td>8. Non-financial value</td><td class="ans">Testimonial only, <b>unsolicited</b> (offered by the customer).</td><td class="ans">Usable logo + testimonial + long-term commitment = <b>lasting marketing asset</b>, comparable to a communications budget.</td></tr><tr><td>9. Dominant soft skill</td><td class="ans">Active listening present but <b>lacking firmness</b>: empathy is not turned into results.</td><td class="ans"><b>Situational intelligence / results orientation</b>: reframes through ROI and makes proposals before Arhan asks.</td></tr><tr class="verdict-row"><td>Verdict</td><td>❌ Margin sacrificed: Célia gives more than she gets.</td><td>✅ Quantified ROI + high-value concessions + long commitment + margin protected.</td></tr></tbody></table></div><div class="q-section"><h2>Discussion Questions — Model Answers (Master's)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> Which scenario best applies "separate the people from the problem" (Fisher & Ury)?<div class="q-ans"><b>Model answer points:</b> Scenario 2: Célia rephrases Arhan's interests (growth, retention) before defending her own, and builds a joint solution rather than a power struggle.</div></div><div class="q-item"><strong>Q2.</strong> Calculate the revenue secured in each scenario.<div class="q-ans"><b>Model answer points:</b> Method: base price × (1 − discount) × length × licences. Scenario 2 secures 3 years with a 12% discount; scenario 1 only 2 years, with cumulative discounts (volume + preferential rate + 5%). Scenario 2 generates the most net value, before counting the marketing value.</div></div><div class="q-item"><strong>Q3.</strong> SPIN counter-argument to the "flexibility" objection (refusal of the 2-year term).<div class="q-ans"><b>Model answer points:</b> S: "You use your CRM every day…" P: "Is switching tools easy?" I: "Migration, training, data loss: what would it cost?" N: "Would a commitment guaranteeing price and support give you more peace of mind?" <i>Adapt to the scenario's dialogue.</i></div></div><div class="q-item"><strong>Q4.</strong> Which scenario would Arhan's CEO approve most easily?<div class="q-ans"><b>Model answer points:</b> Scenario 2: best value-for-investment ratio (demonstrated ROI) and the security of a 3-year commitment, with a discount justified by what is received in return.</div></div></div></div></div>
+<p class="footer">Avatar Sales Academy — Trainer key, CRM negotiation analysis grids · Célia × Arhan · BTS BUT &amp; Master's</p></div>
+<script>function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelector('.tab-btn[onclick*="'+t+'"]').classList.add('active');}</script></body></html>
