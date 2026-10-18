@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Trainer Key — Car Dealership Sales</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+</style></head><body><div class="page">
+<h1>Trainer Key — Analysis Grid: Car Dealership Sales Interview <span class="teacher">Trainer</span></h1>
+<p class="subtitle">Ousmane (salesperson) × Ms Loto (Vectus Premium family SUV at €31,580, negotiated to €27,000 — 9.5% / €3,000 discount in under 2 minutes)</p>
+<div class="tabs"><button class="tab-btn active" onclick="switchTab('bts')">BTS / BUT</button><button class="tab-btn" onclick="switchTab('mastere')">Master's</button></div>
+<div class="tab-content active" id="tab-bts"><span class="level-badge level-bts">BTS / BUT level — 5 criteria</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Criterion</th><th class="h1">Areas for improvement — expected answer</th><th class="h1">Model approach — sample answer</th></tr></thead><tbody><tr><td>1. Making contact</td><td class="ans">Ousmane knows Ms Loto's name but goes straight to the vehicle: <b>no "warming"</b> (no personal question, no moment of friendliness). The human connection is not built before the technical part.</td><td class="ans">"Hello Ms Loto, thank you for coming. Did you find us easily? Let's sit down — can I offer you a coffee? Before we talk cars, tell me a little about your daily life."</td></tr><tr><td>2. Needs discovery</td><td class="ans">Questions limited to daily use and budget. <b>He does not explore</b> her current vehicle, her frustrations or her children's safety criteria.</td><td class="ans">"What no longer suits you about your current car?" · "Which safety features are essential for your children?" · "How many trips a week, and over what distances?"</td></tr><tr><td>3. Vehicle presentation</td><td class="ans"><b>Technical</b> presentation (engine, consumption, options) without using the customer's words ("family", "children", "shopping"). Features are not linked to her needs.</td><td class="ans">"With 520 litres of boot space, you load the school bags, the sports bag and the shopping without folding the seats down — perfect for your trips with the children."</td></tr><tr><td>4. Handling the price objection</td><td class="ans"><b>9.5% discount (€3,000) in under 2 minutes</b>, with no value argument and nothing in return. Message sent: the initial price was inflated and everything is negotiable.</td><td class="ans">"I understand the budget matters. What is most important to you beyond price? This vehicle meets your safety and space criteria. If I can make a gesture, it would be in exchange for financing with us or a trade-in of your vehicle."</td></tr><tr><td>5. Closing and farewell</td><td class="ans">"This is an offer to grab right now!": <b>false urgency</b>, buying signals not observed, no next step or follow-up proposed.</td><td class="ans">Benefits summary, then closed alternative: "Would you prefer delivery at the end of this month or the start of next?" Follow-up: call at D+2, reminder before delivery, handover appointment.</td></tr></tbody></table></div><div class="q-section"><h2>Discussion Questions — Model Answers (BTS / BUT)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> Ousmane grants €3,000 in under 2 minutes. What more would you have asked for as Ms Loto?<div class="q-ans"><b>Model answer points:</b> Go further: extra discount, free accessories, servicing or warranty. A salesperson who gives way quickly reveals a large margin; the buyer concludes there is still more to get.</div></div><div class="q-item"><strong>Q2.</strong> "Very competitive price compared to other brands": value argument or positioning argument?<div class="q-ans"><b>Model answer points:</b> It is a <b>positioning</b> argument (it talks about the market). A <b>value</b> argument talks about the customer: "This model saves you €80 a month and protects your children."</div></div><div class="q-item"><strong>Q3.</strong> Write a sentence that works "your children" into the presentation of the boot.<div class="q-ans"><b>Model answer points:</b> "With 520 litres of boot space, you load your children's school bags, the sports bag and the pushchair without folding the seats down."</div></div><div class="q-item"><strong>Q4.</strong> What could Ousmane observe during the test drive?<div class="q-ans"><b>Model answer points:</b> Ms Loto's spontaneous reactions: comfort, quietness, visibility, ease of manoeuvring, glances to the rear seats. These are buying signals to rephrase on return ("You seemed to appreciate the visibility…").</div></div></div></div></div>
+<div class="tab-content" id="tab-mastere"><span class="level-badge level-mastere">Master's level — 9 criteria</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Criterion</th><th class="h1">Areas for improvement — expected answer</th><th class="h1">Model approach — sample answer</th></tr></thead><tbody><tr><td>1. Making contact</td><td class="ans">Ousmane knows Ms Loto's name but goes straight to the vehicle: <b>no "warming"</b> (no personal question, no moment of friendliness). The human connection is not built before the technical part.</td><td class="ans">"Hello Ms Loto, delighted to welcome you. We have time — would you like a coffee? Did you come far? Tell me what brings you here today." (first name + friendliness + open question)</td></tr><tr><td>2. Quality of discovery (SPIN)</td><td class="ans">Only <b>Situation</b> questions (use, budget). Problem (frustrations), Implication (consequences) and Need-Payoff (projection of benefits) are missing.</td><td class="ans"><b>S</b>: "How many trips do you make per week?" · <b>P</b>: "What bothers you about your current car?" · <b>I</b>: "When it's full, how do you manage school bags and shopping?" · <b>N</b>: "If you saved €80 a month on fuel, what would you do with that budget?"</td></tr><tr><td>3. FAB argumentation</td><td class="ans">He states <b>features</b> ("5L/100km", "150 horsepower") and stops there: no advantage, no customer benefit.</td><td class="ans"><b>F</b>: 5L/100km combined cycle · <b>A</b>: lower consumption at every fill-up · <b>B</b>: "around €80 saved per month on your daily trips — a budget for your children's activities".</td></tr><tr><td>4. Use of the customer's vocabulary</td><td class="ans">Ms Loto says "family", "children", "school activities", "shopping". Ousmane answers with <b>his</b> words ("generous space", "large boot"): <b>he does not pick up her key words</b>.</td><td class="ans">"For your shopping and your children's things for their school activities, the 520 L boot means you don't have to fold the seats down."</td></tr><tr><td>5. Handling the price objection</td><td class="ans">Immediate 9.5% concession with no resistance, value argument or return. Effect: the price loses credibility and the dealership's margin is eroded.</td><td class="ans"><b>Acknowledge</b> ("I understand") → <b>Question</b> ("What matters to you beyond price?") → <b>Argue the value</b> (safety, fuel savings, space) → <b>Concession in return</b> (financing, trade-in, accessories).</td></tr><tr><td>6. Negotiation and concessions in return</td><td class="ans">€3,000 discount granted <b>without asking for anything</b>: no trade-in, no in-house financing, no accessories. Value left on the table: at least €3,000 of direct margin, plus ancillary margins not captured.</td><td class="ans">Examples: 1) <b>in-house financing</b>; 2) <b>trade-in</b> of the old vehicle; 3) <b>accessories pack</b> (mats, roof bars); or an extended warranty / maintenance contract.</td></tr><tr><td>7. Making the most of the test drive</td><td class="ans">Test drive mentioned but not exploited; on return: "What did you think?" — a <b>closed question</b> that opens nothing. Spontaneous reactions are neither observed nor rephrased.</td><td class="ans">"What did you like most during the drive?" · "How did you find the visibility and comfort for your children?" · "Can you picture doing your daily trips in it?"</td></tr><tr><td>8. Closing technique</td><td class="ans">"Offer to grab right now!": false urgency. <b>No closed alternative, no benefits summary</b>, no projection into everyday use.</td><td class="ans">Summary + closed alternative: "You liked the space, the safety and the fuel savings. Would you prefer financing over 48 months or paying cash? Delivery at the end of this month or the start of next?"</td></tr><tr><td>9. Soft skills and sales stance</td><td class="ans">Active listening <b>partial</b> (no rephrasing), empathy without firmness on price, communication adapted but too technical. <b>Dominant soft skill</b>: empathy / service mindset. <b>Missing soft skill</b>: critical thinking and commercial firmness (results orientation).</td><td class="ans">Empathy without firmness leads to a quick concession: the customer gets €3,000 with no effort and the salesperson loses credibility and margin. A balanced salesperson listens, rephrases, <b>then holds the price in exchange for concessions</b>.</td></tr></tbody></table></div><div class="q-section"><h2>Discussion Questions — Model Answers (Master's)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> Write one Implication and one Need-Payoff question.<div class="q-ans"><b>Model answer points:</b> <b>Implication</b>: "If your current car has no Isofix, what impact does that have on your children's safety day to day?" · <b>Need-Payoff</b>: "If you saved €80 a month on fuel, how would you use that budget?"</div></div><div class="q-item"><strong>Q2.</strong> Calculate the margin lost with 9.5% and nothing in return, then what financing + accessories would allow.<div class="q-ans"><b>Model answer points:</b> Margin lost: <b>€3,000</b> outright. With in-house financing (€800–1,200 margin) + accessories pack (€400–600): <b>€1,200 to €1,800</b> of additional margin. With the discount brought down to ~€1,500, the net impact is close to zero or even positive, and the customer feels she has negotiated.</div></div><div class="q-item"><strong>Q3.</strong> "I'm ready to negotiate a little" → "What price did you have in mind?" What alternative question?<div class="q-ans"><b>Model answer points:</b> "What is important to you beyond price?" (financing, trade-in, equipment). The salesperson keeps the initiative and opens the negotiation on overall value, not just price.</div></div><div class="q-item"><strong>Q4.</strong> What are the 3 priority coaching points for Ousmane?<div class="q-ans"><b>Model answer points:</b> 1) <b>Skills</b>: deepen discovery (full SPIN). 2) <b>Stance</b>: firmness on price, no giving way without arguing the value. 3) <b>Process</b>: systematic concessions in return for every discount, and exploiting the test drive.</div></div></div></div></div>
+<p class="footer">Avatar Sales Academy — Trainer key, car dealership sales analysis grid · Ousmane × Ms Loto · BTS BUT &amp; Master's</p></div>
+<script>function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelector('.tab-btn[onclick*="'+t+'"]').classList.add('active');}</script></body></html>
