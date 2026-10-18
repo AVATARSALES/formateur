@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Analysis Grid — Car Dealership Sales Interview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8; --surface: #fff; --text: #1a1a2e; --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545; --s1-bg: #fef2f2;
+  --s2: #2563eb; --s2-bg: #eff6ff;
+  --tab-active: #1e40af; --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff; --hint-border: #818cf8;
+  --green: #16a34a; --green-bg: #f0fdf4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s2-bg: #111827;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+    --green-bg: #0c1f14;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s2-bg: #111827;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+  --green-bg: #0c1f14;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.page { max-width:1100px; margin:0 auto; padding:2rem 1.25rem; }
+h1 { font-size:1.5rem; font-weight:800; margin-bottom:.3rem; }
+.subtitle { color:var(--muted); font-size:.9rem; margin-bottom:1.5rem; }
+.tabs { display:flex; gap:.5rem; margin-bottom:1.75rem; }
+.tab-btn { padding:.55rem 1.4rem; border-radius:8px; border:none; font-family:inherit; font-size:.85rem; font-weight:600; cursor:pointer; background:var(--tab-bg); color:var(--muted); transition:all .2s; }
+.tab-btn.active { background:var(--tab-active); color:#fff; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.context-box { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.4rem; margin-bottom:1.5rem; font-size:.88rem; }
+.context-box strong { font-weight:700; }
+.level-badge { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-bottom:1rem; text-transform:uppercase; letter-spacing:.04em; }
+.level-bts { background:#dbeafe; color:#1e40af; }
+.level-mastere { background:#ede9fe; color:#5b21b6; }
+
+.g-table { width:100%; border-collapse:separate; border-spacing:0; font-size:.82rem; background:var(--surface); border-radius:10px; overflow:hidden; border:1px solid var(--border); margin-bottom:1.5rem; }
+.g-table thead th { padding:.7rem .9rem; font-weight:700; font-size:.75rem; text-align:left; border-bottom:2px solid var(--border); background:var(--bg); }
+.g-table thead th:first-child { width:20%; }
+.g-table thead th.h1 { color:var(--s1); }
+.g-table thead th.h2 { color:var(--s2); }
+.g-table tbody td { padding:.65rem .9rem; border-bottom:1px solid var(--border); vertical-align:top; }
+.g-table tbody tr:last-child td { border-bottom:none; }
+.g-table tbody td:first-child { font-weight:600; font-size:.78rem; color:var(--muted); }
+.g-table tbody td:nth-child(2) { background:var(--s1-bg); }
+.g-table tbody td:nth-child(3) { background:var(--s2-bg); }
+.write-cell { min-height:55px; }
+.hint-label { font-size:.65rem; font-weight:700; color:var(--hint-border); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.15rem; }
+.hint-box { background:var(--hint-bg); border-left:3px solid var(--hint-border); border-radius:0 8px 8px 0; padding:.5rem .8rem; font-size:.78rem; }
+.tag { display:inline-block; font-size:.65rem; font-weight:700; padding:.12rem .45rem; border-radius:4px; margin-bottom:.25rem; }
+.tag-issue { background:var(--s1); color:#fff; }
+.tag-you { background:var(--s2); color:#fff; }
+
+.q-section { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+.q-section h2 { font-size:1rem; font-weight:700; margin-bottom:.8rem; }
+.q-grid { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+@media (max-width:700px) { .q-grid { grid-template-columns:1fr; } .g-table { font-size:.74rem; } }
+.q-item { padding:.6rem .8rem; border-radius:6px; background:var(--bg); font-size:.83rem; }
+.q-item strong { font-weight:600; }
+.q-item .q-hint { margin-top:.35rem; font-size:.75rem; color:var(--hint-border); font-style:italic; }
+.footer { text-align:center; color:var(--muted); font-size:.72rem; margin-top:2rem; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Analysis Grid — Car Dealership Sales Interview</h1>
+<p class="subtitle">Ousmane (salesperson) × Ms Loto (family SUV prospect) — Identify the areas for improvement and propose your own approach</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS / BUT</button>
+<button class="tab-btn" onclick="switchTab('mastere')">Master's</button>
+</div>
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB BTS / BUT — 5 critères + 4 questions -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">BTS / BUT level — 5 criteria</span>
+<div class="context-box">
+<strong>Context:</strong> Ousmane welcomes Ms Loto at the dealership. She is looking for a spacious, economical family SUV for her daily trips with her children. Ousmane offers her the Vectus Premium at €31,580. Ms Loto negotiates down to €27,000. Ousmane grants a 9.5% discount (€3,000) in under 2 minutes.
+  <br/><strong>Instructions:</strong> For each criterion, identify the area for improvement in the video, then write your own approach.
+</div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Criterion</th>
+<th class="h1">Scenario 1 — Areas for improvement</th>
+<th class="h2">Your approach</th>
+</tr>
+</thead>
+<tbody>
+<!-- 1 -->
+<tr>
+<td>1. Making contact</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane knows Ms Loto's name from the start, but what does he do to build a human connection before talking about cars? Look for a "warming" moment in the dialogue.</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">How would you have broken the ice? What personal question would you have asked before talking about the vehicle?</div>
+</td>
+</tr>
+<!-- 2 -->
+<tr>
+<td>2. Needs discovery</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane asks about daily use and budget. But does he ask about Ms Loto's current vehicle, her frustrations, her safety criteria for her children?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">List 3 additional questions you would have asked to better understand Ms Loto's real need.</div>
+</td>
+</tr>
+<!-- 3 -->
+<tr>
+<td>3. Vehicle presentation</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane presents the Vectus's technical features (engine, consumption, options). But does he use Ms Loto's own words ("family", "children", "shopping") to link the features to her concrete needs?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Rephrase one of Ousmane's product arguments by linking it directly to a need expressed by Ms Loto.</div>
+</td>
+</tr>
+<!-- 4 -->
+<tr>
+<td>4. Handling the price objection</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ms Loto offers €27,000 (vs €31,580). Ousmane grants a 9.5% discount in under 2 minutes, without arguing the value or getting anything in return. What message does this send to the customer?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Write the response you would have given to the €27,000 objection. What value argument and what concession in return would you have proposed?</div>
+</td>
+</tr>
+<!-- 5 -->
+<tr>
+<td>5. Closing and farewell</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane presents the discount with "This is an offer to grab right now!" Does he notice Ms Loto's buying signals before closing? Does he propose a next step or a follow-up?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">How would you have closed the sale? What closing technique would you have used and what follow-up would you have put in place?</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Discussion Questions — Group Analysis (BTS / BUT)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Ousmane grants a €3,000 discount in under 2 minutes. If you were Ms Loto, what more would you have asked for — and why would you have been right to do so?
+      <div class="q-hint">Hint: when a salesperson gives way this quickly, what perception does it create in the buyer?</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Ousmane says: "It's a very competitive price compared to other brands." Is this a value argument or a positioning argument? What is the difference?
+      <div class="q-hint">Hint: a value argument is about the customer, a positioning argument is about the market.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Ms Loto mentions her children and their school activities. Ousmane never uses this word in his argument. Write a sentence that works "your children" into the presentation of the Vectus's boot.
+      <div class="q-hint">Hint: "With 520 litres of boot space, you can load the school bag, the sports bag and the pushchair without folding the seats down."</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Ousmane suggests a test drive during the meeting. What could he observe during the drive to strengthen his argument on the way back?
+      <div class="q-hint">Hint: Ms Loto's spontaneous reactions (comfort, quietness, visibility) are buying signals to rephrase.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB MASTÈRE — 9 critères + 4 questions -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-mastere">
+<span class="level-badge level-mastere">Master's level — 9 criteria</span>
+<div class="context-box">
+<strong>Context:</strong> Ousmane × Ms Loto — Vectus Premium SUV at €31,580. Ms Loto negotiates down to €27,000. A 9.5% discount is granted in under 2 minutes with no argument and nothing in return.
+  <br/><strong>Instructions:</strong> For each criterion, identify the area for improvement, then write your alternative approach. The hints steer your analysis — the full argument is yours.
+</div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Criterion</th>
+<th class="h1">Scenario 1 — Areas for improvement</th>
+<th class="h2">Your approach</th>
+</tr>
+</thead>
+<tbody>
+<!-- 1 -->
+<tr>
+<td>1. Making contact and building rapport</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane goes straight to the vehicle need. No personal question, no warming, no coffee. What impact does this have on trust?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Write your first 3 welcome sentences, including a personalised touch and some human warmth.</div>
+</td>
+</tr>
+<!-- 2 -->
+<tr>
+<td>2. Quality of discovery (SPIN method)</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane asks Situation questions (use, budget) but no Problem questions (frustrations), Implication questions (consequences) or Need-Payoff questions (projection). What depth of discovery is missing?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Write 1 question for each SPIN type, adapted to Ms Loto's context.</div>
+</td>
+</tr>
+<!-- 3 -->
+<tr>
+<td>3. FAB argumentation (Feature → Advantage → Benefit)</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane states features ("5L/100km", "150 horsepower") without turning them into customer benefits. Where does he stop in the FAB chain?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Turn "5L/100km combined cycle" into a complete FAB argument for Ms Loto.</div>
+</td>
+</tr>
+<!-- 4 -->
+<tr>
+<td>4. Use of the customer's vocabulary</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ms Loto says "family", "children", "school activities", "shopping". Ousmane uses "generous space", "folding seats", "large boot". Does he pick up her key words and reuse them?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Rephrase the boot presentation using Ms Loto's exact words.</div>
+</td>
+</tr>
+<!-- 5 -->
+<tr>
+<td>5. Handling the price objection</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">9.5% discount in under 2 minutes, with no resistance, no value argument, nothing in return. Analyse the impact on Ms Loto's perception of the price and on the dealership's margin.</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">What objection-handling sequence would you have applied? (Acknowledge → Question → Argue value → Concession in return)</div>
+</td>
+</tr>
+<!-- 6 -->
+<tr>
+<td>6. Negotiation and concessions in return</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Ousmane grants the discount without asking for anything in return (no trade-in, no financing commitment, no accessories). Calculate the value of what he leaves on the table.</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Propose 3 concessions Ousmane could have asked for in exchange for the €3,000 discount.</div>
+</td>
+</tr>
+<!-- 7 -->
+<tr>
+<td>7. Making the most of the test drive</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">The test drive is mentioned but not exploited. On return, Ousmane asks "What did you think?" — a closed question that opens nothing. How can the test drive be turned into a closing lever?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Write 3 post-drive questions that turn Ms Loto's reactions into sales arguments.</div>
+</td>
+</tr>
+<!-- 8 -->
+<tr>
+<td>8. Closing technique</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">"This is an offer to grab right now!" — false urgency. Does Ousmane use a closed alternative, a summary of benefits, or a projection into everyday use? Which technique would be more suitable?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Write your close using the closed-alternative technique or the benefits summary.</div>
+</td>
+</tr>
+<!-- 9 -->
+<tr>
+<td>9. Soft skills and sales stance</td>
+<td>
+<div class="hint-label">Hint</div>
+<div class="hint-box">Active listening is present but partial (no rephrasing). Empathy is visible but there is no firmness on price. Communication is adapted but the argument is too technical. Which soft skill is missing to transform the meeting?</div>
+</td>
+<td class="write-cell">
+<div class="hint-label">Your turn</div>
+<div class="hint-box">Identify Ousmane's dominant soft skill and the one he lacks, and explain how this gap affects the final outcome.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Discussion Questions — Group Analysis (Master's)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Ousmane asks no SPIN "Implication" or "Need-Payoff" questions. Write one Implication question and one Need-Payoff question suited to Ms Loto's context (children's safety, fuel budget).
+      <div class="q-hint">Hint: Implication = "If your current car has no Isofix, what impact..." · Need-Payoff = "If you saved €80/month on fuel, how..."</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculate the margin Ousmane loses by granting a 9.5% discount with nothing in return. Then calculate what he would have kept by negotiating in-house financing (margin on the loan) + an accessories pack (mats, roof bars).
+      <div class="q-hint">Hint: direct margin lost = €3,000. Estimated financing margin = €800–1,200 over 48 months. Accessories pack = €400–600 gross margin.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Ms Loto says "I'm ready to negotiate a little" and Ousmane replies "What price did you have in mind?" — he hands negotiating power to the customer. What alternative question would have kept the initiative on the seller's side?
+      <div class="q-hint">Hint: instead of asking for the customer's price, ask what matters to her beyond price (financing, trade-in, equipment).</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> If you were the dealership manager watching this interview, which 3 priority coaching points would you raise with Ousmane in the debrief?
+      <div class="q-hint">Hint: think in terms of skills (discovery), stance (firmness) and process (systematic concessions in return).</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-mastere -->
+<p class="footer">Avatar Sales Academy — Car dealership sales analysis grid · Ousmane × Ms Loto · BTS/BUT &amp; Master's</p>
+</div>
+<script>
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="'+t+'"]').classList.add('active');
+}
+</script>
+</body>
+</html>
