@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Corrigé vente automobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+</style></head><body><div class="page">
+<h1>Corrigé — Grille d'analyse : Entretien de vente en concession automobile <span class="teacher">Formateur</span></h1>
+<p class="subtitle">Ousmane (vendeur) × Mme Loto (SUV familial Vectus Premium à 31 580 €, négocié à 27 000 € — remise de 9,5 % / 3 000 € en moins de 2 minutes)</p>
+<div class="tabs"><button class="tab-btn active" onclick="switchTab('bts')">BTS / BUT</button><button class="tab-btn" onclick="switchTab('mastere')">Mastère</button></div>
+<div class="tab-content active" id="tab-bts"><span class="level-badge level-bts">Niveau BTS / BUT — 5 critères</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Critère</th><th class="h1">Axes d'amélioration — réponse attendue</th><th class="h1">Approche modèle — exemple de réponse</th></tr></thead><tbody><tr><td>1. Prise de contact</td><td class="ans">Ousmane connaît le prénom/nom de Mme Loto mais passe directement au véhicule : <b>aucun « warming »</b> (pas de question personnelle, pas de moment de convivialité). Le lien humain n'est pas créé avant la partie technique.</td><td class="ans">« Bonjour Madame Loto, merci d'être venue. Vous avez trouvé facilement ? Installons-nous, je vous offre un café ? Avant de parler voiture, parlez-moi un peu de votre quotidien. »</td></tr><tr><td>2. Découverte des besoins</td><td class="ans">Questions limitées à l'usage quotidien et au budget. <b>Il n'explore pas</b> le véhicule actuel, les frustrations, ni les critères de sécurité liés aux enfants.</td><td class="ans">« Qu'est-ce qui ne vous convient plus dans votre voiture actuelle ? » · « Quels critères de sécurité sont indispensables pour vos enfants ? » · « Combien de trajets par semaine et quelles distances ? »</td></tr><tr><td>3. Présentation du véhicule</td><td class="ans">Présentation <b>technique</b> (moteur, consommation, options) sans reprendre les mots de la cliente (« familiale », « enfants », « courses »). Les caractéristiques ne sont pas reliées à ses besoins.</td><td class="ans">« Avec ses 520 litres de coffre, vous chargez les cartables, le sac de sport et les courses sans rabattre les sièges : parfait pour vos trajets avec les enfants. »</td></tr><tr><td>4. Traitement de l'objection prix</td><td class="ans">Remise de <b>9,5 % (3 000 €) en moins de 2 minutes</b>, sans argument de valeur ni contrepartie. Message envoyé : le prix initial était gonflé et tout est négociable.</td><td class="ans">« Je comprends que le budget compte. Qu'est-ce qui est le plus important pour vous au-delà du prix ? Ce véhicule répond à vos critères de sécurité et d'espace. Si je peux faire un geste, ce serait en échange d'un financement chez nous ou de la reprise de votre véhicule. »</td></tr><tr><td>5. Closing et prise de congé</td><td class="ans">« C'est une offre à saisir de suite ! » : <b>fausse urgence</b>, signaux d'achat non observés, aucune prochaine étape ni suivi proposés.</td><td class="ans">Récapitulatif des bénéfices puis alternative fermée : « Vous préférez une livraison fin du mois ou début du mois prochain ? » Suivi : appel à J+2, rappel avant la livraison, RDV de prise en main.</td></tr></tbody></table></div><div class="q-section"><h2>Questions de réflexion — Éléments de réponse (BTS / BUT)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> Ousmane accorde 3 000 € en moins de 2 minutes. Qu'auriez-vous demandé de plus, si vous étiez Mme Loto ?<div class="q-ans"><b>Éléments de réponse :</b> Aller plus loin : remise supplémentaire, accessoires offerts, entretien ou garantie. Un vendeur qui cède vite montre une marge importante ; l'acheteur en déduit qu'il peut encore obtenir davantage.</div></div><div class="q-item"><strong>Q2.</strong> « Prix très compétitif comparé à d'autres marques » : argument de valeur ou de positionnement ?<div class="q-ans"><b>Éléments de réponse :</b> C'est un argument de <b>positionnement</b> (il parle du marché). Un argument de <b>valeur</b> parle du client : « Ce modèle vous fait économiser 80 €/mois et protège vos enfants. »</div></div><div class="q-item"><strong>Q3.</strong> Rédigez une phrase qui intègre « vos enfants » dans la présentation du coffre.<div class="q-ans"><b>Éléments de réponse :</b> « Avec 520 litres de coffre, vous chargez les cartables, le sac de sport et la poussette de vos enfants sans rabattre les sièges. »</div></div><div class="q-item"><strong>Q4.</strong> Que pourrait observer Ousmane pendant l'essai routier ?<div class="q-ans"><b>Éléments de réponse :</b> Réactions spontanées de Mme Loto : confort, silence, visibilité, aisance en manœuvre, regards vers les places arrière. Ce sont des signaux d'achat à reformuler au retour (« Vous avez semblé apprécier la visibilité… »).</div></div></div></div></div>
+<div class="tab-content" id="tab-mastere"><span class="level-badge level-mastere">Niveau Mastère — 9 critères</span>
+<div style="overflow-x:auto;"><table class="g-table"><thead><tr><th>Critère</th><th class="h1">Axes d'amélioration — réponse attendue</th><th class="h1">Approche modèle — exemple de réponse</th></tr></thead><tbody><tr><td>1. Prise de contact</td><td class="ans">Ousmane connaît le prénom/nom de Mme Loto mais passe directement au véhicule : <b>aucun « warming »</b> (pas de question personnelle, pas de moment de convivialité). Le lien humain n'est pas créé avant la partie technique.</td><td class="ans">« Bonjour Madame Loto, ravi de vous accueillir. Nous avons le temps : un café ? Vous venez de loin ? Racontez-moi ce qui vous amène aujourd'hui. » (prénom + convivialité + question ouverte)</td></tr><tr><td>2. Qualité de la découverte (SPIN)</td><td class="ans">Seulement des questions de <b>Situation</b> (usage, budget). Il manque Problème (frustrations), Implication (conséquences) et Need-Payoff (projection de bénéfices).</td><td class="ans"><b>S</b> : « Combien de trajets faites-vous par semaine ? » · <b>P</b> : « Qu'est-ce qui vous gêne dans votre voiture actuelle ? » · <b>I</b> : « Quand elle est pleine, comment gérez-vous cartables et courses ? » · <b>N</b> : « Si vous économisiez 80 €/mois de carburant, qu'en feriez-vous ? »</td></tr><tr><td>3. Argumentation CAB</td><td class="ans">Il énonce des <b>caractéristiques</b> (« 5 L/100 km », « 150 chevaux ») et s'arrête là : ni avantage ni bénéfice client.</td><td class="ans"><b>C</b> : 5 L/100 km en cycle mixte · <b>A</b> : consommation réduite à chaque plein · <b>B</b> : « environ 80 € d'économie par mois sur vos trajets quotidiens, soit un budget pour les activités de vos enfants ».</td></tr><tr><td>4. Utilisation du vocabulaire client</td><td class="ans">Mme Loto dit « familiale », « enfants », « activités scolaires », « courses ». Ousmane répond avec <b>ses</b> mots (« espace généreux », « coffre large ») : <b>pas de reprise des mots clés</b>.</td><td class="ans">« Pour vos courses et les affaires de vos enfants pour leurs activités scolaires, le coffre de 520 L vous évite de rabattre les sièges. »</td></tr><tr><td>5. Traitement de l'objection prix</td><td class="ans">Concession immédiate de 9,5 %, sans résistance, valeur, ni contrepartie. Effet : le prix perd sa crédibilité, la marge de la concession est érodée.</td><td class="ans"><b>Valider</b> (« Je comprends ») → <b>Questionner</b> (« Qu'est-ce qui compte pour vous au-delà du prix ? ») → <b>Argumenter la valeur</b> (sécurité, économies de carburant, espace) → <b>Contrepartie</b> (financement, reprise, accessoires).</td></tr><tr><td>6. Négociation et contreparties</td><td class="ans">Remise de 3 000 € accordée <b>sans rien demander</b> : ni reprise, ni financement maison, ni accessoires. Valeur laissée sur la table : au moins 3 000 € de marge directe, plus les marges annexes non captées.</td><td class="ans">Exemples : 1) <b>financement maison</b> ; 2) <b>reprise</b> de l'ancien véhicule ; 3) <b>pack accessoires</b> (tapis, barres de toit) ; ou extension de garantie / contrat d'entretien.</td></tr><tr><td>7. Exploitation de l'essai routier</td><td class="ans">Essai mentionné mais non exploité ; au retour : « Qu'avez-vous pensé ? », <b>question fermée</b> qui n'ouvre rien. Les réactions spontanées ne sont ni observées ni reformulées.</td><td class="ans">« Qu'est-ce qui vous a le plus plu pendant l'essai ? » · « Comment avez-vous trouvé la visibilité et le confort pour vos enfants ? » · « Vous imaginez-vous faire vos trajets quotidiens avec ? »</td></tr><tr><td>8. Technique de closing</td><td class="ans">« Offre à saisir de suite ! » : fausse urgence. <b>Ni alternative fermée, ni récapitulatif</b> des bénéfices, ni projection dans l'usage.</td><td class="ans">Récapitulatif + alternative fermée : « Vous avez retenu l'espace, la sécurité et l'économie de carburant. Vous préférez le financement sur 48 mois ou un paiement comptant ? Livraison fin du mois ou début du suivant ? »</td></tr><tr><td>9. Soft skills et posture commerciale</td><td class="ans">Écoute active <b>partielle</b> (pas de reformulation), empathie sans fermeté sur le prix, communication adaptée mais trop technique. <b>Soft skill dominant</b> : empathie / sens du service. <b>Soft skill manquant</b> : esprit critique et fermeté commerciale (orientation résultats).</td><td class="ans">L'empathie sans fermeté se traduit par une concession rapide : la cliente obtient 3 000 € sans effort et le vendeur perd en crédibilité et en marge. Un vendeur équilibré écoute, reformule, <b>puis tient son prix en échange de contreparties</b>.</td></tr></tbody></table></div><div class="q-section"><h2>Questions de réflexion — Éléments de réponse (Mastère)</h2><div class="q-grid"><div class="q-item"><strong>Q1.</strong> Rédigez une question d'Implication et une de Need-Payoff.<div class="q-ans"><b>Éléments de réponse :</b> <b>Implication</b> : « Si votre voiture actuelle n'a pas d'Isofix, quel impact sur la sécurité de vos enfants au quotidien ? » · <b>Need-Payoff</b> : « Si vous économisiez 80 €/mois de carburant, comment utiliseriez-vous ce budget ? »</div></div><div class="q-item"><strong>Q2.</strong> Calculez la marge perdue avec 9,5 % sans contrepartie, puis ce que permettraient financement + accessoires.<div class="q-ans"><b>Éléments de réponse :</b> Marge perdue : <b>3 000 €</b> secs. Avec financement maison (800–1 200 € de marge) + pack accessoires (400–600 €) : <b>1 200 à 1 800 €</b> de marge additionnelle. Avec une remise ramenée à ~1 500 €, l'impact net devient proche de zéro, voire positif, et la cliente a le sentiment d'avoir négocié.</div></div><div class="q-item"><strong>Q3.</strong> « Je suis prête à négocier un peu » → « Quel prix aviez-vous en tête ? » Quelle question alternative ?<div class="q-ans"><b>Éléments de réponse :</b> « Qu'est-ce qui est important pour vous, au-delà du prix ? » (financement, reprise, équipement). Le vendeur garde l'initiative et ouvre la négociation sur la valeur globale, pas seulement sur le prix.</div></div><div class="q-item"><strong>Q4.</strong> Quels sont les 3 points de coaching prioritaires pour Ousmane ?<div class="q-ans"><b>Éléments de réponse :</b> 1) <b>Compétence</b> : approfondir la découverte (SPIN complet). 2) <b>Posture</b> : fermeté sur le prix, ne pas céder sans argumenter la valeur. 3) <b>Process</b> : contreparties systématiques à chaque remise et exploitation de l'essai routier.</div></div></div></div></div>
+<p class="footer">Avatar Sales Academy — Corrigé grille d'analyse vente automobile · Ousmane × Mme Loto · BTS BUT &amp; Mastère</p></div>
+<script>function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelector('.tab-btn[onclick*="'+t+'"]').classList.add('active');}</script></body></html>
