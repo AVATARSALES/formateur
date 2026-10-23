@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Corrigé — Vente d'un voyage en agence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Corrigé — Vente d'un voyage de noces en agence de voyages <span class="teacher">Formateur</span></h1>
+<p class="subtitle">Célia (conseillère voyages) × Arhan (futur marié) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS Tourisme, BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS Tourisme</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT TC / Licence Pro Tourisme</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Tourisme (Bac+2) — 6 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BTS Tourisme (Bac+2)</strong><ul><li>Vente et conseil touristique : accueil du client, découverte des besoins et montage de devis, utilisation des GDS et plateformes B2B</li><li>Conception de prestations : création de forfaits (vols, hôtels, activités), cotation, calcul de marges et rentabilité, rédaction des carnets de voyage</li><li>Accueil et accompagnement : gestion des aléas, conflits et réclamations</li><li>Axe pédagogique Tourisme durable (RSE) : proposer des alternatives éco-responsables (mobilité douce, hébergements labellisés Clef Verte) et argumenter sur l'impact carbone du voyage</li><li>Cas n°1 du référentiel : vente complexe au comptoir face à un devis internet moins cher pour un séjour aux Maldives, méthode SONCAS, valorisation de la sécurité, de l'accompagnement humain et des services additionnels</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS Tourisme · Vente et conseil touristique</span></td>
+<td class="ans">Réactive : elle enchaîne les gestes (frais de dossier et dîner offerts, villa sur la plage à 6&nbsp;400&nbsp;€, puis alignement à 5&nbsp;800&nbsp;€). <b>Arhan mène l'entretien</b> et obtient à chaque demande.</td>
+<td class="ans"><b>Valeur d'abord, prix ensuite</b> : Célia compare ce que comprend chaque offre, révèle le coût total réel de l'offre internet, puis propose elle-même un cadre gagnant-gagnant. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Découverte des besoins (méthode SONCAS)<span class="bloc">BTS Tourisme · Vente et conseil (découverte des besoins) · Cas n°1</span></td>
+<td class="ans">Reformulation du projet (voyage inoubliable, au calme) mais <b>aucune découverte des motivations</b> : ni dates, ni budget, ni priorités. Elle ne voit pas que la villa sur pilotis est le cœur du rêve (mobiles <b>Orgueil</b> et <b>Confort</b>).</td>
+<td class="ans">Découverte complète (envies, dates, budget, priorités) qui fait ressortir les mobiles <b>Confort</b>, <b>Sécurité</b> et <b>Orgueil</b> (« un peu de magie »). Chaque argument de Célia répond ensuite à un mobile.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS Tourisme · Cas n°1 (vente complexe et objection prix)</span></td>
+<td class="ans">Elle ne compare jamais les deux offres et finit par <b>s'aligner sur le prix internet</b> sans savoir ce qu'il comprend. Le prix devient la seule variable.</td>
+<td class="ans">Elle <b>compare à périmètre égal</b> : deux escales et 19&nbsp;h de trajet, transferts et repas à payer sur place (au moins 2&nbsp;500&nbsp;€ de plus), offre non remboursable. Arhan conclut lui-même que l'offre internet lui reviendrait plus cher.</td>
+</tr>
+<tr>
+<td>4. Valorisation : sécurité, accompagnement et services additionnels<span class="bloc">BTS Tourisme · Conception de prestations (forfait) · Cas n°1</span></td>
+<td class="ans">Bons atouts cités (application, conseillère joignable) mais <b>jamais reliés au prix</b> ; les services additionnels deviennent des cadeaux (dîner), et la villa sur pilotis, cœur du rêve, est sacrifiée.</td>
+<td class="ans">Forfait valorisé brique par brique : <b>sécurité</b> (assistance 24h/24, assurance annulation, garantie financière), <b>accompagnement humain</b> (conseil, carnet de voyage), <b>confort</b> (vol direct, hydravion, demi-pension). L'assurance offerte est un service à forte valeur perçue.</td>
+</tr>
+<tr>
+<td>5. Cotation et marge<span class="bloc">BTS Tourisme · Conception de prestations (cotation, marges, rentabilité)</span></td>
+<td class="ans">Marge brute d'environ <b>50&nbsp;€</b> (5&nbsp;800 − 5&nbsp;600 − 150 de dîner), plus 90&nbsp;€ de frais de dossier abandonnés : la vente <b>ne paie même pas le temps passé</b> sur le dossier.</td>
+<td class="ans">Marge brute d'environ <b>850&nbsp;€</b> (6&nbsp;800 − 5&nbsp;700 − 250 d'assurance), soit 12,5&nbsp;% : la baisse de prix vient du prix d'achat hors vacances scolaires, pas de la marge.</td>
+</tr>
+<tr>
+<td>6. Tourisme durable (RSE)<span class="bloc">Axe pédagogique · Tourisme durable (RSE)</span></td>
+<td class="ans"><b>Aucun argument RSE</b> : elle ne valorise ni le vol direct ni l'hébergement, et laisse Arhan comparer avec une offre à deux escales sans en parler.</td>
+<td class="ans">Resort labellisé <b>Clef Verte</b>, vol direct moins émetteur qu'un trajet avec deux escales : la RSE devient un <b>argument de valeur</b>, cohérent avec le confort recherché.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Vente conclue, mais rêve amputé (villa sur la plage), marge quasi nulle, aucune comparaison des offres ni argument RSE : Célia donne plus qu'elle ne reçoit.</td>
+<td>✅ Meilleur scénario : besoins découverts, offres comparées à périmètre égal, marge préservée, sécurité et RSE valorisées.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BTS Tourisme)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Classez les attentes du couple selon la méthode SONCAS. Pour chaque mobile, quel argument Célia utilise-t-elle dans le scénario 2 ?
+<div class="q-ans"><b>Éléments de réponse :</b> <b>Sécurité</b> : assistance 24h/24, assurance annulation, garantie financière (face à une offre internet non remboursable). <b>Orgueil</b> : villa sur pilotis, « le voyage d'une vie ». <b>Nouveauté</b> : les Maldives, l'hydravion. <b>Confort</b> : vol direct plutôt que deux escales et 19&nbsp;h de trajet, demi-pension. <b>Argent</b> : coût total réel de l'offre internet, départ hors vacances scolaires. <b>Sympathie</b> : écoute, conseil personnalisé, carnet de voyage. Dans le scénario 1, Célia ne joue que sur la sympathie et le prix.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût total réel de l'offre internet pour le couple, et comparez-le avec l'offre finale de l'agence dans le scénario 2.
+<div class="q-ans"><b>Éléments de réponse :</b> Offre internet : 5&nbsp;800 + 2&nbsp;500 = <b>au moins 8&nbsp;300&nbsp;€</b>, avec deux escales, sans assurance annulation et non remboursable. Agence : <b>6&nbsp;800&nbsp;€</b> tout compris, assurance annulation offerte. À prestations comparables, l'agence est environ 1&nbsp;500&nbsp;€ moins chère : l'objection prix tombe dès que l'on compare à périmètre égal.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Calculez la marge brute de l'agence dans chaque scénario. Hypothèses : prix d'achat du forfait 6&nbsp;100&nbsp;€ en villa sur pilotis, 5&nbsp;600&nbsp;€ en villa sur la plage, 5&nbsp;700&nbsp;€ en villa sur pilotis hors vacances scolaires ; dîner offert 150&nbsp;€ ; assurance annulation 250&nbsp;€.
+<div class="q-ans"><b>Éléments de réponse :</b> Devis initial : 7&nbsp;200 − 6&nbsp;100 = 1&nbsp;100&nbsp;€ (15&nbsp;%). Scénario 1 : 5&nbsp;800 − 5&nbsp;600 − 150 = <b>50&nbsp;€</b> (moins de 1&nbsp;%), sans compter les 90&nbsp;€ de frais de dossier abandonnés. Scénario 2 : 6&nbsp;800 − 5&nbsp;700 − 250 = <b>850&nbsp;€</b> (12,5&nbsp;%). Le scénario 2 rapporte 17 fois plus, pour un client plus satisfait.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a réservé. Quelles étapes et quels documents Célia doit-elle prévoir avant le départ du couple ?
+<div class="q-ans"><b>Éléments de réponse :</b> Remise de la <b>fiche d'information standard sur le forfait</b> et des conditions de vente avant signature, contrat de voyage, encaissement de l'acompte (30&nbsp;%) puis du solde, souscription de l'<b>assurance annulation multirisque</b>, vérification des formalités (validité du passeport, visa touristique délivré à l'arrivée, conseils santé, inscription sur Ariane), émission des billets et des bons d'échange (vols, hydravion, resort), puis remise du <b>carnet de voyage</b> avec horaires, contacts et numéro d'assistance 24h/24. Au retour, un appel pour recueillir l'avis du couple et préparer le prochain voyage.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme (Bac+3) — 9 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme (Bac+3)</strong><ul><li>BUT TC : pilotage commercial (gestion de la relation client et CRM, yield management, suivi de la rentabilité), négociation B2B avec les prestataires, stratégie de communication multicanale</li><li>Licence Pro : e-tourisme et distribution (OTA comme Booking ou Expedia, channel management, stratégies d'acquisition web), ingénierie touristique (montage juridique et financier), tourisme durable (labellisation environnementale)</li><li>BTS Tourisme (socle) : découverte des besoins (SONCAS), cotation et marges, axe RSE</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Pilotage commercial</span></td>
+<td class="ans">Réactive : quatre gestes successifs (frais de dossier, dîner, villa sur la plage, alignement à 5&nbsp;800&nbsp;€). <b>Arhan mène l'entretien.</b></td>
+<td class="ans"><b>Valeur d'abord</b> : offres comparées à périmètre égal, coût total révélé, levier tarifaire choisi par Célia, puis cadre gagnant-gagnant. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Proposition de valeur et relation client<span class="bloc">BUT TC · Pilotage commercial (gestion de la relation client, CRM)</span></td>
+<td class="ans">Données client <b>non exploitées</b> : la semaine au ski, le mariage, les invités sont autant d'opportunités que Célia ne qualifie pas (dates, budget, nombre de personnes).</td>
+<td class="ans">Découverte structurée (envies, dates, budget, priorités) réutilisée dans l'argumentaire. Ces données nourrissent le CRM : anniversaire de mariage, préférences, prochains voyages, pour des relances personnalisées.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BUT TC · Négociation</span></td>
+<td class="ans"><b>Tous les leviers consommés</b>, contreparties à l'initiative du client, alignement sur un concurrent dont elle ignore le contenu.</td>
+<td class="ans">Comparaison à périmètre égal, levier tarifaire (départ hors vacances scolaires), refus argumenté de dégrader le produit, puis service offert <b>conditionné</b> (acompte aujourd'hui et témoignage).</td>
+</tr>
+<tr>
+<td>4. Contreparties et fidélisation<span class="bloc">BUT TC · Pilotage commercial (relation client)</span></td>
+<td class="ans">Contreparties réelles mais <b>proposées par Arhan</b> ; la semaine au ski est payée d'avance par une remise, sans être ni chiffrée ni réservée.</td>
+<td class="ans">Contreparties <b>immédiates et vérifiables</b> : acompte de 30&nbsp;% (engagement ferme), contenus authentiques pour les réseaux sociaux. La relation est installée pour les prochains voyages.</td>
+</tr>
+<tr>
+<td>5. Yield management et rentabilité<span class="bloc">BUT TC · Pilotage commercial (yield management, suivi de la rentabilité)</span></td>
+<td class="ans">Marge d'environ <b>50&nbsp;€</b> : prix dicté par le concurrent, pas par la cotation. Le dossier n'est pas rentable.</td>
+<td class="ans">Levier de <b>yield management</b> : hors vacances scolaires, la demande baisse et les prestataires baissent leurs tarifs (achat 5&nbsp;700&nbsp;€ au lieu de 6&nbsp;100&nbsp;€). Le client paie moins, la marge reste d'environ <b>850&nbsp;€</b>.</td>
+</tr>
+<tr>
+<td>6. Concurrence des OTA et distribution<span class="bloc">Licence Pro · E-tourisme et distribution (OTA, acquisition web)</span></td>
+<td class="ans">En s'alignant sans analyse, elle confirme au client que <b>seul le prix compte</b> : l'agence se bat sur le terrain des OTA, où elle perd. L'avis proposé par Arhan est utile mais non organisé.</td>
+<td class="ans">Elle décortique l'offre en ligne (escales, prestations exclues, non remboursable) et positionne l'agence sur le <b>conseil et la sécurité</b>. Le témoignage alimente les réseaux sociaux : <b>preuve sociale</b> et acquisition web à faible coût.</td>
+</tr>
+<tr>
+<td>7. Conformité et responsabilité de l'agence<span class="bloc">Licence Pro · Ingénierie touristique (montage juridique) · Code du tourisme</span></td>
+<td class="ans">Lien de paiement envoyé <b>sans information précontractuelle</b> (fiche d'information standard, conditions de vente) : manquement au Code du tourisme. L'agence reste pourtant <b>responsable de plein droit</b> de toutes les prestations d'un forfait vendu presque sans marge.</td>
+<td class="ans">Fiche d'information sur le forfait et conditions remises <b>avant</b> l'engagement, garantie financière rappelée, <b>responsabilité de plein droit</b> de l'agence sur toutes les prestations, RGPD : la vente est sécurisée pour le couple comme pour l'agence.</td>
+</tr>
+<tr>
+<td>8. Tourisme durable<span class="bloc">Licence Pro · Tourisme durable (labellisation) · Axe RSE</span></td>
+<td class="ans"><b>Absente</b> : ni le vol, ni l'hébergement, ni les activités ne sont abordés sous l'angle RSE, alors que la clientèle y est de plus en plus sensible.</td>
+<td class="ans">Arguments justes mais <b>partiels</b> : le vol long-courrier reste l'essentiel de l'empreinte. Pistes : pré-acheminement en train jusqu'à l'aéroport, séjour plus long, activités respectueuses du récif, prestataires locaux. L'honnêteté évite le greenwashing.</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td class="ans">Écoute mais <b>manque d'assertivité</b> : vouloir faire plaisir l'emporte sur la défense du rêve du client et de la marge.</td>
+<td class="ans"><b>Assertivité et pédagogie</b> : elle compare avec des faits, tient sa position face au concurrent et propose le cadre.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Prix dicté par l'offre internet, marge quasi nulle, produit dégradé, information précontractuelle et RSE oubliées.</td>
+<td>✅ Valeur démontrée face à l'offre en ligne, yield management maîtrisé, marge préservée, client engagé, cadre légal respecté.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BUT TC / Licence Pro Tourisme)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-ans"><b>Éléments de réponse :</b> Le scénario 2 : Célia déplace la discussion de la position (« 7&nbsp;200&nbsp;€, c'est trop cher ») vers les intérêts du couple (un voyage parfait, en toute sérénité, dans un budget maîtrisé). Elle s'appuie sur des <b>critères objectifs</b> (contenu des offres, coût total, saisonnalité) et crée des <b>options à gains mutuels</b> (départ décalé, assurance offerte contre acompte et témoignage).</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Expliquez pourquoi le même voyage coûte 400&nbsp;€ de moins une semaine plus tard. Quels autres leviers de yield management Célia pourrait-elle activer sans dégrader le produit ?
+<div class="q-ans"><b>Éléments de réponse :</b> Les compagnies aériennes et les hôtels ajustent leurs prix à la demande : pendant les vacances scolaires, elle est forte et les tarifs montent ; une semaine plus tard, les prestataires baissent leurs prix pour remplir. Autres leviers : réservation anticipée, offres « nuits offertes » ou avantages « voyage de noces » des resorts (à négocier avec le prestataire), jour de départ en semaine, négociation B2B des tarifs contractés avec le resort.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Face aux OTA, quelle stratégie de distribution et de communication une agence indépendante doit-elle adopter ? Appuyez-vous sur les 2 scénarios.
+<div class="q-ans"><b>Éléments de réponse :</b> Ne pas se battre sur le prix affiché mais sur la <b>valeur</b> : conseil, sécurité, gestion des aléas, responsabilité de plein droit. Être présente sur tous les canaux (site, réseaux sociaux, prise de rendez-vous en ligne), organiser la <b>preuve sociale</b> (avis et témoignages négociés comme dans le scénario 2, et non improvisés comme dans le scénario 1), produire des contenus multimédias (photos du couple) et utiliser le <b>CRM</b> pour relancer (anniversaire de mariage, prochains voyages, parrainage par les invités du mariage). Le scénario 1 montre l'impasse de l'alignement tarifaire.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Le couple demande un voyage « plus responsable » tout en tenant aux Maldives. Quels arguments et quelles alternatives Célia peut-elle proposer honnêtement ?
+<div class="q-ans"><b>Éléments de réponse :</b> Être transparente : un aller-retour Paris-Malé représente environ 15&nbsp;600&nbsp;km par personne, soit plusieurs tonnes de CO2e, et pèse bien plus que le reste du voyage. Elle peut privilégier le <b>vol direct</b> (moins de distance et de décollages), le <b>train</b> jusqu'à l'aéroport, un <b>séjour plus long</b> pour un seul voyage lointain, un hébergement labellisé (<b>Clef Verte</b>), des activités respectueuses des récifs et des prestataires locaux, et proposer des destinations plus proches pour les prochains voyages. Elle évite de promettre un voyage « neutre en carbone » grâce à la compensation : ce serait du greenwashing.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Corrigé grilles d'analyse vente d'un voyage en agence · Célia × Arhan · BTS Tourisme, BUT TC Marketing touristique &amp; Licence Pro Métiers du Tourisme</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>

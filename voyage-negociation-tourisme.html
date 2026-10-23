@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Grilles d'analyse — Vente d'un voyage en agence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Grilles d'analyse — 2 scénarios de vente d'un voyage de noces en agence de voyages</h1>
+<p class="subtitle">Célia (conseillère voyages) × Arhan (futur marié) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS Tourisme, BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS Tourisme</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT TC / Licence Pro Tourisme</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Tourisme (Bac+2) — 6 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 32&nbsp;ans, prépare avec sa fiancée leur voyage de noces aux Maldives. Célia, conseillère voyages en agence, leur a établi un devis de 7&nbsp;200&nbsp;€ pour deux : 10 nuits en villa sur pilotis en demi-pension, vol direct Paris-Malé et transferts en hydravion. Arhan revient en agence avec une offre trouvée sur internet à 5&nbsp;800&nbsp;€. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection prix et conclure la vente.
+  <br/><strong>Consigne :</strong> Complétez la grille en analysant chaque scénario. Les indices vous guident — à vous de formuler l'analyse.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS Tourisme (Bac+2)</strong><ul><li>Vente et conseil touristique : accueil du client, découverte des besoins et montage de devis, utilisation des GDS et plateformes B2B</li><li>Conception de prestations : création de forfaits (vols, hôtels, activités), cotation, calcul de marges et rentabilité, rédaction des carnets de voyage</li><li>Accueil et accompagnement : gestion des aléas, conflits et réclamations</li><li>Axe pédagogique Tourisme durable (RSE) : proposer des alternatives éco-responsables (mobilité douce, hébergements labellisés Clef Verte) et argumenter sur l'impact carbone du voyage</li><li>Cas n°1 du référentiel : vente complexe au comptoir face à un devis internet moins cher pour un séjour aux Maldives, méthode SONCAS, valorisation de la sécurité, de l'accompagnement humain et des services additionnels</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS Tourisme · Vente et conseil touristique</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comptez les gestes que Célia accorde (frais de dossier, dîner, villa sur la plage, remise finale). Qui mène l'entretien : Célia ou Arhan ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Avant de parler du prix, de quoi Célia parle-t-elle ? Que compare-t-elle entre son offre et l'offre internet ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Découverte des besoins (méthode SONCAS)<span class="bloc">BTS Tourisme · Vente et conseil (découverte des besoins) · Cas n°1</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le projet d'Arhan. Identifie-t-elle ce qui compte le plus pour le couple (sécurité, confort, prestige, budget) ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Sur quoi Célia a-t-elle interrogé le couple ? Quelles priorités Arhan cite-t-il ? À quelles lettres de SONCAS correspondent-elles ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS Tourisme · Cas n°1 (vente complexe et objection prix)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia compare-t-elle son offre à celle trouvée sur internet ? Que se passe-t-il quand Arhan redemande un geste ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi regarder « ce que comprend vraiment chaque offre » change-t-il la façon dont Arhan regarde le prix ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Valorisation : sécurité, accompagnement et services additionnels<span class="bloc">BTS Tourisme · Conception de prestations (forfait) · Cas n°1</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">L'application et la conseillère joignable : Célia s'en sert-elle pour justifier l'écart de prix ? Que perd le couple en passant en villa sur la plage ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Relevez les services que Célia met en avant (vol direct, hydravion, demi-pension, assistance, assurance annulation). Lesquels rassurent, lesquels font rêver ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Cotation et marge<span class="bloc">BTS Tourisme · Conception de prestations (cotation, marges, rentabilité)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le prix final est de 5&nbsp;800&nbsp;€ en villa sur la plage. Que reste-t-il à l'agence une fois les prestataires payés et le dîner offert ? (voir Q3)</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le départ hors vacances scolaires baisse aussi le prix d'achat. Pourquoi Célia peut-elle offrir l'assurance sans sacrifier sa marge ? (voir Q3)</div>
+</td>
+</tr>
+<tr>
+<td>6. Tourisme durable (RSE)<span class="bloc">Axe pédagogique · Tourisme durable (RSE)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia parle-t-elle de l'impact du voyage, du choix du vol ou de l'hébergement ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quels arguments éco-responsables Célia utilise-t-elle ? Sont-ils présentés comme une contrainte ou comme un plus ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BTS Tourisme)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Classez les attentes du couple selon la méthode SONCAS. Pour chaque mobile, quel argument Célia utilise-t-elle dans le scénario 2 ?
+<div class="q-hint">Indice : Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût total réel de l'offre internet pour le couple, et comparez-le avec l'offre finale de l'agence dans le scénario 2.
+<div class="q-hint">Indice : 5&nbsp;800&nbsp;€ + transferts et repas à payer sur place (au moins 2&nbsp;500&nbsp;€).</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Calculez la marge brute de l'agence dans chaque scénario. Hypothèses : prix d'achat du forfait 6&nbsp;100&nbsp;€ en villa sur pilotis, 5&nbsp;600&nbsp;€ en villa sur la plage, 5&nbsp;700&nbsp;€ en villa sur pilotis hors vacances scolaires ; dîner offert 150&nbsp;€ ; assurance annulation 250&nbsp;€.
+<div class="q-hint">Indice : marge brute = prix de vente − prix d'achat − gestes commerciaux qui coûtent à l'agence.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a réservé. Quelles étapes et quels documents Célia doit-elle prévoir avant le départ du couple ?
+<div class="q-hint">Indice : référentiel BTS, blocs « Vente et conseil touristique » et « Conception de prestations » (carnet de voyage).</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme (Bac+3) — 9 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 32&nbsp;ans, prépare avec sa fiancée leur voyage de noces aux Maldives. Célia, conseillère voyages en agence, leur a établi un devis de 7&nbsp;200&nbsp;€ pour deux : 10 nuits en villa sur pilotis en demi-pension, vol direct Paris-Malé et transferts en hydravion. Arhan revient en agence avec une offre trouvée sur internet à 5&nbsp;800&nbsp;€. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection prix et conclure la vente.
+  <br/><strong>Consigne :</strong> Analysez chaque scénario sur 9 critères. Les indices orientent votre réflexion — l'analyse complète est la vôtre.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC parcours Marketing touristique et Licence Pro Métiers du Tourisme (Bac+3)</strong><ul><li>BUT TC : pilotage commercial (gestion de la relation client et CRM, yield management, suivi de la rentabilité), négociation B2B avec les prestataires, stratégie de communication multicanale</li><li>Licence Pro : e-tourisme et distribution (OTA comme Booking ou Expedia, channel management, stratégies d'acquisition web), ingénierie touristique (montage juridique et financier), tourisme durable (labellisation environnementale)</li><li>BTS Tourisme (socle) : découverte des besoins (SONCAS), cotation et marges, axe RSE</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Pilotage commercial</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l'entretien ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia démontre la valeur avant de parler de prix. Comment cela change-t-il la dynamique de la négociation ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Proposition de valeur et relation client<span class="bloc">BUT TC · Pilotage commercial (gestion de la relation client, CRM)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia s'appuie-t-elle sur ce qu'elle sait du couple pour personnaliser son offre ? Que fait-elle des informations données par Arhan ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quelles informations recueillies au premier rendez-vous Célia réutilise-t-elle ? Comment pourraient-elles alimenter le CRM de l'agence ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BUT TC · Négociation</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Frais de dossier, dîner, villa, remise : combien de leviers Célia consomme-t-elle ? Lesquels lui restaient ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Face à l'offre internet, Célia ne s'aligne pas. Comment justifie-t-elle de rester au-dessus ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Contreparties et fidélisation<span class="bloc">BUT TC · Pilotage commercial (relation client)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">La semaine au ski, l'avis et la recommandation viennent d'Arhan. Que révèle cela sur le rapport de force ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Acompte, photos, témoignage : que gagne l'agence ? Pourquoi une contrepartie immédiate vaut-elle mieux qu'une promesse ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Yield management et rentabilité<span class="bloc">BUT TC · Pilotage commercial (yield management, suivi de la rentabilité)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez la marge brute à 5&nbsp;800&nbsp;€ (prix d'achat 5&nbsp;600&nbsp;€, dîner 150&nbsp;€). Le prix a-t-il été fixé par l'agence ou par le client ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi décaler le départ d'une semaine fait-il baisser le prix ? Qui supporte cette baisse ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Concurrence des OTA et distribution<span class="bloc">Licence Pro · E-tourisme et distribution (OTA, acquisition web)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia connaît-elle l'offre trouvée sur internet ? Que dit son alignement sur la valeur ajoutée d'une agence face aux OTA ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comment Célia transforme-t-elle l'offre internet en argument ? Quel rôle jouent le témoignage et les réseaux sociaux dans l'acquisition de clients ?</div>
+</td>
+</tr>
+<tr>
+<td>7. Conformité et responsabilité de l'agence<span class="bloc">Licence Pro · Ingénierie touristique (montage juridique) · Code du tourisme</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia remet-elle l'information précontractuelle avant d'envoyer le lien de paiement ? Qui est responsable si l'hydravion n'est pas au rendez-vous ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Fiche d'information, conditions de vente, garantie financière, responsabilité, RGPD : à quelles obligations du Code du tourisme renvoient-ils ?</div>
+</td>
+</tr>
+<tr>
+<td>8. Tourisme durable<span class="bloc">Licence Pro · Tourisme durable (labellisation) · Axe RSE</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">La dimension environnementale est-elle abordée ? Quelle opportunité Célia laisse-t-elle passer ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Clef Verte, vol direct : ces choix réduisent-ils vraiment l'empreinte du voyage ? Quelles autres alternatives Célia pourrait-elle proposer ?</div>
+</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Écoute présente mais absence de fermeté. Quel soft skill manque-t-il pour transformer l'empathie en conseil ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia dit « non » à la dégradation du produit sans braquer Arhan. Quel impact sur la perception de son professionnalisme ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BUT TC / Licence Pro Tourisme)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-hint">Indice : dans quel scénario Célia ramène-t-elle la discussion du prix vers ce que le couple veut vraiment vivre ?</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Expliquez pourquoi le même voyage coûte 400&nbsp;€ de moins une semaine plus tard. Quels autres leviers de yield management Célia pourrait-elle activer sans dégrader le produit ?
+<div class="q-hint">Indice : saisonnalité, niveau de demande, taux de remplissage des prestataires, réservation anticipée.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Face aux OTA, quelle stratégie de distribution et de communication une agence indépendante doit-elle adopter ? Appuyez-vous sur les 2 scénarios.
+<div class="q-hint">Indice : positionnement, multicanal, avis clients, réseaux sociaux, CRM.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Le couple demande un voyage « plus responsable » tout en tenant aux Maldives. Quels arguments et quelles alternatives Célia peut-elle proposer honnêtement ?
+<div class="q-hint">Indice : le vol long-courrier, les escales, l'hébergement labellisé, la durée du séjour, les activités.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Grilles d'analyse vente d'un voyage en agence · Célia × Arhan · BTS Tourisme, BUT TC Marketing touristique &amp; Licence Pro Métiers du Tourisme</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>
