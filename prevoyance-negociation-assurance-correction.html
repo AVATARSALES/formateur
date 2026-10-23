@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Corrigé — Entretien conseil prévoyance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Corrigé — Entretien conseil prévoyance <span class="teacher">Formateur</span></h1>
+<p class="subtitle">Célia (conseillère en assurance) × Arhan (artisan électricien à son compte) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS Assurance, BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS Assurance</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT CJ / TC / Licence Pro Assurance</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Assurance (Bac+2) — 6 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BTS Assurance (Bac+2)</strong><ul><li>Conseil et vente : assurances de personnes (santé, prévoyance), produits IARD (auto, MRH), analyse des besoins et recueil d'informations</li><li>Relation client omnicanale : gestion proactive du portefeuille, fidélisation et multi-équipement</li><li>Environnement légal et technique : Code des assurances, lois consuméristes</li><li>Axe DDA : remise du document d'information sur le produit (IPID) et formalisation écrite du conseil ; le produit doit correspondre exactement aux exigences et besoins du client</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS Assurance · Conseil et vente (entretien de vente)</span></td>
+<td class="ans">Réactive : elle enchaîne les gestes (frais d'adhésion et premier mois offerts, franchise à 15&nbsp;jours, puis à 30&nbsp;jours et 95&nbsp;€). <b>Arhan mène l'entretien</b> et obtient à chaque demande.</td>
+<td class="ans"><b>Besoins d'abord, prix ensuite</b> : Célia part de ce qu'Arhan toucherait sans contrat, compare les garanties de l'offre en ligne, puis propose elle-même un cadre gagnant-gagnant. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Analyse des besoins et recueil d'informations<span class="bloc">BTS Assurance · Conseil et vente (analyse des besoins)</span></td>
+<td class="ans">Reformulation du besoin (continuer à toucher un revenu, protéger sa famille) mais <b>aucun recueil d'informations</b> : ni revenus, ni charges, ni situation familiale, ni garanties du régime obligatoire.</td>
+<td class="ans"><b>Audit complet</b> : activité, revenus, charges, famille, contrats existants, puis bilan de ce que verserait le régime des indépendants. La découverte <b>devient l'argument</b> : elle chiffre les carences d'Arhan.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS Assurance · Conseil et vente (assurances de personnes)</span></td>
+<td class="ans">Elle cède presque immédiatement, puis baisse le prix dès qu'Arhan insiste, jusqu'à <b>s'aligner sur l'offre en ligne</b>. Pour y arriver, elle retire des garanties : le prix devient la seule variable.</td>
+<td class="ans">Elle <b>recadre sur la protection</b>, montre que l'offre en ligne ne couvre pas la même chose, chiffre le coût réel après déduction Madelin (environ 100&nbsp;€), puis conditionne tout effort à des contreparties.</td>
+</tr>
+<tr>
+<td>4. Adéquation des garanties aux besoins<span class="bloc">Axe DDA · Exigences et besoins du client</span></td>
+<td class="ans">Avec une franchise portée à 30&nbsp;jours, un arrêt de 3 semaines <b>n'est pas indemnisé</b>. Le contrat vendu ne correspond plus au besoin exprimé : c'est un <b>manquement au devoir de conseil</b>.</td>
+<td class="ans">Elle maintient la franchise de 3&nbsp;jours et le capital décès : « baisser le prix en réduisant vos garanties irait contre votre intérêt ». Le contrat correspond <b>exactement aux exigences et besoins</b> d'Arhan.</td>
+</tr>
+<tr>
+<td>5. Fidélisation et multi-équipement<span class="bloc">BTS Assurance · Relation client omnicanale</span></td>
+<td class="ans">La camionnette est <b>proposée par Arhan</b> et sert de monnaie d'échange ; l'avis positif vient aussi de lui. Célia n'organise pas l'équipement de son client.</td>
+<td class="ans">Remise multi-équipement de 10&nbsp;% <b>conditionnée</b> au regroupement de la RC Pro et de l'auto professionnelle : un seul interlocuteur pour Arhan, un client équipé et fidélisé pour l'agence.</td>
+</tr>
+<tr>
+<td>6. Conformité et formalisation<span class="bloc">BTS Assurance · Environnement légal et technique · Axe DDA</span></td>
+<td class="ans">« Je vous envoie le contrat à signer en ligne » : <b>ni IPID, ni conseil écrit, ni questionnaire de santé</b> ; la signature est précipitée (« si vous signez aujourd'hui »).</td>
+<td class="ans"><b>IPID</b> et <b>fiche de conseil</b> remises (besoins et justification du contrat), information RGPD, questionnaire de santé avant signature : formalisme DDA respecté.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Vente conclue, mais contrat vidé de sa substance, devoir de conseil non respecté et formalisme DDA oublié : Célia donne plus qu'elle ne reçoit.</td>
+<td>✅ Meilleur scénario : garanties adaptées aux besoins, prix justifié, multi-équipement négocié, conformité DDA respectée.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BTS Assurance)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Arhan se blesse sur un chantier et est arrêté 3 semaines (21&nbsp;jours). Combien lui verse son contrat de prévoyance dans chaque scénario ?
+<div class="q-ans"><b>Éléments de réponse :</b> Scénario 1 : <b>0&nbsp;€</b>, l'arrêt est plus court que la franchise de 30&nbsp;jours ; Arhan ne touche que les indemnités du régime des indépendants (environ la moitié de ses revenus). Scénario 2 : 21 − 3 = 18&nbsp;jours × 100&nbsp;€ = <b>1 800&nbsp;€</b>. L'écart de prix mensuel est remboursé dès le premier arrêt.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, l'offre en ligne est à 95&nbsp;€. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-ans"><b>Éléments de réponse :</b> Les deux offres ne sont pas comparables : franchise de 90&nbsp;jours et exclusion des maux de dos pour l'offre en ligne. Célia compare les garanties, rappelle la carence du régime obligatoire, chiffre le coût réel après déduction Madelin, puis conditionne toute remise à des contreparties (RC Pro et camionnette).</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les prix et commence à comparer les garanties ? Citez la phrase de Célia.
+<div class="q-ans"><b>Éléments de réponse :</b> « Et avez-vous regardé ce que couvre vraiment l'offre en ligne ? Sa franchise est de 90&nbsp;jours et elle exclut les maux de dos, fréquents dans votre métier. » Arhan répond lui-même : « Trois mois sans revenu, je ne pourrais pas tenir. »</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a accepté l'offre. Quelles étapes et quels documents Célia doit-elle respecter avant la prise d'effet du contrat ?
+<div class="q-ans"><b>Éléments de réponse :</b> Recueil écrit des exigences et besoins, remise de l'<b>IPID</b> et des conditions générales, <b>conseil formalisé par écrit</b> (pourquoi ce contrat), information sur l'intermédiaire (statut, immatriculation ORIAS), <b>questionnaire de santé</b> rempli sincèrement (une fausse déclaration intentionnelle peut entraîner la nullité du contrat), justificatif d'affiliation à jour pour bénéficier du cadre Madelin, information RGPD, puis signature et conditions particulières.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance (Bac+3) — 9 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance (Bac+3)</strong><ul><li>BUT CJ / TC : développement de portefeuille, conformité (contrôle interne, LCB-FT, recommandations de l'ACPR), ingénierie juridique (responsabilité civile) ; cas n°2 du référentiel : vente de prévoyance Madelin à un travailleur indépendant avec audit de protection sociale</li><li>Licence Pro : assurance des professionnels (RC Pro, flotte), gestion de patrimoine (PER, optimisation fiscale), analyse technique (prévention, tarification technique)</li><li>BTS Assurance (socle) : analyse des besoins, multi-équipement, axe DDA (IPID et conseil écrit)</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Développement de portefeuille</span></td>
+<td class="ans">Réactive : quatre gestes successifs (frais d'adhésion, premier mois, franchise à 15&nbsp;jours, puis 30&nbsp;jours et 95&nbsp;€). <b>Arhan mène l'entretien.</b></td>
+<td class="ans"><b>Conseil d'abord</b> : carences chiffrées, garanties comparées, coût réel calculé, puis cadre gagnant-gagnant proposé par Célia. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Audit de la protection sociale<span class="bloc">BUT CJ / TC · Cas n°2 du référentiel (audit, carences de couverture)</span></td>
+<td class="ans">Reformulation correcte <b>sans audit</b> : aucune mesure des garanties du régime obligatoire, donc aucune démonstration des carences.</td>
+<td class="ans">Audit <b>et</b> démonstration chiffrée : indemnités d'environ la moitié des revenus en cas d'arrêt, capital décès d'environ 9 000&nbsp;€ contre 150 000&nbsp;€ avec le contrat. La découverte justifie la solution.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BUT TC · Technique de vente et négociation</span></td>
+<td class="ans"><b>Tous les leviers consommés</b> sans contrepartie demandée, jusqu'à brader les garanties pour s'aligner sur un concurrent qui ne couvre pas la même chose.</td>
+<td class="ans">Comparaison des garanties, argument fiscal Madelin (coût réel d'environ 100&nbsp;€), refus argumenté de réduire la couverture, puis remise <b>conditionnée</b> (130&nbsp;€ et frais offerts contre RC Pro et camionnette).</td>
+</tr>
+<tr>
+<td>4. Contreparties et développement de portefeuille<span class="bloc">BUT TC · Développement de portefeuille · Licence Pro · Assurance des professionnels</span></td>
+<td class="ans">Contreparties réelles (camionnette, avis, bouche-à-oreille) mais <b>à l'initiative du client</b> ; les besoins professionnels d'Arhan (RC Pro, décennale) ne sont jamais abordés.</td>
+<td class="ans">Équipement <b>professionnel complet</b> négocié par Célia : RC Pro, auto professionnelle et prévoyance. Un client multi-équipé résilie moins, et Célia devient l'interlocutrice unique de l'entreprise d'Arhan.</td>
+</tr>
+<tr>
+<td>5. Rentabilité pour l'agence<span class="bloc">Licence Pro · Analyse technique (tarification)</span></td>
+<td class="ans">Environ <b>1 045&nbsp;€ la première année</b> (11 × 95&nbsp;€), sans frais d'adhésion, pour un tarif fixé à la demande du client et non par la tarification technique : marge faible et portefeuille fragile.</td>
+<td class="ans"><b>1 560&nbsp;€ par an</b> de prévoyance (12 × 130&nbsp;€), plus les primes RC Pro et auto professionnelle : une relation rentable et durable, avec une remise compensée par le volume.</td>
+</tr>
+<tr>
+<td>6. Analyse technique du risque et des garanties<span class="bloc">Licence Pro · Analyse technique (prévention, tarification)</span></td>
+<td class="ans">Franchise de 30&nbsp;jours pour un <b>métier physique à risque</b> : les arrêts courts, les plus fréquents, ne sont plus couverts. La garantie ne correspond plus au profil de risque.</td>
+<td class="ans">Analyse des franchises (3&nbsp;jours contre 90) et des <b>exclusions</b> (pathologies du dos, fréquentes dans les métiers du bâtiment) ; questionnaire de santé avant souscription : <b>risque correctement tarifé et couvert</b>.</td>
+</tr>
+<tr>
+<td>7. Conformité et responsabilité de l'intermédiaire<span class="bloc">BUT CJ / TC · Conformité (DDA, ACPR, LCB-FT) · Ingénierie juridique</span></td>
+<td class="ans">Contrat incohérent avec les exigences et besoins, ni IPID ni conseil écrit : l'agence s'expose à des <b>sanctions de l'ACPR</b> et à l'engagement de sa <b>responsabilité civile</b> pour manquement au devoir de conseil (perte de chance) si Arhan n'est pas indemnisé.</td>
+<td class="ans">Exigences et besoins recueillis, <b>IPID</b> et <b>conseil écrit</b> remis, identification du client (vigilance LCB-FT), questionnaire de santé, RGPD : obligations de la DDA respectées, la traçabilité protège Arhan comme l'agence.</td>
+</tr>
+<tr>
+<td>8. Optimisation fiscale et gestion de patrimoine<span class="bloc">Licence Pro · Gestion de patrimoine (optimisation fiscale)</span></td>
+<td class="ans"><b>Argument fiscal absent</b> : Célia baisse le prix facial alors que la déduction Madelin réduisait déjà le coût réel d'environ 30&nbsp;%.</td>
+<td class="ans">Déduction Madelin chiffrée (145&nbsp;€ → environ 100&nbsp;€, puis 130&nbsp;€ → environ 91&nbsp;€) : le prix est présenté <b>net d'impôt</b>. Étape suivante logique : un bilan retraite et un Plan d'Épargne Retraite (PER).</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td class="ans">Écoute mais <b>manque d'assertivité</b> : vouloir faire plaisir l'emporte sur l'intérêt réel du client.</td>
+<td class="ans"><b>Assertivité et pédagogie</b> : elle refuse avec des chiffres, tient sa position face au concurrent et propose le cadre.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Prix bradé, garanties vidées, devoir de conseil et formalisme DDA oubliés : une vente risquée juridiquement et peu rentable.</td>
+<td>✅ Garanties adaptées, coût réel démontré, portefeuille professionnel développé, obligations DDA respectées.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BUT CJ / TC / Licence Pro Assurance)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-ans"><b>Éléments de réponse :</b> Le scénario 2 : Célia déplace la discussion de la position (« 145&nbsp;€, c'est trop cher ») vers les intérêts d'Arhan (continuer à toucher un revenu, protéger sa famille), puis construit une solution commune (130&nbsp;€, garanties intactes, RC Pro et camionnette regroupées) à partir de critères objectifs : carences du régime obligatoire, franchises, exclusions, coût net d'impôt.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût annuel réel pour Arhan dans chaque scénario, après déduction Madelin (tranche à 30&nbsp;%). L'écart justifie-t-il la différence de garanties ?
+<div class="q-ans"><b>Éléments de réponse :</b> Scénario 1 : 12 × 95&nbsp;€ = 1 140&nbsp;€, soit environ <b>800&nbsp;€</b> net d'impôt. Scénario 2 : 12 × 130&nbsp;€ = 1 560&nbsp;€, soit environ <b>1 090&nbsp;€</b> net. L'écart est d'environ 290&nbsp;€ par an (24&nbsp;€ par mois), alors qu'un seul arrêt de 3 semaines rapporte 1 800&nbsp;€ dans le scénario 2 et 0&nbsp;€ dans le scénario 1 : c'est exactement ce que le devoir de conseil demande d'expliquer.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Dans le scénario 1, quelles obligations Célia a-t-elle négligées, et quelles sanctions l'agence encourt-elle ?
+<div class="q-ans"><b>Éléments de réponse :</b> La DDA (Code des assurances) impose de recueillir les exigences et besoins, de proposer un contrat <b>cohérent</b> avec eux, de remettre l'IPID et de motiver le conseil par écrit. En vendant un contrat dont la franchise exclut les arrêts courts d'un artisan, Célia manque à son devoir de conseil : l'ACPR peut prononcer des <b>sanctions disciplinaires et pécuniaires</b>, et Arhan peut engager la <b>responsabilité civile</b> de l'agence (perte de chance d'être indemnisé).</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan veut ensuite préparer sa retraite. Comment Célia doit-elle construire son conseil, et dans quel ordre ?
+<div class="q-ans"><b>Éléments de réponse :</b> D'abord un bilan des droits à la retraite du régime des indépendants et de l'écart avec ses objectifs. Ensuite un questionnaire sur la connaissance et l'expérience financières, l'horizon de placement et la tolérance aux pertes, et l'évaluation de sa capacité d'épargne après la prévoyance. Ce n'est qu'après qu'elle peut proposer un <b>PER individuel</b> (versements déductibles dans la limite des plafonds, gestion pilotée selon l'horizon), en expliquant les risques, les frais et les conditions de sortie, et éventuellement une assurance-vie pour la transmission.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Corrigé grilles d'analyse entretien conseil prévoyance · Célia × Arhan · BTS Assurance, BUT CJ / TC &amp; Licence Pro Métiers de l'Assurance</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Grilles d'analyse — Entretien conseil prévoyance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Grilles d'analyse — 2 scénarios de vente d'un contrat de prévoyance en agence d'assurance</h1>
+<p class="subtitle">Célia (conseillère en assurance) × Arhan (artisan électricien à son compte) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS Assurance, BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS Assurance</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT CJ / TC / Licence Pro Assurance</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Assurance (Bac+2) — 6 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 38&nbsp;ans, électricien à son compte depuis 4&nbsp;ans, marié et père de 2 enfants, dégage environ 3 200&nbsp;€ net par mois. Il a demandé un devis de prévoyance « loi Madelin » (arrêt de travail, invalidité, décès). Célia, conseillère en assurance de personnes dans une agence générale, lui propose un contrat à 145&nbsp;€ par mois : 100&nbsp;€ par jour d'arrêt dès le 4e jour, une rente d'invalidité et un capital décès de 150 000&nbsp;€. Un comparateur en ligne lui affiche un contrat à 95&nbsp;€ par mois. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection prix et conclure la vente.
+  <br/><strong>Consigne :</strong> Complétez la grille en analysant chaque scénario. Les indices vous guident — à vous de formuler l'analyse.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS Assurance (Bac+2)</strong><ul><li>Conseil et vente : assurances de personnes (santé, prévoyance), produits IARD (auto, MRH), analyse des besoins et recueil d'informations</li><li>Relation client omnicanale : gestion proactive du portefeuille, fidélisation et multi-équipement</li><li>Environnement légal et technique : Code des assurances, lois consuméristes</li><li>Axe DDA : remise du document d'information sur le produit (IPID) et formalisation écrite du conseil ; le produit doit correspondre exactement aux exigences et besoins du client</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS Assurance · Conseil et vente (entretien de vente)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comptez les gestes que Célia accorde (frais d'adhésion, premier mois offert, franchise à 15&nbsp;jours, puis à 30&nbsp;jours). Qui mène l'entretien : Célia ou Arhan ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Avant de parler du prix, de quoi Célia parle-t-elle ? Quelle comparaison présente-t-elle à Arhan ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Analyse des besoins et recueil d'informations<span class="bloc">BTS Assurance · Conseil et vente (analyse des besoins)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le besoin d'Arhan. Lui pose-t-elle des questions sur ses revenus, sa famille, ce que le régime des indépendants lui verserait ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Sur quoi Célia a-t-elle interrogé Arhan ? Quel « bilan » Arhan dit-il avoir apprécié ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS Assurance · Conseil et vente (assurances de personnes)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de temps Célia résiste-t-elle avant de faire un geste ? Que se passe-t-il quand Arhan en redemande ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi parler de « ce que vous toucheriez si vous ne pouviez plus travailler » change-t-il la façon dont Arhan regarde le prix ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Adéquation des garanties aux besoins<span class="bloc">Axe DDA · Exigences et besoins du client</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Arhan veut être couvert « si je me blesse sur un chantier ». Avec une franchise de 30&nbsp;jours, combien touche-t-il pour un arrêt de 3 semaines ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi Célia refuse-t-elle de baisser le prix en réduisant les garanties ? Quelle phrase le montre ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Fidélisation et multi-équipement<span class="bloc">BTS Assurance · Relation client omnicanale</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Qui propose d'assurer la camionnette ? Célia vérifie-t-elle les besoins d'Arhan pour ce véhicule ? Que reçoit-elle en échange de la baisse finale ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">RC Pro, camionnette, prévoyance : comment Célia justifie-t-elle le regroupement ? Qu'y gagne Arhan, qu'y gagne l'agence ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Conformité et formalisation<span class="bloc">BTS Assurance · Environnement légal et technique · Axe DDA</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia parle-t-elle de l'IPID, d'un conseil écrit, du questionnaire de santé ? Comment se termine la vente ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Relevez les mentions de l'IPID, de la fiche de conseil, du RGPD et du questionnaire de santé. Qu'apportent-elles à la crédibilité de Célia ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BTS Assurance)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Arhan se blesse sur un chantier et est arrêté 3 semaines (21&nbsp;jours). Combien lui verse son contrat de prévoyance dans chaque scénario ?
+<div class="q-hint">Indice : scénario 1 : franchise de 30&nbsp;jours ; scénario 2 : 100&nbsp;€ par jour à partir du 4e jour.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, l'offre en ligne est à 95&nbsp;€. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-hint">Indice : les deux contrats couvrent-ils la même chose ? Combien coûte vraiment le contrat après déduction fiscale ?</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les prix et commence à comparer les garanties ? Citez la phrase de Célia.
+<div class="q-hint">Indice : cherchez la question de Célia sur l'offre en ligne.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a accepté l'offre. Quelles étapes et quels documents Célia doit-elle respecter avant la prise d'effet du contrat ?
+<div class="q-hint">Indice : référentiel BTS, blocs « Conseil et vente » et « Environnement légal et technique », axe DDA.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance (Bac+3) — 9 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 38&nbsp;ans, électricien à son compte depuis 4&nbsp;ans, marié et père de 2 enfants, dégage environ 3 200&nbsp;€ net par mois. Il a demandé un devis de prévoyance « loi Madelin » (arrêt de travail, invalidité, décès). Célia, conseillère en assurance de personnes dans une agence générale, lui propose un contrat à 145&nbsp;€ par mois : 100&nbsp;€ par jour d'arrêt dès le 4e jour, une rente d'invalidité et un capital décès de 150 000&nbsp;€. Un comparateur en ligne lui affiche un contrat à 95&nbsp;€ par mois. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection prix et conclure la vente.
+  <br/><strong>Consigne :</strong> Analysez chaque scénario sur 9 critères. Les indices orientent votre réflexion — l'analyse complète est la vôtre.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT CJ / TC spécialité Assurance et Licence Pro Métiers de l'Assurance (Bac+3)</strong><ul><li>BUT CJ / TC : développement de portefeuille, conformité (contrôle interne, LCB-FT, recommandations de l'ACPR), ingénierie juridique (responsabilité civile) ; cas n°2 du référentiel : vente de prévoyance Madelin à un travailleur indépendant avec audit de protection sociale</li><li>Licence Pro : assurance des professionnels (RC Pro, flotte), gestion de patrimoine (PER, optimisation fiscale), analyse technique (prévention, tarification technique)</li><li>BTS Assurance (socle) : analyse des besoins, multi-équipement, axe DDA (IPID et conseil écrit)</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Développement de portefeuille</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l'entretien ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia part des carences de couverture avant de parler de prix. Comment cela change-t-il la dynamique de la négociation ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Audit de la protection sociale<span class="bloc">BUT CJ / TC · Cas n°2 du référentiel (audit, carences de couverture)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le besoin d'Arhan. Mesure-t-elle ce que le régime des indépendants lui verserait déjà ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia chiffre ce qu'Arhan et sa famille toucheraient sans contrat. Quelle différence avec le scénario 1 ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BUT TC · Technique de vente et négociation</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Frais offerts, premier mois, franchise à 15 puis 30&nbsp;jours : combien de leviers Célia consomme-t-elle ? Lesquels lui restaient ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Face à l'offre en ligne à 95&nbsp;€, Célia ne s'aligne pas. Comment justifie-t-elle de rester au-dessus ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Contreparties et développement de portefeuille<span class="bloc">BUT TC · Développement de portefeuille · Licence Pro · Assurance des professionnels</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">La camionnette, l'avis et la recommandation viennent d'Arhan. Que révèle cela sur le rapport de force ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">RC Pro, auto professionnelle, prévoyance : quel est l'intérêt du regroupement pour la relation et pour le portefeuille de Célia ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Rentabilité pour l'agence<span class="bloc">Licence Pro · Analyse technique (tarification)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez les cotisations encaissées la première année à 95&nbsp;€ avec un mois offert. Que reste-t-il une fois les frais d'adhésion offerts ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez les cotisations annuelles de prévoyance à 130&nbsp;€. Quelles primes s'ajoutent (RC Pro, auto) ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Analyse technique du risque et des garanties<span class="bloc">Licence Pro · Analyse technique (prévention, tarification)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pour un électricien qui travaille sur chantier, que vaut un contrat avec une franchise de 30&nbsp;jours ? Quels arrêts restent couverts ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quels points techniques Célia compare-t-elle entre son contrat et l'offre en ligne ? Pourquoi la question des maux de dos est-elle décisive ?</div>
+</td>
+</tr>
+<tr>
+<td>7. Conformité et responsabilité de l'intermédiaire<span class="bloc">BUT CJ / TC · Conformité (DDA, ACPR, LCB-FT) · Ingénierie juridique</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le contrat signé correspond-il aux besoins exprimés ? Célia remet-elle l'IPID et un conseil écrit ? Que risque l'agence si Arhan n'est pas indemnisé ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">IPID, fiche de conseil, questionnaire de santé, RGPD : à quelles obligations du Code des assurances ces éléments renvoient-ils ?</div>
+</td>
+</tr>
+<tr>
+<td>8. Optimisation fiscale et gestion de patrimoine<span class="bloc">Licence Pro · Gestion de patrimoine (optimisation fiscale)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia mentionne-t-elle la déductibilité Madelin des cotisations ? Quel argument laisse-t-elle de côté ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comment Célia utilise-t-elle la loi Madelin ? Quelle étape patrimoniale pourrait-elle proposer ensuite à Arhan ?</div>
+</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Écoute présente mais absence de fermeté. Quel soft skill manque-t-il pour transformer l'empathie en conseil ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia dit « non » à la baisse des garanties sans braquer Arhan. Quel impact sur la perception de son professionnalisme ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BUT CJ / TC / Licence Pro Assurance)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-hint">Indice : dans quel scénario Célia ramène-t-elle la discussion du prix vers ce dont Arhan a vraiment besoin ?</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût annuel réel pour Arhan dans chaque scénario, après déduction Madelin (tranche à 30&nbsp;%). L'écart justifie-t-il la différence de garanties ?
+<div class="q-hint">Indice : scénario 1 : 95&nbsp;€ par mois, franchise de 30&nbsp;jours ; scénario 2 : 130&nbsp;€ par mois, franchise de 3&nbsp;jours.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Dans le scénario 1, quelles obligations Célia a-t-elle négligées, et quelles sanctions l'agence encourt-elle ?
+<div class="q-hint">Indice : exigences et besoins, IPID, conseil écrit, cohérence du contrat ; ACPR et responsabilité civile.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan veut ensuite préparer sa retraite. Comment Célia doit-elle construire son conseil, et dans quel ordre ?
+<div class="q-hint">Indice : bilan retraite du régime des indépendants, horizon, profil de risque, capacité d'épargne, PER et déductibilité.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Grilles d'analyse entretien conseil prévoyance · Célia × Arhan · BTS Assurance, BUT CJ / TC &amp; Licence Pro Métiers de l'Assurance</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>
