@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Fournisseurs Retail — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🛒</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Retail — Grande distribution</div>
+<div class="pole-desc">Négociation d'achat · Category management · Rentabilité du rayon · Commerce local et responsable</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Fournisseurs</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 Tête de gondole · 2 400 bouteilles · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>chef(fe) de rayon Liquides</strong> à l'<strong>hypermarché LES TILLEULS</strong> (Villeurbanne). Le magasin lance l'opération <strong>« Saveurs d'ici »</strong> : une <strong>tête de gondole théâtralisée du 2 au 15 juin</strong>, dédiée aux bières artisanales de producteurs situés à moins de 50 km, avec un objectif de <strong>2 400 bouteilles</strong> vendues à <strong>3,60 € TTC</strong> (3,00 € HT). Prix d'achat cible : <strong>2,10 € HT</strong>. Quatre brasseurs veulent être référencés.<br/><br/>Mission : analyser les 4 dossiers fournisseurs, <strong>classer les 4 dossiers par pertinence</strong> pour <strong>Mme Lambert</strong>, directrice du magasin, et défendre la recommandation. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — Mme Lambert</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Plan d'implantation à transmettre vendredi 18h · PLV « Saveurs d'ici » déjà imprimée (2 500 €) · Sans fournisseur validé, la tête de gondole est réattribuée à une opération nationale · Marge visée 30 %, plancher 25 % (prix d'achat 2,25 € HT maximum)<br/><br/><strong style="color:var(--orange)">Critères de sélection :</strong> Marge et franco de port · Fiabilité de l'approvisionnement (capacité, EAN, étiquetage) · Animation et rotation · Risque fournisseur · Ancrage local et RSE</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">BUT TC parcours Distribution :</strong> achats et négociation (sourcing de fournisseurs locaux, conditions d'achat B2B), category management (optimisation de l'assortiment d'une catégorie).<br/><strong style="color:var(--orange)">BTS MCO :</strong> gestion opérationnelle (fixation des prix, calcul de marge, approvisionnements et facing), animation et dynamisation (opérations promotionnelles en TG, théâtralisation de l'espace de vente).<br/><strong style="color:var(--orange)">Axe Phygital et éco-responsabilité :</strong> fiche produit Click &amp; Collect, emballages consignés, origine locale vérifiée.<br/><em style="color:var(--muted)">Inspiré du cas n°2 du référentiel : le chef de rayon rencontre un brasseur local, négocie les tarifs d'achat et le franco de port, et convient d'un plan d'animation (dégustation en magasin) pour garantir la rotation du produit.</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers fournisseurs</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Négociateur</span><div class="step-body">
+<strong>Directeur commercial d'une brasserie régionale à 45 km</strong> · Gros volumes disponibles · Exige 2,45 € HT la bouteille, le franco de port seulement dès 8 000 € HT (transport ≈ 350 € à la charge du magasin), l'exclusivité de la tête de gondole avec retrait des références concurrentes · Refuse toute dégustation · Validation de son DG lundi, après le plan d'implantation
+<div class="badges">
+<span class="b-ko">❌ Marge à 13,5 % (plancher : 25 %)</span>
+<span class="b-ko">❌ Aucune animation = rotation non garantie</span>
+<span class="b-ko">❌ Réponse lundi = tête de gondole perdue</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Vrai potentiel de volume (gamme de saison à l'automne), à renégocier plus tôt avec un plan d'animation</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Béatrice<br/>L'Enthousiaste</span><div class="step-body">
+<strong>Fondatrice d'une micro-brasserie bio à 15 km, créée il y a 6 mois</strong> · Très belle histoire locale · 2,20 € HT la bouteille (marge 26,7 %) · Mais : 600 bouteilles par mois pour 2 400 nécessaires en 2 semaines, codes EAN en attente, étiquetage réglementaire prêt dans 3 semaines · Demande un paiement comptant et le report de l'opération
+<div class="badges">
+<span class="b-ko">❌ Rupture dès le 4e jour de l'opération</span>
+<span class="b-ko">❌ Produit non conforme (EAN, étiquetage) au 2 juin</span>
+<span class="b-ko">❌ Plan B inexistant (« un ami brasseur, peut-être »)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Productrice sincère, à accompagner vers un référencement local permanent une fois la capacité et la conformité assurées</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Idriss<br/>Le Partenaire</span><div class="step-body">
+<strong>Brasseur-gérant d'une brasserie artisanale bio à 25 km</strong> · 3 000 bouteilles par mois · 2,15 € HT, franco dès 1 000 € HT · 2 400 bouteilles livrées lundi avec EAN et étiquetage conformes · Contrat signé jeudi · Fiche produit Click &amp; Collect · Bouteilles consignées · Demande un facing de 4 à hauteur des yeux · Imprévu : bière de saison prête le 10 juin
+<div class="badges">
+<span class="b-ok">✅ Marge 28 %, franco atteint dès la 1re commande</span>
+<span class="b-ok">✅ Facing accordé contre 2 samedis de dégustation</span>
+<span class="b-ok">✅ Imprévu transformé en « nouveauté » le 10 juin, même prix</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier — rentable, fiable, animé et vraiment local</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>La Prestigieuse</span><div class="step-body">
+<strong>Fondatrice d'une marque « craft » premium (80 000 abonnés Instagram)</strong> · 4,20 € HT avec un prix de vente imposé à 5,50 € TTC (marge 8 %) · Bière brassée en Belgique présentée comme « locale » · Livraison dans 3 semaines, son propre meuble de 2 m · Dégustations facturées 600 €/samedi · Veut négocier directement avec la directrice · Déréférencée par 2 enseignes pour ruptures
+<div class="badges">
+<span class="b-ko">❌ Prix de vente imposé : pratique interdite</span>
+<span class="b-ko">❌ Fausse origine « locale » : tromperie du consommateur</span>
+<span class="b-ko">❌ Contournement du chef de rayon + historique de ruptures</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire — la marque la plus connue, mais rien n'est fiable ni légal</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Idriss (91/100)</strong> — Seul dossier viable : prix dans la marge + franco accessible + livraison conforme lundi + contrat jeudi + dégustations + ancrage local réel.<br/><br/>
+<strong style="color:#ffb347">🥈 Ousmane (55/100)</strong> — Fournisseur solide, mais ses conditions détruisent la marge et il refuse d'animer.<br/><br/>
+<strong style="color:#bb99ff">🥉 Béatrice (48/100)</strong> — Produit séduisant, mais ni la capacité ni la conformité avant le 2 juin.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (24/100)</strong> — Dossier éliminatoire : marge à 8 %, prix imposé, fausse origine locale, fournisseur à risque.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ff9999">Biais de la marque (Diane) :</strong> "Elle a 80 000 abonnés et vend à 5,50 €" — Oui, mais avec 8 % de marge, un prix imposé interdit, une bière brassée en Belgique et une livraison dans 3 semaines. Une marque connue n'est pas un fournisseur fiable.<br/><br/>
+<strong style="color:#ffb347">Biais du volume (Ousmane) :</strong> "Il peut livrer 10 000 bouteilles" — Oui, mais à 13,5 % de marge et sans animation, le rayon remplit la tête de gondole sans rien gagner. <strong>Volume ≠ rentabilité.</strong><br/><br/>
+<strong style="color:#bb99ff">Biais du coup de cœur (Béatrice) :</strong> "Son histoire est magnifique" — Oui, mais un storytelling ne remplace ni la capacité de production, ni un code EAN, ni un étiquetage conforme.
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches fournisseurs (accès via l'inventaire), lisent les entretiens de négociation, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour Mme Lambert. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir les critères de référencement d'un fournisseur local (marge, approvisionnement, animation, risque, ancrage local). Calculer un taux de marque et l'impact du prix d'achat et du franco de port. Connaître l'interdiction des prix de vente imposés et les obligations d'étiquetage. Nommer les 3 biais classiques (marque, volume, coup de cœur).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Analyser un dossier fournisseur en croisant rentabilité, fiabilité et rotation. Négocier un prix d'achat et un franco en proposant une contrepartie (facing, mise en avant). Construire un plan d'animation commerciale (dégustation, PLV, nouveauté). Gérer un imprévu d'approvisionnement sans laisser de trou en rayon.<div class="verbs"><span class="verb">Analyser</span><span class="verb">Négocier</span><span class="verb">Animer</span><span class="verb">Gérer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Garder une posture d'analyse froide face à une marque connue ou à un gros volume. Refuser avec diplomatie une exigence illégale ou une tentative de contournement. Garder le contact avec les fournisseurs écartés en leur proposant une autre opportunité.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> BTS MCO 2e année, BUT TC parcours Distribution, Licence Pro Commerce et Distribution<br/><strong style="color:var(--orange)">Prérequis :</strong> Calcul de marge et de taux de marque, vocabulaire du rayon (TG, facing, franco, référencement, EAN)</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Fournisseurs (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier d'Idriss "Le Partenaire" est-il le meilleur choix pour l'opération « Saveurs d'ici » ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Prix d'achat à 2,15 € HT, livraison conforme avant le lancement et dégustations en magasin : la marge et la rotation du produit sont sécurisées</div><div class="ans ko"><span class="mark">✗</span>C'est le fournisseur qui propose le prix de vente le plus élevé et la marque la plus connue sur les réseaux sociaux</div><div class="ans ko"><span class="mark">✗</span>Il accepte toutes les conditions du magasin sans jamais rien négocier ni poser de questions</div><div class="expl">💡 Célia : "Le meilleur fournisseur n'est pas celui qui a la plus belle marque, mais celui qui rend l'opération rentable, fiable et responsable." Idriss négocie aussi (facing à hauteur des yeux), mais il l'obtient en échange de deux samedis de dégustation.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque fournisseur avec le risque ou l'atout principal qui le caractérise pour l'opération « Saveurs d'ici ».</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table"><tr><td class="col-a">Ousmane "Le Négociateur"</td><td class="col-arrow">→</td><td class="col-b">Destruction de la marge : 2,45 € HT, franco à 8 000 €, exclusivité exigée et aucune dégustation</td></tr><tr><td class="col-a">Béatrice "L'Enthousiaste"</td><td class="col-arrow">→</td><td class="col-b">Approvisionnement fragile : 600 bouteilles par mois, ni code EAN ni étiquetage conforme avant 3 semaines</td></tr><tr><td class="col-a">Idriss "Le Partenaire"</td><td class="col-arrow">→</td><td class="col-b">Dossier sécurisé : 2,15 € HT, franco dès 1 000 €, livraison lundi, 2 samedis de dégustation</td></tr><tr><td class="col-a">Diane "La Prestigieuse"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : prix de vente imposé, faux « local », contournement du chef de rayon</td></tr></table><div class="expl">💡 Chaque profil a un signal unique : Ousmane = marge détruite, Béatrice = approvisionnement fragile, Idriss = dossier béton, Diane = illégal et risqué. Ces signaux émergent dès les premières minutes de l'entretien.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte éliminatoires / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols"><div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div><div class="class-item">Prix de 2,15 € HT et franco de port dès 1 000 € HT de commande</div><div class="class-item">2 400 bouteilles livrées lundi avec codes EAN, contrat signé jeudi</div><div class="class-item">Deux samedis de dégustation animés par le brasseur, bouteilles consignées</div></div><div class="class-col red"><div class="class-col-title">❌ Signaux éliminatoires</div><div class="class-item">"Envoyez votre plan sans nous, c'est votre problème" (Ousmane)</div><div class="class-item">"Mes étiquettes seront prêtes dans 3 semaines, mais ça va passer" (Béatrice)</div><div class="class-item">"Vous la vendrez à 5,50 €, c'est le prix que j'impose partout" (Diane)</div></div><div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div><div class="class-item">Le Négociateur → gamme de saison à l'automne, négociée plus tôt avec un plan d'animation</div><div class="class-item">L'Enthousiaste → référencement local permanent, une fois la capacité et la conformité assurées</div><div class="class-item">La Prestigieuse → rayon bières premium, sans prix imposé et avec une origine affichée honnêtement</div></div></div><div class="expl">💡 Célia : "Les trois fournisseurs écartés ne sont pas de mauvais fournisseurs, ils ne conviennent pas à cette opération. Un chef de rayon expert sait leur proposer une autre opportunité."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un fournisseur qui demande 2,45 € HT et un franco à 8 000 €, ce qui ferait tomber la marge sous le plancher de 25 %, quelle est la bonne réaction du chef de rayon ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Défendre le prix d'achat cible en rappelant les volumes et la visibilité offerts, et proposer une contrepartie (facing, animation) contre un prix et un franco acceptables</div><div class="ans ko"><span class="mark">✗</span>Accepter ses conditions pour ne pas perdre une grosse brasserie, la marge se rattrapera sur la gamme d'automne</div><div class="ans ko"><span class="mark">✗</span>Envoyer le plan d'implantation sans fournisseur et attendre la réponse de son directeur général lundi</div><div class="expl">💡 Toute concession se donne contre une contrepartie. À 2,45 € HT plus 350 € de transport, la marge de l'opération passe de 2 160 € (cible) à 970 €, soit 13,5 %. Envoyer le plan sans fournisseur, c'est perdre la tête de gondole et 2 500 € de PLV.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Diane "La Prestigieuse" est le meilleur dossier car son prix de vente de 5,50 € TTC garantit le chiffre d'affaires le plus élevé pour le rayon.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 Le prix de vente imposé est interdit (le distributeur fixe librement son prix de revente) et ne laisse que 8 % de marge. La bière est brassée en Belgique, la livraison arrive après l'opération et Diane a déjà été déréférencée deux fois. <strong>Marque connue ≠ bon fournisseur.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un chef de rayon pour référencer un producteur local, c'est de garantir la __________ du produit : un beau produit ne vaut rien s'il dort en rayon, sans marge, sans livraison fiable et sans animation.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">rotation</strong></div><div class="expl">💡 Célia : "En grande distribution, un référencement se juge à la sortie de caisse : marge, disponibilité, animation. Idriss prouve qu'un fournisseur qui négocie peut rester rentable, si chaque concession a une contrepartie."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing Mme Lambert</div><div class="tl-desc">Présenter l'urgence en une phrase : "Tête de gondole « Saveurs d'ici » du 2 au 15 juin, 2 400 bouteilles, PLV imprimée, plan d'implantation vendredi 18h. 4 brasseurs intéressés. Un seul peut être référencé sans tuer notre marge. Lequel ?" Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Atelier (VTS) + grille d'évaluation</div><div class="tl-desc">Lecture des 4 entretiens et des 4 fiches fournisseurs. Les équipes notent chaque dossier de 1 à 5 sur les 5 critères pondérés, obtiennent un score /100 et rédigent 3 arguments pour leur choix.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 27 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Diane ? Pourquoi ?" → biais de la marque. "Qui a choisi Ousmane ?" → biais du volume. "Qui a choisi Béatrice ?" → biais du coup de cœur. Faire calculer la marge réelle de chaque dossier avant de révéler le corrigé.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div></div><div class="tl-content"><div class="tl-time">27 – 35 min</div><div class="tl-title">Réorientation fournisseurs + Quiz</div><div class="tl-desc">Pour chaque fournisseur écarté : "Quelle opportunité lui proposer ?" Ousmane → gamme de saison à l'automne avec plan d'animation. Béatrice → référencement local permanent une fois conforme. Diane → rayon premium, sans prix imposé et avec une origine honnête. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Faire chiffrer chaque erreur.</strong> Base : 2 400 bouteilles × 3,00 € HT = 7 200 € HT de CA. Idriss : 7 200 – 5 160 = 2 040 € de marge (28 %). Ousmane : 7 200 – 5 880 – 350 de transport = 970 € (13,5 %). Diane : 4,58 € HT de prix de vente pour 4,20 € d'achat = 8 %. Béatrice : 26,7 % sur le papier, mais rupture au 4e jour et 2 500 € de PLV inutiles.</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Rappeler le cadre légal.</strong> Le distributeur fixe librement son prix de revente : imposer un prix de vente est interdit. Présenter une bière brassée en Belgique comme « locale » trompe le consommateur et engage aussi la responsabilité du magasin. Demandez aux équipes quelles vérifications faire avant de référencer (origine, EAN, étiquetage, assurance).</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Insister sur la contrepartie et la rotation.</strong> Idriss et Ousmane négocient tous les deux. La différence : Idriss obtient un facing contre deux samedis de dégustation, Ousmane veut l'exclusivité sans rien donner. C'est le cœur du cas n°2 du référentiel : négocier le prix, le franco et un plan d'animation qui garantit la rotation.</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy · Pôle Retail · <a href="dossiers-fournisseurs-retail-grille.html">Grille d'évaluation interactive</a></div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>
