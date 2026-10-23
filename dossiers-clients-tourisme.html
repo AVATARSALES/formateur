@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Clients Tourisme — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🏔️</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Tourisme — Tourisme d'affaires (MICE)</div>
+<div class="pole-desc">Négociation B2B · Rentabilité · Gestion des aléas · Tourisme durable</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Clients</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 Séminaire 50 pers. · 60 000 € HT · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>chef(fe) de projet événementiel</strong> chez <strong>HORIZONS ÉVÉNEMENTS</strong>, agence de tourisme d'affaires à Lyon. L'agence a posé une option ferme sur le <strong>Domaine des Cimes</strong> (hôtel 4* labellisé Clef Verte, lac d'Annecy) pour un séminaire de <strong>3 jours / 2 nuits du 12 au 14 mars, 50 participants</strong>, au forfait de <strong>1 200 € HT par personne</strong> (60 000 € HT, coût de revient 45 000 €). Quatre entreprises sont intéressées.<br/><br/>Mission : analyser les 4 dossiers clients, <strong>classer les 4 dossiers par pertinence</strong> pour <strong>Mme Vasseur</strong>, directrice de l'agence, et défendre la recommandation. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — Mme Vasseur</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Option à confirmer avant vendredi 18h · Acompte de 15 000 € déjà versé au domaine, non remboursable · Marge visée 25 %, plancher 20 %<br/><br/><strong style="color:var(--orange)">Critères de sélection :</strong> Marge préservée · Budget validé et acompte · Dates et effectif compatibles · Risque client maîtrisé · Engagement RSE (label Clef Verte)</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">BUT TC parcours Marketing touristique :</strong> tourisme d'affaires (MICE), montage de séminaire, négociation B2B avec défense des marges, pilotage commercial (rentabilité, yield).<br/><strong style="color:var(--orange)">BTS Tourisme :</strong> découverte des besoins et montage de devis, cotation et calcul de marges, gestion des aléas.<br/><strong style="color:var(--orange)">Axe Tourisme durable (RSE) :</strong> mobilité douce, hébergement labellisé Clef Verte, impact carbone du projet.<br/><em style="color:var(--muted)">Inspiré du cas n°2 du référentiel : un client exigeant demande des remises, l'apprenant défend ses marges et gère un imprévu logistique annoncé au dernier moment.</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers clients</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Négociateur</span><div class="step-body">
+<strong>DRH d'un groupe bancaire régional</strong> · 50 commerciaux · Budget plafonné à 52 000 € · Exige –15 % (1 020 € HT/pers.), l'open bar offert à la soirée de gala, aucun acompte (paiement à 60 jours), annulation sans frais jusqu'à J-15 · Décision de sa direction lundi, après l'expiration de l'option
+          <div class="badges">
+<span class="b-ko">❌ Marge sous 10 % (plancher : 20 %)</span>
+<span class="b-ko">❌ Zéro acompte + annulation libre = tout le risque sur l'agence</span>
+<span class="b-ko">❌ Réponse lundi = option perdue</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Vrai potentiel grand compte (convention annuelle), à retravailler plus tôt et avec un cahier des charges clair</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Béatrice<br/>L'Enthousiaste</span><div class="step-body">
+<strong>CEO d'une start-up GreenTech</strong> · Coup de cœur pour le lieu et le label Clef Verte · Veut un chef étoilé et une croisière privée · Mais : 35 participants pour un domaine privatisé à 50, budget suspendu à une levée de fonds, décision du board dans 3 semaines, demande de prolonger l'option
+          <div class="badges">
+<span class="b-ko">❌ Aucun budget validé, aucun acompte</span>
+<span class="b-ko">❌ 35 pers. = coût par participant à 1 714 € pour garder la marge</span>
+<span class="b-ko">❌ Prolongation impossible : l'acompte de 15 000 € serait perdu</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Cliente sincère, à recontacter pour un séminaire en juin après la levée de fonds</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Idriss<br/>Le Partenaire</span><div class="step-body">
+<strong>Directeur commercial d'une PME industrielle</strong> · 50 commerciaux · Budget de 60 000 € HT validé par le DAF · Accepte le tarif catalogue · Bon de commande jeudi avec 30 % d'acompte · Séminaire bas carbone (TGV, navettes électriques, produits locaux) · Demande le cocktail d'accueil offert · Imprévu : 2 participants en fauteuil roulant
+          <div class="badges">
+<span class="b-ok">✅ Budget validé + acompte avant l'expiration de l'option</span>
+<span class="b-ok">✅ Concession maîtrisée (1 000 €) contre signature : marge 23 %</span>
+<span class="b-ok">✅ Imprévu PMR résolu au même prix (jeu de piste patrimonial)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier — rentable, faisable, responsable, et client annuel potentiel</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>La Prestigieuse</span><div class="step-body">
+<strong>Responsable événementiel d'un laboratoire pharmaceutique</strong> · Annonce 1 500 €/pers. (non validé) · Veut décaler au 19 mars (domaine complet) pour 60 personnes (capacité 50) · Exige un hélicoptère depuis Genève et un feu d'artifice · Demande le contact direct du domaine pour traiter sans l'agence · 2 événements annulés l'an dernier · Refuse tout acompte
+          <div class="badges">
+<span class="b-ko">❌ Dates et effectif impossibles</span>
+<span class="b-ko">❌ Tentative de contournement de l'agence (toxique)</span>
+<span class="b-ko">❌ Hélicoptère contraire aux engagements RSE et au label Clef Verte</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire — le plus gros budget, mais rien n'est sécurisé</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Idriss (91/100)</strong> — Seul dossier viable : budget validé + tarif accepté + acompte jeudi + dates et effectif compatibles + attentes RSE alignées.<br/><br/>
+<strong style="color:#ffb347">🥈 Ousmane (57/100)</strong> — Client sérieux, mais ses conditions détruisent la marge et transfèrent le risque à l'agence.<br/><br/>
+<strong style="color:#bb99ff">🥉 Béatrice (42/100)</strong> — Motivation sincère, mais aucun budget ni acompte avant l'expiration de l'option.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (37/100)</strong> — Dossier éliminatoire : infaisable, risqué et incompatible avec la politique RSE de l'agence.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ff9999">Biais du budget (Diane) :</strong> "Elle paie 1 500 € par personne" — Oui, mais pas aux bonnes dates, pas pour le bon effectif, sans acompte et en contournant l'agence. Un budget annoncé n'est pas un chiffre d'affaires.<br/><br/>
+<strong style="color:#ffb347">Biais du grand compte (Ousmane) :</strong> "C'est une belle référence" — Oui, mais à moins de 10 % de marge, sans acompte et avec annulation libre, l'agence travaille presque à perte. <strong>Prestige ≠ rentabilité.</strong><br/><br/>
+<strong style="color:#bb99ff">Biais de l'enthousiasme (Béatrice) :</strong> "Elle adore le lieu" — Oui, mais l'enthousiasme ne remplace ni une levée de fonds ni un acompte avant vendredi.
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches clients (accès via l'inventaire), lisent les entretiens de découverte, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour Mme Vasseur. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir les critères d'évaluation d'un dossier client MICE (marge, engagement, faisabilité, risque, RSE). Calculer une marge et son impact en cas de remise ou de baisse d'effectif. Nommer les 3 biais classiques (budget, grand compte, enthousiasme).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Analyser un dossier en croisant rentabilité, solidité de l'engagement, faisabilité et risque. Défendre ses marges face à une demande de remise en proposant une contrepartie. Gérer un imprévu logistique (accessibilité PMR) sans surcoût. Proposer des alternatives éco-responsables argumentées (TGV, navettes électriques, label Clef Verte).<div class="verbs"><span class="verb">Analyser</span><span class="verb">Défendre</span><span class="verb">Gérer</span><span class="verb">Proposer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Garder une posture d'analyse froide face au prestige d'un client ou à un gros budget annoncé. Refuser avec diplomatie une demande de contournement ou une exigence contraire aux engagements RSE. Préserver la relation avec les clients écartés en leur proposant une alternative.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> BTS Tourisme 2e année, BUT TC parcours Marketing touristique, Licence Pro Métiers du Tourisme<br/><strong style="color:var(--orange)">Prérequis :</strong> Notions de cotation et de calcul de marge, vocabulaire MICE (option, acompte, privatisation)</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Clients (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier d'Idriss "Le Partenaire" est-il le meilleur choix pour le séminaire d'Annecy ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Budget validé, prix accepté et signature avec acompte avant l'expiration de l'option : la marge et l'acompte de l'agence sont sécurisés</div>
+<div class="ans ko"><span class="mark">✗</span>C'est le client qui propose le budget par participant le plus élevé et le plus grand nombre de participants</div>
+<div class="ans ko"><span class="mark">✗</span>Il accepte toutes les conditions de l'agence sans jamais rien négocier ni poser de questions</div>
+<div class="expl">💡 Célia : "Le meilleur client n'est pas celui qui dépense le plus, mais celui qui rend le projet rentable, faisable et responsable." Idriss négocie aussi (cocktail offert), mais il obtient une concession limitée en échange d'une signature rapide.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque client avec le risque ou l'atout principal qui le caractérise pour le séminaire d'Annecy.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">Ousmane "Le Négociateur"</td><td class="col-arrow">→</td><td class="col-b">Destruction de la marge : –15 %, open bar offert, aucun acompte et annulation sans frais à J-15</td></tr>
+<tr><td class="col-a">Béatrice "L'Enthousiaste"</td><td class="col-arrow">→</td><td class="col-b">Budget suspendu à une levée de fonds : 35 participants, aucun acompte avant 3 semaines</td></tr>
+<tr><td class="col-a">Idriss "Le Partenaire"</td><td class="col-arrow">→</td><td class="col-b">Dossier sécurisé : budget validé par le DAF, 30 % d'acompte jeudi, attentes RSE alignées</td></tr>
+<tr><td class="col-a">Diane "La Prestigieuse"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : dates et effectif impossibles, hélicoptère, contournement de l'agence</td></tr>
+</table>
+<div class="expl">💡 Chaque profil a un signal unique : Ousmane = marge détruite, Béatrice = budget fragile, Idriss = dossier béton, Diane = infaisable et toxique. Ces signaux émergent dès les premières minutes de l'entretien de découverte.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte éliminatoires / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols">
+<div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div>
+<div class="class-item">Budget de 60 000 € HT validé par le directeur financier</div>
+<div class="class-item">Bon de commande signé jeudi avec 30 % d'acompte, avant l'expiration de l'option</div>
+<div class="class-item">Demande d'un séminaire bas carbone : TGV, navettes électriques, produits locaux</div>
+</div>
+<div class="class-col red"><div class="class-col-title">❌ Signaux éliminatoires</div>
+<div class="class-item">"Gardez-moi l'option jusqu'à lundi, c'est votre problème" (Ousmane)</div>
+<div class="class-item">"Le board se réunit dans 3 semaines, mais ça va passer" (Béatrice)</div>
+<div class="class-item">"Donnez-moi le contact direct du domaine, sans votre commission" (Diane)</div>
+</div>
+<div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div>
+<div class="class-item">Le Négociateur → convention annuelle négociée plus tôt, avec un cahier des charges clair</div>
+<div class="class-item">L'Enthousiaste → séminaire en juin pour 35 personnes, après la levée de fonds</div>
+<div class="class-item">La Prestigieuse → événement premium sur mesure, avec acompte exigé à la signature</div>
+</div>
+</div>
+<div class="expl">💡 Célia : "Les trois clients écartés ne sont pas de mauvais clients, ils ne conviennent pas à ce séminaire. Un chef de projet expert sait leur proposer un autre projet adapté."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à une demande de 15 % de remise qui ferait tomber la marge sous le plancher de 20 %, quelle est la bonne réaction du chef de projet ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Défendre le prix en rappelant la valeur du forfait et proposer une contrepartie (ajustement d'une prestation) contre une signature avec acompte</div>
+<div class="ans ko"><span class="mark">✗</span>Accepter la remise pour ne pas perdre un grand compte, la marge se rattrapera sur la convention annuelle</div>
+<div class="ans ko"><span class="mark">✗</span>Prolonger l'option jusqu'à lundi pour laisser le temps au client de convaincre sa direction</div>
+<div class="expl">💡 Toute concession se donne contre une contrepartie. À 51 000 € avec l'open bar offert, la marge passe de 15 000 € à environ 4 000 € : l'agence travaille presque à perte. Prolonger l'option, c'est risquer l'acompte de 15 000 €.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Diane "La Prestigieuse" est le meilleur dossier car son budget de 1 500 € par participant garantit le chiffre d'affaires le plus élevé pour l'agence.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div>
+<div class="expl">💡 Le budget de Diane n'est ni validé ni sécurisé (aucun acompte), ses dates et son effectif sont impossibles, elle veut contourner l'agence et a déjà annulé deux événements. Un budget annoncé n'est pas un chiffre d'affaires. <strong>Gros budget ≠ bon dossier.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un chef de projet MICE pour choisir un dossier client, c'est de protéger la __________ de l'agence : un gros budget ne vaut rien sans marge, sans acompte et sans délai tenu.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">rentabilité</strong></div>
+<div class="expl">💡 Célia : "En tourisme d'affaires, la rentabilité se joue avant la signature : marge, acompte, dates, risque. Idriss prouve qu'un client qui négocie peut rester rentable, si chaque concession a une contrepartie."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing Mme Vasseur</div><div class="tl-desc">Présenter l'urgence en une phrase : "Domaine des Cimes, 50 places, 15 000 € d'acompte engagés, option jusqu'à vendredi. 4 clients intéressés. Un seul peut signer maintenant sans tuer notre marge. Lequel ?" Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Atelier (VTS) + grille d'évaluation</div><div class="tl-desc">Lecture des 4 entretiens et des 4 fiches clients. Les équipes notent chaque dossier de 1 à 5 sur les 5 critères pondérés, obtiennent un score /100 et rédigent 3 arguments pour leur choix.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 27 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Diane ? Pourquoi ?" → biais du budget. "Qui a choisi Ousmane ?" → biais du grand compte. "Qui a choisi Béatrice ?" → biais de l'enthousiasme. Faire calculer la marge réelle de chaque dossier avant de révéler le corrigé.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">27 – 35 min</div><div class="tl-title">Réorientation commerciale + Quiz</div><div class="tl-desc">Pour chaque client écarté : "Quelle offre lui proposer ?" Ousmane → convention annuelle préparée 4 mois avant. Béatrice → séminaire en juin, lieu plus petit. Diane → événement sur mesure avec acompte et engagement RSE. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Faire chiffrer chaque erreur.</strong> Ousmane : 51 000 € – 45 000 € – 2 000 € d'open bar = 4 000 € de marge (moins de 8 %). Béatrice : 35 pers. à 1 200 € = 42 000 €, sous le coût de revient. Diane : option perdue = 15 000 € d'acompte envolés. Idriss : 60 000 € – 46 000 € = 14 000 € (23 %).</div></div>
+<div class="tip"><div class="tip-icon">🌱</div><div class="tip-text"><strong>Valoriser l'argument RSE.</strong> Le refus de l'hélicoptère n'est pas un caprice : l'agence vend des séminaires labellisés Clef Verte. Demandez aux équipes de chiffrer l'écart carbone entre un aller-retour en TGV Lyon–Annecy et un transfert en hélicoptère depuis Genève.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Insister sur la contrepartie.</strong> Idriss et Ousmane négocient tous les deux. La différence : Idriss demande une concession limitée contre une signature jeudi, Ousmane veut tout sans rien donner. C'est le cœur du cas n°2 du référentiel : défendre ses marges face aux demandes de remise.</div></div>
+</div>
+</div>
+</div></div></div>
+
+<div class="footer">Avatar Sales Academy · Pôle Tourisme · <a href="dossiers-clients-tourisme-grille.html">Grille d'évaluation interactive</a></div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>
