@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Grilles d'analyse — Entretien conseil crédit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Grilles d'analyse — 2 scénarios de négociation d'un crédit auto en agence bancaire</h1>
+<p class="subtitle">Célia (conseillère de clientèle) × Arhan (jeune actif, client de l'agence) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS Banque, BUT TC / GEA finance et Licence Pro Assurance, Banque, Finance</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS Banque</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT TC / GEA / Licence Pro ABF</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Banque — Conseiller de clientèle (Bac+2) — 6 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 26 ans, technicien en CDI depuis 2 ans et client de l'agence, sollicite un crédit auto de 15&nbsp;000&nbsp;€ sur 24 mois pour une voiture d'occasion. Il gagne 2&nbsp;300&nbsp;€ net par mois et rembourse déjà un prêt étudiant de 220&nbsp;€ par mois. Célia, conseillère de clientèle, lui propose un TAEG de 5,9&nbsp;% avec une assurance emprunteur ; le concessionnaire annonce 3,9&nbsp;%. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection taux et conclure la vente.
+  <br/><strong>Consigne :</strong> Complétez la grille en analysant chaque scénario. Les indices vous guident — à vous de formuler l'analyse.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS Banque, Conseiller de clientèle (particuliers)</strong><ul><li>Développement commercial : conduite d'entretiens de vente, montage de dossiers de crédit à la consommation, commercialisation d'épargne et d'assurances (IARD)</li><li>Analyse du risque : analyse de la solvabilité (KYC), prévention des situations de surendettement</li><li>Environnement légal et conformité : devoir de conseil et d'information, LCB-FT, RGPD</li><li>Axe AMF : questionner l'horizon de placement, le profil de risque et l'expérience financière avant toute proposition d'épargne</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS Banque · Développement commercial (entretien de vente)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comptez les gestes que Célia accorde (frais de dossier, assurance facultative, 4,5&nbsp;%, 3,9&nbsp;%). Qui mène l'entretien : Célia ou Arhan ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Avant de parler du taux, de quoi Célia parle-t-elle ? Quel calcul présente-t-elle à Arhan ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Découverte du client (KYC)<span class="bloc">BTS Banque · Analyse du risque (solvabilité, KYC)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le projet d'Arhan. Lui demande-t-elle ses revenus, ses charges, ses justificatifs ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quelles informations et quels justificatifs Arhan dit-il avoir fournis ? À quoi servent-ils ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection taux<span class="bloc">BTS Banque · Développement commercial (crédit à la consommation)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de temps Célia résiste-t-elle avant de faire un geste ? Que se passe-t-il quand Arhan en redemande ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi parler de « mensualité que votre budget peut supporter » change-t-il la façon dont Arhan regarde le taux ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Prévention du surendettement<span class="bloc">BTS Banque · Analyse du risque (surendettement)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez le taux d'endettement d'Arhan avec une mensualité de 650&nbsp;€ sur 24 mois et son prêt étudiant de 220&nbsp;€. Célia le vérifie-t-elle ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quel taux d'endettement Célia annonce-t-elle pour 24 mois puis pour 48 mois ? Pourquoi refuse-t-elle les 24 mois sans dire « non » ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Vente croisée et devoir de conseil<span class="bloc">BTS Banque · Épargne et assurances (IARD) · Axe AMF</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Qui propose le livret d'épargne ? Célia pose-t-elle des questions avant de l'ouvrir ? Que pensez-vous de rendre l'assurance emprunteur facultative ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Assurance emprunteur, assurance auto, livret : comment Célia justifie-t-elle chaque produit ? Que fait-elle avant de proposer l'épargne ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Conformité et formalisation<span class="bloc">BTS Banque · Environnement légal et conformité (information, LCB-FT, RGPD)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia parle-t-elle de l'information précontractuelle, du délai de rétractation, des justificatifs à fournir ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Relevez les mentions de la fiche d'informations précontractuelles, du délai de rétractation et du RGPD. Qu'apportent-elles à la crédibilité de Célia ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BTS Banque)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Calculez le taux d'endettement d'Arhan dans chacun des 2 accords. Lequel respecte le seuil de vigilance de 33 à 35&nbsp;% ?
+<div class="q-hint">Indice : (mensualité du crédit auto + prêt étudiant) ÷ revenus nets mensuels. Scénario 1 : 650&nbsp;€ sur 24 mois ; scénario 2 : 344&nbsp;€ sur 48 mois.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, le concessionnaire propose 3,9&nbsp;%. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-hint">Indice : que compare-t-elle vraiment : le taux, ou le TAEG et le coût total assurance comprise ?</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les taux et commence à raisonner en budget et en protection ? Citez la phrase de Célia.
+<div class="q-hint">Indice : cherchez la question de Célia sur l'arrêt de travail.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a accepté l'offre. Quelles étapes et quels documents Célia doit-elle respecter avant le déblocage des fonds ?
+<div class="q-hint">Indice : référentiel BTS, blocs « Analyse du risque » et « Environnement légal et conformité ».</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT TC / GEA finance et Licence Pro Assurance, Banque, Finance (Bac+3) — 9 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 26 ans, technicien en CDI depuis 2 ans et client de l'agence, sollicite un crédit auto de 15&nbsp;000&nbsp;€ sur 24 mois pour une voiture d'occasion. Il gagne 2&nbsp;300&nbsp;€ net par mois et rembourse déjà un prêt étudiant de 220&nbsp;€ par mois. Célia, conseillère de clientèle, lui propose un TAEG de 5,9&nbsp;% avec une assurance emprunteur ; le concessionnaire annonce 3,9&nbsp;%. Dans chaque scénario, Célia utilise une approche différente pour traiter l'objection taux et conclure la vente.
+  <br/><strong>Consigne :</strong> Analysez chaque scénario sur 9 critères. Les indices orientent votre réflexion — l'analyse complète est la vôtre.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC / GEA orientation finance et Licence Pro Assurance, Banque, Finance</strong><ul><li>BUT : stratégie omnicanale (animation de portefeuille, outils CRM bancaires), analyse financière (rentabilité), droit bancaire (responsabilité du banquier, droit du crédit)</li><li>Licence Pro : ingénierie du risque (analyse des garanties), gestion de patrimoine de premier niveau (épargne, assurance-vie)</li><li>BTS Banque (socle) : découverte KYC, prévention du surendettement, devoir de conseil, axe AMF</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC / GEA · Stratégie de conquête client</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l'entretien ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia part du budget et du risque avant de parler de taux. Comment cela change-t-il la dynamique de la négociation ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Qualité de la découverte (KYC)<span class="bloc">BTS Banque · Analyse du risque</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le projet d'Arhan. L'analyse-t-elle sous l'angle de sa solvabilité ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le projet ET le traduit en capacité de remboursement. Quelle différence avec le scénario 1 ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection taux<span class="bloc">BUT TC / GEA · Négociation commerciale</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Frais de dossier, assurance facultative, 4,5&nbsp;%, 3,9&nbsp;% : combien de leviers Célia consomme-t-elle ? Lesquels lui restaient ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Face au concessionnaire à 3,9&nbsp;%, Célia ne s'aligne pas. Comment justifie-t-elle de rester au-dessus ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Contreparties et équipement du client<span class="bloc">BUT TC / GEA · Animation de portefeuille, CRM bancaire</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le livret, l'avis et la recommandation viennent d'Arhan. Que révèle cela sur le rapport de force ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Domiciliation, assurance auto, livret : quel est leur intérêt pour la relation et pour le portefeuille de Célia ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Rentabilité de l'opération pour la banque<span class="bloc">BUT TC / GEA · Analyse financière (rentabilité)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez les intérêts perçus sur 24 mois à 3,9&nbsp;%. Que reste-t-il une fois les frais de dossier offerts et l'assurance emprunteur perdue ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez les intérêts perçus sur 48 mois à 4,9&nbsp;%. Quels revenus s'ajoutent (assurances, épargne, domiciliation) ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Analyse du risque et garanties<span class="bloc">Licence Pro · Ingénierie du risque (garanties)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Sans assurance emprunteur et avec 38&nbsp;% d'endettement, que se passe-t-il pour la banque si Arhan perd son emploi ou tombe malade ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi l'assurance emprunteur protège-t-elle à la fois Arhan et la banque ? Quel autre élément réduit le risque ?</div>
+</td>
+</tr>
+<tr>
+<td>7. Droit du crédit et responsabilité du banquier<span class="bloc">BUT TC / GEA · Droit bancaire</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia vérifie-t-elle la solvabilité d'Arhan ? Le met-elle en garde contre le risque d'endettement excessif ? Que risque la banque ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Fiche d'informations précontractuelles, offre écrite, délai de rétractation : à quelles obligations du Code de la consommation ces éléments renvoient-ils ?</div>
+</td>
+</tr>
+<tr>
+<td>8. Épargne et conseil patrimonial<span class="bloc">Licence Pro · Gestion de patrimoine · Axe AMF</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le livret est ouvert sans aucune question sur le profil d'Arhan. Quel risque cela fait-il courir à la banque et au client ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi Célia propose-t-elle d'abord une épargne de précaution plutôt qu'un placement plus rémunérateur ?</div>
+</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Écoute présente mais absence de fermeté. Quel soft skill manque-t-il pour transformer l'empathie en conseil ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia dit « non » à 24 mois sans braquer Arhan. Quel impact sur la perception de son professionnalisme ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BUT TC / GEA / Licence Pro ABF)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-hint">Indice : dans quel scénario Célia ramène-t-elle la discussion du taux vers ce dont Arhan a vraiment besoin ?</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût total du crédit pour Arhan dans chaque scénario (intérêts + assurance emprunteur). Le scénario 2 est-il vraiment « plus cher » pour lui ?
+<div class="q-hint">Indice : scénario 1 : 24 mois à 3,9&nbsp;%, sans assurance ; scénario 2 : 48 mois à 4,9&nbsp;%, assurance d'environ 4,50&nbsp;€ par mois.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Dans le scénario 1, quelles obligations Célia a-t-elle négligées, et quelles sanctions la banque encourt-elle ?
+<div class="q-hint">Indice : vérification de la solvabilité, consultation du fichier des incidents (FICP), devoir de mise en garde, information précontractuelle.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan veut ensuite « faire fructifier » ses économies. Comment Célia doit-elle construire son conseil, et dans quel ordre ?
+<div class="q-hint">Indice : épargne de précaution, horizon de placement, profil de risque, expérience financière (axe AMF), assurance-vie multisupports.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Grilles d'analyse entretien conseil crédit auto · Célia × Arhan · BTS Banque, BUT TC / GEA &amp; Licence Pro Assurance, Banque, Finance</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>
