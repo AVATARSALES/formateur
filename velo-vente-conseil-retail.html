@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Grilles d'analyse — Vente conseil en magasin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Grilles d'analyse — 2 scénarios de vente conseil d'un vélo électrique en magasin spécialisé</h1>
+<p class="subtitle">Célia (conseillère de vente en magasin spécialisé) × Arhan (client qui compare avec internet) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS MCO, BUT TC parcours Distribution et Licence Pro Commerce et Distribution</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS MCO</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT TC Distribution / Licence Pro Commerce</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS MCO (Bac+2) — 6 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 34&nbsp;ans, technicien, veut laisser sa voiture au garage et aller au travail à vélo : 12&nbsp;km avec une côte. Il a repéré dans un magasin spécialisé sport et mobilité un vélo à assistance électrique urbain à 2 199&nbsp;€ TTC (batterie de 500&nbsp;Wh, montage, réglage et garantie assurés par l'atelier du magasin). Sur un site internet, il a trouvé un modèle à 1 799&nbsp;€. Célia, conseillère de vente experte au rayon vélos électriques, doit conclure la vente sans sacrifier la marge du magasin. Dans chaque scénario, elle utilise une approche différente pour traiter l'objection prix. <em>Donnée de gestion : prix d'achat HT du vélo = 1 250&nbsp;€ ; TVA 20&nbsp;% ; coût d'achat HT du pack antivol + casque = 60&nbsp;€.</em>
+  <br/><strong>Consigne :</strong> Complétez la grille en analysant chaque scénario. Les indices vous guident — à vous de formuler l'analyse.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS MCO Management Commercial Opérationnel (Bac+2)</strong><ul><li>Développement de la relation client : vente conseil et traitement des objections, fidélisation et gestion des réclamations, intégration du parcours client omnicanal (web-to-store)</li><li>Gestion opérationnelle : fixation des prix, calcul de marge et rentabilité</li><li>Animation et dynamisation de l'offre ; management de l'équipe (briefs, formation sur le terrain)</li><li>Axe pédagogique : phygital (Click &amp; Collect, application, bornes) et éco-responsabilité</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS MCO · Développement de la relation client (vente conseil)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Comptez les gestes que Célia accorde (antivol et casque offerts, 10&nbsp;% sur deux vélos, alignement sur internet). Qui mène l'entretien : Célia ou Arhan ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Avant de parler du prix, de quoi Célia parle-t-elle ? Quel calcul présente-t-elle à Arhan ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Découverte des besoins<span class="bloc">BTS MCO · Vente conseil (découverte, reformulation)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia reformule le besoin d'Arhan. Lui pose-t-elle des questions sur son trajet, sa taille, son budget, son stationnement ? Lui propose-t-elle un essai ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Sur quoi Célia a-t-elle interrogé Arhan ? Qu'a-t-il particulièrement apprécié ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS MCO · Vente conseil et traitement des objections</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de temps Célia résiste-t-elle avant de faire un geste ? Que se passe-t-il quand Arhan en redemande ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pourquoi parler de « ce que ce vélo va vous faire économiser » change-t-il la façon dont Arhan regarde le prix ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Parcours client omnicanal (web-to-store)<span class="bloc">BTS MCO · Parcours client omnicanal · Axe phygital</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Arhan s'est renseigné en ligne avant de venir. Célia exploite-t-elle ce qu'il a vu sur internet, ou le subit-elle ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Relevez ce que le magasin apporte que le site ne peut pas apporter. Quel outil numérique accompagne Arhan après l'achat ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Prix, marge et rentabilité<span class="bloc">BTS MCO · Gestion opérationnelle (fixation des prix, calcul de marge)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Avec un prix d'achat HT de 1 250&nbsp;€, calculez la marge du magasin sur un vélo vendu 1 799&nbsp;€ TTC avec antivol et casque offerts.</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez la marge sur le vélo à 2 099&nbsp;€ TTC et sur le pack sécurité vendu 120&nbsp;€ TTC. Que coûte la révision offerte ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Fidélisation et conclusion<span class="bloc">BTS MCO · Fidélisation · Axe éco-responsabilité</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Qui propose la recommandation et l'avis client ? Que sait le magasin d'Arhan après la vente ? Que devient son ancien vélo ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Programme de fidélité, révision, reprise de l'ancien vélo, documents remis : en quoi la vente prépare-t-elle le retour d'Arhan en magasin ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BTS MCO)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Calculez le prix de vente HT, la marge brute et le taux de marque du vélo au prix affiché (2 199&nbsp;€ TTC), puis dans chaque scénario.
+<div class="q-hint">Indice : prix HT = prix TTC ÷ 1,2 ; taux de marque = marge ÷ prix de vente HT. Pensez aux accessoires offerts et à la révision.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, le site internet est à 1 799&nbsp;€. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-hint">Indice : les deux offres comprennent-elles la même chose ? Combien le vélo fait-il économiser chaque mois ?</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les prix et commence à comparer les offres ? Citez la phrase de Célia.
+<div class="q-hint">Indice : cherchez la question de Célia sur l'offre en ligne.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Vous êtes manager du rayon. Préparez le brief du lendemain matin pour éviter qu'un vendeur reproduise le scénario 1.
+<div class="q-hint">Indice : référentiel BTS MCO, bloc « Management de l'équipe » (briefs, formation sur le terrain) et cas n°1.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3) — 9 critères + verdict</span>
+<div class="context-box">
+<strong>Contexte :</strong> Arhan, 34&nbsp;ans, technicien, veut laisser sa voiture au garage et aller au travail à vélo : 12&nbsp;km avec une côte. Il a repéré dans un magasin spécialisé sport et mobilité un vélo à assistance électrique urbain à 2 199&nbsp;€ TTC (batterie de 500&nbsp;Wh, montage, réglage et garantie assurés par l'atelier du magasin). Sur un site internet, il a trouvé un modèle à 1 799&nbsp;€. Célia, conseillère de vente experte au rayon vélos électriques, doit conclure la vente sans sacrifier la marge du magasin. Dans chaque scénario, elle utilise une approche différente pour traiter l'objection prix. <em>Donnée de gestion : prix d'achat HT du vélo = 1 250&nbsp;€ ; TVA 20&nbsp;% ; coût d'achat HT du pack antivol + casque = 60&nbsp;€.</em>
+  <br/><strong>Consigne :</strong> Analysez chaque scénario sur 9 critères. Les indices orientent votre réflexion — l'analyse complète est la vôtre.
+</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3)</strong><ul><li>BUT TC parcours Distribution : achats et négociation (conditions d'achat, accords-cadres, RFA), category management (assortiment d'une catégorie, stratégie cross-canal), supply chain et e-logistique</li><li>Licence Pro Commerce et Distribution : pilotage financier (P&amp;L, productivité, investissement local), stratégie d'enseigne (veille concurrentielle, relevés de prix, marketing de zone de chalandise)</li><li>BTS MCO (socle) : vente conseil, traitement des objections, calcul de marge, axe phygital et éco-responsabilité</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Achats et négociation</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l'entretien ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia part de l'usage et du coût d'usage avant de parler de prix. Comment cela change-t-il la dynamique de la négociation ?</div>
+</td>
+</tr>
+<tr>
+<td>2. Découverte et argumentation de la valeur<span class="bloc">BTS MCO (socle) · Vente conseil</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia décrit les caractéristiques du vélo. Les relie-t-elle au trajet d'Arhan ? Chiffre-t-elle quelque chose ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quel calcul Célia présente-t-elle ? Pourquoi un argument économique est-il plus fort qu'une liste de caractéristiques ?</div>
+</td>
+</tr>
+<tr>
+<td>3. Négociation et contreparties<span class="bloc">BUT TC · Achats et négociation (conditions, contreparties)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pack offert, remise promise, alignement : Célia obtient-elle quelque chose en échange de chaque concession ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Face au prix internet, Célia refuse de s'aligner. Quelles contreparties obtient-elle pour sa remise de 100&nbsp;€ ?</div>
+</td>
+</tr>
+<tr>
+<td>4. Veille concurrentielle et positionnement prix<span class="bloc">Licence Pro · Stratégie d'enseigne (veille concurrentielle, relevés de prix)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia connaît-elle l'offre du site internet ? Vérifie-t-elle que le produit est comparable avant de s'aligner ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quels éléments de l'offre concurrente Célia connaît-elle ? Comment s'en sert-elle pour défendre le positionnement du magasin ?</div>
+</td>
+</tr>
+<tr>
+<td>5. Pilotage financier (P&amp;L)<span class="bloc">Licence Pro · Pilotage financier (P&amp;L)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez la marge de la vente (prix d'achat HT 1 250&nbsp;€, accessoires offerts 60&nbsp;€ HT). Quel impact si toute l'équipe vend ainsi ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Calculez la marge de la vente (vélo, pack, révision offerte estimée à 30&nbsp;€). Que rapporte en plus la reprise de l'ancien vélo ?</div>
+</td>
+</tr>
+<tr>
+<td>6. Category management et ventes additionnelles<span class="bloc">BUT TC · Category Management (assortiment, cross-canal)</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Les accessoires sont offerts. Quelle place ont-ils dans la rentabilité de la catégorie « vélos électriques » ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Pack sécurité, révision, rayon occasion : comment Célia fait-elle travailler toute la catégorie autour d'une seule vente ?</div>
+</td>
+</tr>
+<tr>
+<td>7. Stratégie cross-canal et phygital<span class="bloc">BUT TC · Stratégie cross-canal · Axe phygital</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Le magasin propose-t-il un outil numérique à Arhan ? Que sait-il de lui après son passage ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Quel rôle joue l'application après la vente ? Comment le magasin pourra-t-il réactiver Arhan ?</div>
+</td>
+</tr>
+<tr>
+<td>8. Éco-responsabilité et zone de chalandise<span class="bloc">Axe éco-responsabilité · Licence Pro · Marketing de zone de chalandise</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Que devient l'ancien vélo d'Arhan ? Célia exploite-t-elle l'argument de la proximité ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Reprise, remise en état, rayon occasion, atelier « à deux pas » : en quoi ces arguments sont-ils à la fois responsables et locaux ?</div>
+</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Écoute présente mais absence de fermeté. Quel soft skill manque-t-il pour transformer l'empathie en conseil ?</div>
+</td>
+<td>
+<div class="hint-label">Indice</div>
+<div class="hint-box">Célia dit « non » à l'alignement sans braquer Arhan. Quel impact sur la perception de son professionnalisme ?</div>
+</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Analyse en groupe (BUT TC / Licence Pro Commerce et Distribution)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-hint">Indice : dans quel scénario Célia ramène-t-elle la discussion du prix vers ce dont Arhan a vraiment besoin ?</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Le magasin vend 300 vélos électriques par an. Calculez l'écart de marge annuel si toute l'équipe vend comme dans le scénario 1 plutôt que comme dans le scénario 2. Quelles conséquences sur le compte d'exploitation ?
+<div class="q-hint">Indice : marge par vente d'environ 189&nbsp;€ (scénario 1) et 509&nbsp;€ (scénario 2).</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Faut-il que l'enseigne adopte une politique officielle d'alignement sur les prix internet ? Proposez des règles.
+<div class="q-hint">Indice : stratégie d'enseigne, veille concurrentielle, produit strictement identique, déclinaison locale.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Comment le chef de rayon peut-il négocier avec le fournisseur de vélos pour rester compétitif face aux pure players sans sacrifier sa marge ?
+<div class="q-hint">Indice : BUT TC, bloc « Achats et négociation » : conditions d'achat, accords-cadres, RFA ; category management.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Grilles d'analyse vente conseil en magasin · Célia × Arhan · BTS MCO, BUT TC Distribution &amp; Licence Pro Commerce et Distribution</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>

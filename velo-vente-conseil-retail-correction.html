@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Corrigé — Vente conseil en magasin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Corrigé — Vente conseil en magasin <span class="teacher">Formateur</span></h1>
+<p class="subtitle">Célia (conseillère de vente en magasin spécialisé) × Arhan (client qui compare avec internet) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS MCO, BUT TC parcours Distribution et Licence Pro Commerce et Distribution</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS MCO</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT TC Distribution / Licence Pro Commerce</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS MCO (Bac+2) — 6 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BTS MCO Management Commercial Opérationnel (Bac+2)</strong><ul><li>Développement de la relation client : vente conseil et traitement des objections, fidélisation et gestion des réclamations, intégration du parcours client omnicanal (web-to-store)</li><li>Gestion opérationnelle : fixation des prix, calcul de marge et rentabilité</li><li>Animation et dynamisation de l'offre ; management de l'équipe (briefs, formation sur le terrain)</li><li>Axe pédagogique : phygital (Click &amp; Collect, application, bornes) et éco-responsabilité</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS MCO · Développement de la relation client (vente conseil)</span></td>
+<td class="ans">Réactive : elle enchaîne les gestes (pack offert, 10&nbsp;% promis sur deux vélos, puis alignement à 1 799&nbsp;€). <b>Arhan mène l'entretien</b> et obtient à chaque demande.</td>
+<td class="ans"><b>Usage d'abord, prix ensuite</b> : essai sur route, coût d'usage comparé à la voiture, comparaison de l'offre en ligne, puis cadre gagnant-gagnant proposé par Célia. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Découverte des besoins<span class="bloc">BTS MCO · Vente conseil (découverte, reformulation)</span></td>
+<td class="ans">Reformulation du besoin (aller au travail tous les jours) mais <b>aucune vraie découverte</b> : ni trajet, ni taille, ni budget, ni essai. L'argumentaire est un catalogue de caractéristiques.</td>
+<td class="ans"><b>Découverte complète</b> : trajet, côte, taille, budget, rangement, puis essai sur route et réglage. La découverte <b>devient l'argument</b> : autonomie nécessaire pour la côte, service atelier.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection prix<span class="bloc">BTS MCO · Vente conseil et traitement des objections</span></td>
+<td class="ans">Elle cède presque immédiatement, puis baisse dès qu'Arhan insiste, jusqu'à <b>s'aligner sur le prix internet</b> sans vérifier que les deux offres sont comparables : le prix devient la seule variable.</td>
+<td class="ans">Elle <b>recadre sur la valeur</b> : coût d'usage (120&nbsp;€ par mois de voiture contre moins de 5&nbsp;€ de recharge), comparaison des offres, refus argumenté de s'aligner, puis effort <b>conditionné</b> à des contreparties.</td>
+</tr>
+<tr>
+<td>4. Parcours client omnicanal (web-to-store)<span class="bloc">BTS MCO · Parcours client omnicanal · Axe phygital</span></td>
+<td class="ans">Elle <b>subit le prix internet</b> et le copie. Elle ne valorise pas ce que le magasin physique apporte (essai, montage, atelier) et ne propose aucun outil numérique de suivi.</td>
+<td class="ans">Elle transforme la visite en <b>avantage du magasin</b> : essai, réglage, montage, SAV de proximité. Le suivi passe par l'<b>application</b> (carte de fidélité, rappel de révision) : un parcours vraiment phygital.</td>
+</tr>
+<tr>
+<td>5. Prix, marge et rentabilité<span class="bloc">BTS MCO · Gestion opérationnelle (fixation des prix, calcul de marge)</span></td>
+<td class="ans">1 799&nbsp;€ TTC = 1 499&nbsp;€ HT ; marge sur le vélo 249&nbsp;€, moins 60&nbsp;€ d'accessoires offerts : <b>environ 189&nbsp;€</b>, soit un taux de marque d'environ 13&nbsp;% (contre 32&nbsp;% au prix affiché).</td>
+<td class="ans">Vélo 2 099&nbsp;€ TTC = 1 749&nbsp;€ HT, marge 499&nbsp;€ ; pack 100&nbsp;€ HT, marge 40&nbsp;€ ; révision offerte (coût atelier estimé 30&nbsp;€) : <b>environ 509&nbsp;€</b>, taux de marque d'environ 27,5&nbsp;%. <b>Près de 2,7 fois</b> la marge du scénario 1.</td>
+</tr>
+<tr>
+<td>6. Fidélisation et conclusion<span class="bloc">BTS MCO · Fidélisation · Axe éco-responsabilité</span></td>
+<td class="ans">L'avis et le bouche-à-oreille viennent d'<b>Arhan</b>. La vente se termine par « je vous l'encaisse » : aucune donnée client, aucun rendez-vous futur, aucun document remis, aucune reprise.</td>
+<td class="ans"><b>Programme de fidélité</b> dans l'application, première révision planifiée (retour en magasin), reprise de l'ancien vélo pour le <b>rayon occasion</b> (économie circulaire), facture, garantie, marquage, RGPD : vente conclue et client fidélisé.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Vente conclue, mais marge divisée par trois, valeur du magasin non défendue et client non fidélisé : Célia donne plus qu'elle ne reçoit.</td>
+<td>✅ Meilleur scénario : vélo adapté au besoin, prix justifié par la valeur, marge préservée, parcours phygital et fidélisation réussis.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BTS MCO)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Calculez le prix de vente HT, la marge brute et le taux de marque du vélo au prix affiché (2 199&nbsp;€ TTC), puis dans chaque scénario.
+<div class="q-ans"><b>Éléments de réponse :</b> Prix affiché : 1 832,50&nbsp;€ HT, marge 582,50&nbsp;€, taux de marque <b>31,8&nbsp;%</b> (coefficient multiplicateur 1,76). Scénario 1 : 1 499,17&nbsp;€ HT, marge vélo 249,17&nbsp;€ − 60&nbsp;€ d'accessoires = <b>189,17&nbsp;€</b>, taux de marque 12,6&nbsp;%. Scénario 2 : 1 749,17 + 100 = 1 849,17&nbsp;€ HT de CA, marge 499,17 + 40 − 30 = <b>509,17&nbsp;€</b>, taux de marque 27,5&nbsp;%.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, le site internet est à 1 799&nbsp;€. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-ans"><b>Éléments de réponse :</b> Les deux offres ne sont pas comparables : vélo livré en carton à monter soi-même, batterie de 400&nbsp;Wh (insuffisante pour la côte), pas d'atelier de proximité. Célia chiffre le coût d'usage (vélo remboursé en moins de deux ans), refuse l'alignement, puis conditionne son effort (2 099&nbsp;€ et révision offerte) au pack sécurité et à l'adhésion au programme de fidélité.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les prix et commence à comparer les offres ? Citez la phrase de Célia.
+<div class="q-ans"><b>Éléments de réponse :</b> « Et avez-vous regardé ce que comprend vraiment l'offre en ligne ? Le vélo est livré en carton, à monter vous-même, avec une batterie de 400&nbsp;Wh au lieu de 500… » Arhan répond lui-même : « Avec ma côte, je ne veux pas tomber en panne de batterie. »</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Vous êtes manager du rayon. Préparez le brief du lendemain matin pour éviter qu'un vendeur reproduise le scénario 1.
+<div class="q-ans"><b>Éléments de réponse :</b> Un brief court (10&nbsp;minutes) : rappel de l'objectif de CA et de <b>marge</b> du jour ; message clé « on ne s'aligne pas sur internet, on compare les offres » ; argumentaire en 3 points (essai et réglage, atelier et SAV, coût d'usage) ; liste des contreparties autorisées (pack, révision, reprise, paiement en 4 fois) et du seuil de prix minimal ; jeu de rôle de 2&nbsp;minutes sur l'objection « c'est moins cher sur internet » ; suivi des ventes de packs et des adhésions au programme de fidélité.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3) — 9 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3)</strong><ul><li>BUT TC parcours Distribution : achats et négociation (conditions d'achat, accords-cadres, RFA), category management (assortiment d'une catégorie, stratégie cross-canal), supply chain et e-logistique</li><li>Licence Pro Commerce et Distribution : pilotage financier (P&amp;L, productivité, investissement local), stratégie d'enseigne (veille concurrentielle, relevés de prix, marketing de zone de chalandise)</li><li>BTS MCO (socle) : vente conseil, traitement des objections, calcul de marge, axe phygital et éco-responsabilité</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT TC · Achats et négociation</span></td>
+<td class="ans">Réactive : trois concessions successives (pack offert, 10&nbsp;% promis sur deux vélos, alignement à 1 799&nbsp;€). <b>Arhan mène l'entretien.</b></td>
+<td class="ans"><b>Valeur d'abord</b> : besoin et essai, coût d'usage chiffré, offres comparées, puis cadre gagnant-gagnant proposé par Célia. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Découverte et argumentation de la valeur<span class="bloc">BTS MCO (socle) · Vente conseil</span></td>
+<td class="ans">Argumentaire <b>produit</b> (batterie, moteur, écran) déconnecté du besoin ; aucune donnée chiffrée, aucun essai.</td>
+<td class="ans">Argumentaire <b>client</b> : la batterie de 500&nbsp;Wh répond à la côte, l'atelier répond à l'usage quotidien ; coût total d'usage chiffré (≈ 115&nbsp;€ économisés par mois, vélo remboursé en moins de deux ans).</td>
+</tr>
+<tr>
+<td>3. Négociation et contreparties<span class="bloc">BUT TC · Achats et négociation (conditions, contreparties)</span></td>
+<td class="ans"><b>Aucune contrepartie</b> demandée par Célia : la remise de 10&nbsp;% est conditionnée à un achat futur incertain, puis dépassée par l'alignement. L'avis client est proposé par Arhan.</td>
+<td class="ans">Remise de 100&nbsp;€ <b>échangée</b> contre la vente du pack sécurité (+40&nbsp;€ de marge) et l'adhésion au programme de fidélité ; reprise et paiement en 4 fois traitent la contrainte de budget sans toucher au prix.</td>
+</tr>
+<tr>
+<td>4. Veille concurrentielle et positionnement prix<span class="bloc">Licence Pro · Stratégie d'enseigne (veille concurrentielle, relevés de prix)</span></td>
+<td class="ans">Alignement <b>sans relevé</b> : Célia ignore ce que comprend l'offre en ligne. Elle abandonne le positionnement « conseil et service » de l'enseigne pour un positionnement prix qu'elle ne peut pas tenir.</td>
+<td class="ans"><b>Veille maîtrisée</b> : produit livré en carton, batterie de 400&nbsp;Wh, pas d'atelier. Le prix plus élevé est justifié par un <b>service que le pure player n'offre pas</b>, cohérent avec la politique de l'enseigne.</td>
+</tr>
+<tr>
+<td>5. Pilotage financier (P&amp;L)<span class="bloc">Licence Pro · Pilotage financier (P&amp;L)</span></td>
+<td class="ans">Marge d'environ <b>189&nbsp;€</b> (taux de marque ≈ 13&nbsp;%), qui ne couvre plus le coût du temps de vente, du montage et du SAV : la vente <b>dégrade le compte d'exploitation</b> du rayon.</td>
+<td class="ans">Marge d'environ <b>509&nbsp;€</b> (taux de marque ≈ 27,5&nbsp;%), plus une future vente d'occasion grâce à la reprise. Revenus récurrents de l'atelier (révisions) : la vente <b>alimente le P&amp;L</b> du magasin.</td>
+</tr>
+<tr>
+<td>6. Category management et ventes additionnelles<span class="bloc">BUT TC · Category Management (assortiment, cross-canal)</span></td>
+<td class="ans">Les accessoires, qui portent habituellement une <b>marge élevée</b>, sont donnés : Célia détruit la marge de la catégorie au lieu de la construire.</td>
+<td class="ans">Vente <b>complémentaire</b> (pack sécurité), service (révision), seconde vie (rayon occasion) : Célia exploite tout l'assortiment de la catégorie et fait entrer Arhan dans le cycle de vie du produit.</td>
+</tr>
+<tr>
+<td>7. Stratégie cross-canal et phygital<span class="bloc">BUT TC · Stratégie cross-canal · Axe phygital</span></td>
+<td class="ans">Vente purement transactionnelle : <b>aucune donnée client</b>, aucun lien numérique. L'avis en ligne est la seule trace, et il vient d'Arhan.</td>
+<td class="ans">Carte de fidélité <b>dans l'application</b>, rappel de révision, données traitées selon le RGPD : le magasin peut réactiver Arhan (révisions, accessoires, offres ciblées) et suivre la relation sur tous les canaux.</td>
+</tr>
+<tr>
+<td>8. Éco-responsabilité et zone de chalandise<span class="bloc">Axe éco-responsabilité · Licence Pro · Marketing de zone de chalandise</span></td>
+<td class="ans">Ni reprise ni argument de proximité : l'avantage du magasin dans sa <b>zone de chalandise</b> (atelier, entretien local) n'est pas utilisé.</td>
+<td class="ans"><b>Économie circulaire</b> (reprise, remise en état, revente d'occasion), mobilité douce, atelier de proximité : un argumentaire responsable qui renforce l'ancrage local du magasin face aux pure players.</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td class="ans">Écoute mais <b>manque d'assertivité</b> : vouloir conclure à tout prix l'emporte sur la valeur du magasin.</td>
+<td class="ans"><b>Assertivité et pédagogie</b> : elle refuse avec des chiffres, tient sa position face au pure player et propose le cadre.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Prix aligné sur un concurrent non comparable, marge détruite, catégorie et relation client non exploitées : une vente qui coûte au magasin.</td>
+<td>✅ Valeur démontrée, marge préservée, catégorie exploitée, client fidélisé dans un parcours phygital et responsable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BUT TC / Licence Pro Commerce et Distribution)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-ans"><b>Éléments de réponse :</b> Le scénario 2 : Célia déplace la discussion de la position (« 1 799&nbsp;€ sur internet ») vers les intérêts d'Arhan (monter sa côte sans panne, arrêter de payer la voiture, être dépanné près de chez lui), puis construit une solution commune (2 099&nbsp;€, pack, révision, reprise, paiement en 4 fois) à partir de critères objectifs : coût d'usage, autonomie de la batterie, services inclus.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Le magasin vend 300 vélos électriques par an. Calculez l'écart de marge annuel si toute l'équipe vend comme dans le scénario 1 plutôt que comme dans le scénario 2. Quelles conséquences sur le compte d'exploitation ?
+<div class="q-ans"><b>Éléments de réponse :</b> Écart de 320&nbsp;€ par vente × 300 = <b>96 000&nbsp;€ de marge brute</b> perdus par an. Les frais de personnel, l'atelier et le loyer restant identiques, le résultat du rayon s'effondre : la productivité horaire des vendeurs baisse, et le magasin ne peut plus financer son atelier, c'est-à-dire précisément ce qui le différencie des pure players.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Faut-il que l'enseigne adopte une politique officielle d'alignement sur les prix internet ? Proposez des règles.
+<div class="q-ans"><b>Éléments de réponse :</b> Un alignement systématique détruit la marge et le positionnement « conseil et service ». Si l'enseigne en propose un, il doit être <b>encadré</b> : même référence exacte, vendeur français identifiable, produit en stock, prix livré et services comparables, plafond de remise, validation par le responsable, et suivi dans les relevés de prix. Le message prioritaire reste la comparaison des offres complètes (montage, réglage, garantie, atelier).</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Comment le chef de rayon peut-il négocier avec le fournisseur de vélos pour rester compétitif face aux pure players sans sacrifier sa marge ?
+<div class="q-ans"><b>Éléments de réponse :</b> S'appuyer sur les données de vente et les relevés de prix pour négocier : <b>accord-cadre</b> annuel avec engagement de volume, <b>RFA</b> progressives par paliers, budget de coopération commerciale (essais, journées de démonstration, théâtralisation du rayon), modèles exclusifs ou séries spéciales non comparables en ligne, conditions logistiques (franco, délais). L'objectif est de baisser le coût d'achat net plutôt que le prix de vente.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Corrigé grilles d'analyse vente conseil en magasin · Célia × Arhan · BTS MCO, BUT TC Distribution &amp; Licence Pro Commerce et Distribution</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>
