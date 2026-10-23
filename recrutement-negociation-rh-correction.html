@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Corrigé — Entretien de recrutement</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #dfe2e8;
+  --s1: #dc3545;
+  --s1-bg: #fef2f2;
+  --s1-border: #f5c6cb;
+  --s3: #16a34a;
+  --s3-bg: #f0fdf4;
+  --s3-border: #86efac;
+  --tab-active: #1e40af;
+  --tab-bg: #e8ecf3;
+  --hint-bg: #eef2ff;
+  --hint-border: #818cf8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+    --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+   --s3-bg: #0c1f14; --s3-border: #1a5c34;
+    --tab-active: #60a5fa; --tab-bg: #1e2333;
+    --hint-bg: #1a1f33; --hint-border: #6366f1;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0e14; --surface: #161923; --text: #e4e5ea; --muted: #9ca3af;
+  --border: #282d3a; --s1-bg: #1f1214; --s1-border: #5c2027;
+ --s3-bg: #0c1f14; --s3-border: #1a5c34;
+  --tab-active: #60a5fa; --tab-bg: #1e2333;
+  --hint-bg: #1a1f33; --hint-border: #6366f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+.page { max-width: 1140px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+.subtitle { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+/* Tabs */
+.tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.tab-btn {
+  padding: .55rem 1.4rem; border-radius: 8px; border: none;
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; background: var(--tab-bg); color: var(--muted);
+  transition: all .2s;
+}
+.tab-btn.active { background: var(--tab-active); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Context box */
+.context-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+.context-box strong { font-weight: 700; }
+
+/* Level badge */
+.level-badge {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: .2rem .6rem; border-radius: 5px; margin-bottom: 1rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.level-bts { background: #dbeafe; color: #1e40af; }
+.level-mastere { background: #ede9fe; color: #5b21b6; }
+
+/* Table */
+.g-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .82rem; background: var(--surface);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.g-table thead th {
+  padding: .7rem .9rem; font-weight: 700; font-size: .75rem;
+  text-align: left; border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.g-table thead th:first-child { width: 22%; }
+.g-table thead th.h1 { color: var(--tab-active); }
+.g-table thead th.h2 { color: var(--s2); }
+.g-table thead th.h3 { color: var(--s3); }
+.g-table tbody td {
+  padding: .65rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.g-table tbody tr:last-child td { border-bottom: none; }
+.g-table tbody td:first-child { font-weight: 600; font-size: .78rem; color: var(--muted); }
+.g-table tbody td:nth-child(2) { background: var(--hint-bg); }
+
+.g-table tbody td:nth-child(3) { background: var(--hint-bg); }
+.g-table .verdict-row td { font-weight: 700; }
+.g-table .verdict-row td { height: 3rem; }
+
+.tag {
+  display: inline-block; font-size: .65rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 4px; margin-bottom: .25rem;
+}
+.tag-fail { background: var(--s1); color: #fff; }
+.tag-win { background: var(--s3); color: #fff; }
+
+/* Hint boxes */
+.hint-box {
+  background: var(--hint-bg); border-left: 3px solid var(--hint-border);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin-bottom: .4rem;
+  font-size: .8rem; color: var(--text);
+}
+.hint-box strong { font-weight: 600; }
+.hint-label {
+  font-size: .65rem; font-weight: 700; color: var(--hint-border);
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem;
+}
+
+/* Questions */
+.q-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.q-section h2 { font-size: 1rem; font-weight: 700; margin-bottom: .8rem; }
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+@media (max-width: 700px) { .q-grid { grid-template-columns: 1fr; } }
+.q-item {
+  padding: .6rem .8rem; border-radius: 6px;
+  background: var(--bg); font-size: .83rem; position: relative;
+}
+.q-item strong { font-weight: 600; }
+.q-item .q-hint {
+  margin-top: .35rem; font-size: .75rem; color: var(--hint-border);
+  font-style: italic;
+}
+
+.footer { text-align: center; color: var(--muted); font-size: .72rem; margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .g-table { font-size: .74rem; }
+  .g-table thead th, .g-table tbody td { padding: .45rem .5rem; }
+  h1 { font-size: 1.25rem; }
+}
+
+.ans { font-size:.8rem; }
+.ans b { font-weight:700; }
+.q-ans { margin-top:.4rem; padding:.45rem .7rem; border-left:3px solid var(--s3); background:var(--s3-bg); border-radius:0 6px 6px 0; font-size:.78rem; }
+.q-ans b { color:var(--s3); }
+.teacher { display:inline-block; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:5px; margin-left:.5rem; background:#fef3c7; color:#92400e; text-transform:uppercase; letter-spacing:.04em; }
+.g-table .verdict-row td { height:auto; font-weight:700; }
+
+.bloc { display:block; margin-top:.2rem; font-size:.66rem; font-weight:600; color:var(--hint-border); text-transform:none; }
+.ref-box { background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.4rem; margin-bottom:1.5rem; font-size:.8rem; }
+.ref-box ul { margin:.3rem 0 0 1.1rem; }
+.ref-box strong { font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Corrigé — Négociation salariale en entretien de recrutement <span class="teacher">Formateur</span></h1>
+<p class="subtitle">Célia (chargée de recrutement RH) × Arhan (candidat au poste de responsable des ventes) — Scénario 1 vs Scénario 2 · Grilles alignées sur les référentiels BTS SAM / GPME, BUT GEA GPRH et Licence Pro GRH</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('bts')">BTS SAM / GPME</button>
+<button class="tab-btn" onclick="switchTab('bac3')">BUT GEA / Licence Pro GRH</button>
+</div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS SAM / GPME (Bac+2) — 6 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BTS Support à l'Action Managériale / Gestion de la PME (blocs RH)</strong><ul><li>Recrutement et intégration : conduite de l'entretien, sourcing de candidats, parcours d'intégration (onboarding)</li><li>Administration du personnel : formalités d'embauche (DPAE, contrat), éléments de rémunération</li><li>Développement des compétences et axe SIRH : besoins en formation, suivi dans le SIRH</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale de Célia<span class="bloc">BTS SAM / GPME · Recrutement et intégration</span></td>
+<td class="ans">Réactive : elle enchaîne les gestes (télétravail + formation, 54&nbsp;000&nbsp;€ + prime de 3&nbsp;000&nbsp;€, puis 56&nbsp;000&nbsp;€). <b>Arhan mène l'entretien</b> et obtient à chaque demande.</td>
+<td class="ans"><b>Valeur d'abord, salaire ensuite</b> : Célia présente la rémunération globale et fait chiffrer le coût des trajets (300 h et près de 3&nbsp;000&nbsp;€ par an) avant tout geste, puis propose elle-même un cadre gagnant-gagnant. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Découverte et reformulation des motivations du candidat<span class="bloc">BTS SAM / GPME · Recrutement (entretien)</span></td>
+<td class="ans">Bonne reformulation (manager une équipe, entreprise en croissance, réduire le trajet) mais <b>elle ne s'en sert pas</b> pour défendre son offre : elle passe vite aux concessions.</td>
+<td class="ans">Reformulation du projet <b>et</b> traduction en enjeu chiffré : le temps et l'argent gagnés sur les trajets. La découverte devient l'argument central.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection salaire<span class="bloc">BTS SAM / GPME · Administration du personnel (éléments de rémunération)</span></td>
+<td class="ans">Elle cède presque immédiatement, puis augmente le fixe dès qu'Arhan insiste (54&nbsp;000&nbsp;€ puis 56&nbsp;000&nbsp;€). Le salaire devient une variable d'ajustement.</td>
+<td class="ans">Elle <b>recadre sur la rémunération globale</b> (variable, intéressement, mutuelle, formation) et sur le gain de qualité de vie. Face au concurrent à 56&nbsp;000&nbsp;€, elle fait un effort limité (52&nbsp;000&nbsp;€) puis conditionne le reste.</td>
+</tr>
+<tr>
+<td>4. Ce que Célia obtient en échange<span class="bloc">BTS SAM / GPME · Recrutement (sourcing) · Développement des compétences</span></td>
+<td class="ans">Deux candidats cooptés + avis employeur… mais ces contreparties sont <b>proposées par Arhan</b>. Trois gestes de Célia, sans contrepartie qu'elle ait demandée.</td>
+<td class="ans">Objectifs chiffrés sur le variable + tutorat de deux alternants + participation aux relations écoles, en échange de 54&nbsp;000&nbsp;€. <b>Chaque concession a une contrepartie</b>, proposée par Célia.</td>
+</tr>
+<tr>
+<td>5. Formalisation de l'embauche<span class="bloc">BTS SAM / GPME · Administration du personnel (formalités d'embauche)</span></td>
+<td class="ans">« Je vous envoie votre proposition d'embauche » : <b>aucune mention</b> de la période d'essai, de la convention collective ni de la DPAE. Un démarrage « dès le mois prochain » est promis sans vérifier le préavis d'Arhan.</td>
+<td class="ans">Proposition d'embauche <b>écrite</b>, relecture de la période d'essai et de la convention collective, <b>DPAE</b> annoncée avant l'arrivée : formalités maîtrisées.</td>
+</tr>
+<tr>
+<td>6. Intégration et SIRH<span class="bloc">BTS SAM / GPME · Onboarding · Axe SIRH</span></td>
+<td class="ans">Parcours d'intégration et SIRH cités au début comme argument, puis <b>oubliés</b> ; télétravail et formation sont accordés comme monnaie d'échange, sans les rattacher au plan de formation.</td>
+<td class="ans">Le parcours d'intégration, apprécié par Arhan, est <b>repris à la signature</b> ; la formation figure dans la rémunération globale ; le tutorat s'inscrit dans le développement des compétences.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Embauche conclue, mais salaire hors grille et formalités oubliées : Célia donne plus qu'elle ne reçoit.</td>
+<td>✅ Meilleur scénario : rémunération globale chiffrée, contreparties utiles, salaire dans la grille, embauche sécurisée.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BTS SAM / GPME)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> Dans le scénario 1, Célia fait 3 gestes successifs (télétravail et formation, 54&nbsp;000&nbsp;€ + prime, puis 56&nbsp;000&nbsp;€). Si vous étiez Arhan, qu'auriez-vous demandé de plus, et pourquoi auriez-vous eu raison de le faire ?
+<div class="q-ans"><b>Éléments de réponse :</b> Trois gestes d'affilée signalent une grande marge de manœuvre : un candidat avisé pousserait plus loin (voiture de fonction, variable garanti, télétravail supplémentaire), puisque rien ne lui est demandé en retour.</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Dans le scénario 2, Arhan annonce qu'une entreprise concurrente lui propose 56&nbsp;000&nbsp;€. Pourquoi Célia ne s'aligne-t-elle pas, et sur quels arguments s'appuie-t-elle ?
+<div class="q-ans"><b>Éléments de réponse :</b> S'aligner la ferait sortir de la grille du poste et créerait une inégalité avec les autres responsables. Elle s'appuie sur la rémunération globale (variable, intéressement, mutuelle, formation), sur le gain de trajet (près de 3&nbsp;000&nbsp;€ et 300 h par an) et conditionne tout effort à des contreparties.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Quel est le moment précis du scénario 2 où Arhan cesse de comparer les salaires fixes et commence à raisonner en rémunération globale ? Citez la phrase de Célia.
+<div class="q-ans"><b>Éléments de réponse :</b> « Avez-vous calculé ce que vous coûte aujourd'hui une heure et demie de trajet par jour, en temps et en carburant ? » Arhan fait lui-même le calcul (300 heures, près de 3&nbsp;000&nbsp;€) : il compare désormais l'offre à ce qu'il gagne, plus seulement au fixe.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> Arhan a accepté l'offre. Quelles formalités Célia doit-elle accomplir avant et le jour de son arrivée ?
+<div class="q-ans"><b>Éléments de réponse :</b> Contrat de travail écrit (CDI cadre, période d'essai, convention collective), DPAE à l'URSSAF dans les 8 jours précédant l'embauche, inscription au registre unique du personnel, organisation de la visite d'information et de prévention, affiliation mutuelle et prévoyance, création du dossier salarié dans le SIRH et lancement du parcours d'intégration.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bts -->
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-mastere">Niveau BUT GEA GPRH / Licence Pro GRH (Bac+3) — 9 critères + verdict</span>
+<div class="ref-box"><strong>Compétences évaluées — BUT GEA parcours GPRH et Licence Pro Métiers de la GRH</strong><ul><li>BUT GEA : politique de rémunération (grilles salariales, équité interne, avantages sociaux), pilotage social (masse salariale), droit du travail appliqué</li><li>Licence Pro : expertise paie (charges sociales), GEPP (accompagnement des compétences et des mobilités)</li><li>Licence Pro : marque employeur (relations écoles, expérience collaborateur)</li></ul></div>
+<div style="overflow-x:auto;">
+<table class="g-table">
+<thead>
+<tr>
+<th>Critère</th>
+<th class="h1">Scénario 1</th>
+<th class="h1">Scénario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Approche globale<span class="bloc">BUT GEA · Politique de rémunération</span></td>
+<td class="ans">Réactive : trois gestes successifs (télétravail + formation, 54&nbsp;000&nbsp;€ + prime, 56&nbsp;000&nbsp;€). <b>Arhan mène l'entretien.</b></td>
+<td class="ans"><b>Valeur d'abord</b> : rémunération globale et gain de trajet chiffrés, puis cadre gagnant-gagnant proposé par Célia. <b>Célia garde la main.</b></td>
+</tr>
+<tr>
+<td>2. Qualité de la découverte<span class="bloc">BTS SAM / GPME · Recrutement</span></td>
+<td class="ans">Reformulation correcte (management, croissance, trajet, pouvoir d'achat) <b>non exploitée</b> dans la négociation.</td>
+<td class="ans">Reformulation <b>et</b> projection chiffrée : le trajet évité et les avantages deviennent la justification du fixe proposé.</td>
+</tr>
+<tr>
+<td>3. Traitement de l'objection salaire<span class="bloc">BUT GEA · Politique de rémunération</span></td>
+<td class="ans"><b>Tous les leviers consommés</b> rapidement, sans contrepartie demandée : il ne reste rien pour la revue salariale de fin de période d'essai ni pour l'entretien annuel.</td>
+<td class="ans">Recadrage sur la rémunération globale, effort limité (52&nbsp;000&nbsp;€) puis hausse <b>conditionnée</b> (54&nbsp;000&nbsp;€ et 12&nbsp;% de variable sur objectifs). Elle justifie l'écart avec le concurrent par la valeur globale du poste.</td>
+</tr>
+<tr>
+<td>4. Contreparties obtenues<span class="bloc">Licence Pro · Marque employeur · GEPP</span></td>
+<td class="ans">Contreparties réelles (cooptation, avis employeur) mais <b>à l'initiative du candidat</b> : Célia les subit plutôt qu'elle ne les négocie.</td>
+<td class="ans">Objectifs chiffrés (performance) + tutorat (transmission des compétences, GEPP) + relations écoles (marque employeur) : <b>actifs RH</b> négociés par Célia.</td>
+</tr>
+<tr>
+<td>5. Maîtrise de la masse salariale<span class="bloc">BUT GEA · Pilotage social et reporting</span></td>
+<td class="ans">56&nbsp;000&nbsp;€ + 5&nbsp;600&nbsp;€ de variable + 3&nbsp;000&nbsp;€ de prime = <b>64&nbsp;600&nbsp;€ brut</b> la 1ʳᵉ année, contre 55&nbsp;000&nbsp;€ prévus (<b>+17&nbsp;%</b>), plus le coût de la formation offerte. La hausse est acquise, sans condition.</td>
+<td class="ans">54&nbsp;000&nbsp;€ + 6&nbsp;480&nbsp;€ de variable = <b>60&nbsp;480&nbsp;€ brut</b> au maximum (+10&nbsp;%), soit 4&nbsp;120&nbsp;€ de moins que le scénario 1, et le variable n'est versé que si les objectifs sont atteints.</td>
+</tr>
+<tr>
+<td>6. Équité interne et grille salariale<span class="bloc">BUT GEA · Politique de rémunération (équité interne)</span></td>
+<td class="ans">Fixe <b>hors grille</b> (+2&nbsp;000&nbsp;€ au-dessus du maximum) : risque de demandes de rattrapage, de tensions dans l'équipe de direction et d'écarts injustifiables lors du calcul de l'index égalité professionnelle.</td>
+<td class="ans">Fixe <b>au plafond de la grille</b>, justifié par des responsabilités supplémentaires (tutorat, relations écoles) : l'écart est objectivé et défendable.</td>
+</tr>
+<tr>
+<td>7. Sécurisation juridique de l'embauche<span class="bloc">BUT GEA · Droit du travail appliqué</span></td>
+<td class="ans">Aucune référence au cadre légal : offre envoyée sans relecture, période d'essai non évoquée, démarrage promis sans tenir compte du préavis d'Arhan chez son employeur actuel.</td>
+<td class="ans">Proposition écrite (une offre précise engage l'employeur), période d'essai cadre (4 mois, renouvelable une fois si l'accord de branche et le contrat le prévoient), convention collective, DPAE avant l'embauche.</td>
+</tr>
+<tr>
+<td>8. Rémunération globale et coût employeur<span class="bloc">BUT GEA · Avantages sociaux · Licence Pro · Expertise paie</span></td>
+<td class="ans">Avantages sociaux <b>jamais présentés</b> ; la prime de bienvenue est soumise à cotisations comme du salaire, et le surcoût chargé dépasse 13&nbsp;000&nbsp;€ par an par rapport à l'offre initiale.</td>
+<td class="ans">Mutuelle à 70&nbsp;%, intéressement, variable et plan de formation présentés comme un <b>package</b> : le candidat voit la valeur réelle de l'offre, et l'entreprise maîtrise son coût.</td>
+</tr>
+<tr>
+<td>9. Soft skill dominant<span class="bloc">Tous niveaux</span></td>
+<td class="ans">Écoute active mais <b>manque d'assertivité</b> : l'empathie ne se transforme pas en résultat.</td>
+<td class="ans"><b>Assertivité et intelligence situationnelle</b> : recadre par la valeur, tient sa position face au concurrent, propose le cadre.</td>
+</tr>
+<tr class="verdict-row">
+<td>Verdict</td>
+<td>❌ Salaire hors grille, masse salariale alourdie sans condition, embauche mal sécurisée.</td>
+<td>✅ Rémunération globale chiffrée, contreparties négociées, équité interne respectée, embauche sécurisée.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<h2>Questions de réflexion — Éléments de réponse (BUT GEA / Licence Pro GRH)</h2>
+<div class="q-grid">
+<div class="q-item">
+<strong>Q1.</strong> En analysant les 2 scénarios sous l'angle de la négociation raisonnée (Fisher &amp; Ury), lequel applique le mieux le principe « se concentrer sur les intérêts, pas sur les positions » ? Justifiez avec des extraits du dialogue.
+<div class="q-ans"><b>Éléments de réponse :</b> Le scénario 2 : Célia déplace la discussion de la position (« 50&nbsp;000&nbsp;€, c'est trop peu ») vers les intérêts d'Arhan (qualité de vie, pouvoir d'achat, évolution), puis construit une solution commune (fixe au plafond de la grille contre objectifs et missions de tutorat).</div>
+</div>
+<div class="q-item">
+<strong>Q2.</strong> Calculez le coût employeur annuel de chaque accord (fixe + variable maximal + prime), avec un taux de charges patronales indicatif de 45&nbsp;%. Quel scénario pèse le plus sur la masse salariale ?
+<div class="q-ans"><b>Éléments de réponse :</b> Offre initiale : 55&nbsp;000&nbsp;€ brut, soit environ 79&nbsp;750&nbsp;€ chargés. Scénario 1 : 64&nbsp;600&nbsp;€ brut, soit environ 93&nbsp;670&nbsp;€ chargés (+13&nbsp;920&nbsp;€), sans condition. Scénario 2 : 60&nbsp;480&nbsp;€ brut au maximum, soit environ 87&nbsp;700&nbsp;€ chargés (+7&nbsp;950&nbsp;€), dont le variable n'est dû que si les objectifs sont atteints.</div>
+</div>
+<div class="q-item">
+<strong>Q3.</strong> Le fixe de 56&nbsp;000&nbsp;€ du scénario 1 dépasse la grille du poste. Quels risques cela crée-t-il pour la politique de rémunération de l'entreprise ?
+<div class="q-ans"><b>Éléments de réponse :</b> Écart injustifié avec les autres responsables (risque de contentieux sur le principe « à travail égal, salaire égal »), demandes de rattrapage, perte de crédibilité de la grille, effet possible sur l'index égalité professionnelle, et difficulté à justifier l'écart dans le cadre de la transparence salariale exigée par la directive européenne de 2023.</div>
+</div>
+<div class="q-item">
+<strong>Q4.</strong> La période d'essai d'Arhan est-elle un engagement définitif ? Expliquez ses règles et comment Célia doit la présenter.
+<div class="q-ans"><b>Éléments de réponse :</b> Non : pour un cadre, elle dure au plus 4 mois, renouvelable une fois (8 mois au total) si un accord de branche étendu le prévoit et si le contrat le mentionne. Elle doit figurer par écrit dans le contrat, et chaque partie peut y mettre fin en respectant un délai de prévenance. Célia doit la présenter comme une période d'ajustement mutuel, et fixer un point d'étape avec Arhan.</div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-bac3 -->
+<p class="footer">Avatar Sales Academy — Corrigé grilles d'analyse négociation salariale en entretien de recrutement · Célia × Arhan · BTS SAM / GPME, BUT GEA &amp; Licence Pro GRH</p>
+</div>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>
