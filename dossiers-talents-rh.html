@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Talents RH — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🧑‍💼</div>
+<div class="pole-info">
+<div class="pole-name">Pôle RH — Ressources humaines</div>
+<div class="pole-desc">GEPP et mobilité interne · Politique de rémunération · Pilotage social · Marque employeur</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Talents</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 Succession de l'agence de Cholet · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>chargé(e) de développement RH (GEPP)</strong> au siège de <strong>TERRALYS</strong> (Angers), distributeur de matériel agricole et d'espaces verts (240 salariés, 6 agences, 48 M€ de CA). M. Pelletier, responsable de l'<strong>agence de Cholet</strong> (14 salariés, 6,2 M€ de CA), part en retraite le 19 décembre. Son successeur doit prendre le poste le <strong>5 janvier</strong>. L'agence a perdu 3 commerciaux en 2026 : <strong>turnover de 22 %</strong> contre 9 % pour le groupe. Quatre collaborateurs postulent via le programme <strong>« Cap Talents »</strong>.<br/><br/>Mission : analyser les 4 dossiers de mobilité interne, <strong>classer les 4 dossiers par pertinence</strong> pour <strong>Mme Garnier</strong>, DRH, et défendre la recommandation devant le comité carrières. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — Mme Garnier</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Comité carrières jeudi 14h · Prise de poste le 5 janvier · Sans responsable, l'agence est pilotée à distance par le directeur régional (2 jours par semaine), avec un risque de nouveaux départs · Charte « Cap Talents » : 24 mois d'ancienneté, entretien professionnel à jour, augmentation de +8 à +12 % dans la fourchette cadre 3 200 - 3 700 € brut fixe, parcours « Manager de proximité » obligatoire (6 jours dès le 12 janvier, 4 200 € pris sur le plan de développement des compétences)<br/><br/><strong style="color:var(--orange)">Critères de sélection :</strong> Adéquation au poste · Faisabilité de la mobilité · Potentiel managérial et soft skills · Risque RH et conformité · Projet professionnel et engagement</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">Licence Pro Métiers de la GRH :</strong> GEPP (cartographie des métiers, référentiel de compétences du poste, accompagnement des mobilités internes) et marque employeur (expérience collaborateur, gestion des non-retenus).<br/><strong style="color:var(--orange)">BUT GEA parcours GPRH :</strong> pilotage social (turnover, absentéisme de l'agence), politique de rémunération (grille salariale, équité interne), droit du travail appliqué (non-discrimination, notamment liée à l'âge).<br/><strong style="color:var(--orange)">BTS SAM / GPME :</strong> recrutement et intégration (parcours d'onboarding), développement des compétences (plan de formation), axe SIRH (entretiens professionnels et demandes de mobilité tracés).<br/><em style="color:var(--muted)">Inspiré du cas n°3 du référentiel : déploiement d'une politique de GEPP. L'apprenant applique la charte de mobilité à une succession réelle, au lieu d'un recrutement externe (déjà traité dans l'atelier HeadHunter).</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers de mobilité interne</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Top Vendeur</span><div class="step-body">
+<strong>Commercial terrain senior, agence d'Angers, 9 ans d'ancienneté</strong> · 132 % de son objectif 2026, portefeuille de 1,4 M€ (3 grands comptes) · Disponible le 5 janvier · Exige 4 125 € de fixe (+25 %, au-dessus du plafond de la charte et de la grille) et de garder ses grands comptes avec leurs commissions · Refuse le parcours « Manager de proximité » · Répond au turnover par « celui qui ne suit pas partira » · Tensions répétées avec l'ADV dans son entretien annuel
+<div class="badges">
+<span class="b-ko">❌ +25 % hors grille : équité interne cassée</span>
+<span class="b-ko">❌ Refus de la formation obligatoire</span>
+<span class="b-ko">❌ Posture qui aggrave le turnover</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Vrai talent commercial : à orienter vers un poste de responsable grands comptes, sans équipe, dans le respect de la grille</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Béatrice<br/>La Fidèle</span><div class="step-body">
+<strong>Assistante ADV, agence de Cholet, 17 ans d'ancienneté</strong> · Très appréciée, connaît chaque client · A formé les 3 derniers commerciaux au logiciel de devis · Accepte la grille (3 250 €, +12 %) · Mais : key user de la migration ERP jusqu'à fin mars, disponible le 1er avril seulement · Aucune expérience commerciale terrain ni managériale · Ne se sent pas capable de recadrer ses collègues et voudrait que le directeur régional s'en charge
+<div class="badges">
+<span class="b-ko">❌ 3 mois de vacance du poste après 3 départs</span>
+<span class="b-ko">❌ Pilotage de 6,2 M€ et de 6 commerciaux non maîtrisé</span>
+<span class="b-ko">❌ Refus du rôle de recadrage</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Collaboratrice sincère et engagée, à accompagner vers un poste de coordinatrice ADV et service client après le parcours « Manager de proximité »</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Idriss<br/>Le Bâtisseur</span><div class="step-body">
+<strong>Chef d'équipe SAV (5 techniciens), agence de Saumur, 6 ans d'ancienneté</strong> · BTS Technico-commercial, VAE Bachelor en cours · Aucun départ dans son équipe en 3 ans · 3 mois d'intérim de responsable d'agence en 2025 (CA +4 %) · Disponible le 5 janvier, son adjoint formé reprend l'équipe · Accepte 3 300 € (+11,9 %) · 2 jours sur 6 du parcours manager déjà suivis · Plan d'intégration : 14 entretiens en 2 semaines, rapport d'étonnement à 30 jours, plan de fidélisation à 90 jours · Limite reconnue : grands comptes, demande un binôme de 6 mois · Imprévu signalé : soutenance de VAE le 18 juin
+<div class="badges">
+<span class="b-ok">✅ Mobilité faisable et conforme à la charte</span>
+<span class="b-ok">✅ Passation accordée contre un plan d'intégration</span>
+<span class="b-ok">✅ Limites reconnues, accompagnement demandé</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier — compétent, disponible, dans la grille et capable de fidéliser l'équipe</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>L'Ambitieuse</span><div class="step-body">
+<strong>Chargée de marketing digital au siège, 14 mois d'ancienneté</strong> · A lancé la page LinkedIn du groupe (+3 000 abonnés) · Jamais en agence ni manager · Exige le titre de « Directrice régionale » et 4 420 € (+30 %) · Met en avant une offre d'un concurrent jusqu'à vendredi · Veut remplacer les 2 commerciaux de plus de 55 ans · Veut négocier directement avec le DG, sans le comité carrières · Juge les entretiens individuels « une perte de temps » · Ses 2 alternants ont arrêté au bout de 3 mois
+<div class="badges">
+<span class="b-ko">❌ Inéligible : 14 mois d'ancienneté sur 24</span>
+<span class="b-ko">❌ Propos discriminatoires liés à l'âge</span>
+<span class="b-ko">❌ Chantage et contournement du comité carrières</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire — de vraies compétences digitales, mais rien n'est conforme ni légal</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Idriss (91/100)</strong> — Seul dossier viable : expérience d'encadrement prouvée + disponible le 5 janvier + dans la grille + formation commencée + plan d'intégration qui répond au turnover.<br/><br/>
+<strong style="color:#ffb347">🥈 Ousmane (56/100)</strong> — Excellent commercial, disponible, mais il casse l'équité interne, refuse la formation et sa posture aggraverait le turnover.<br/><br/>
+<strong style="color:#bb99ff">🥉 Béatrice (49/100)</strong> — Fidèle et appréciée, mais 3 mois de vacance du poste et aucune expérience de pilotage ni de recadrage.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (28/100)</strong> — Dossier éliminatoire : inéligible, propos discriminatoires, chantage et contournement du processus.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Pourquoi Idriss et pas Ousmane ? Ce qui reste défendable</div>
+<div class="card">Le critère décisif de CE poste est la <strong>fidélisation d'une équipe qui a perdu 3 commerciaux</strong>, pas la croissance immédiate du CA. Idriss a fait ses preuves sur ce point (0 départ en 3 ans, intérim réussi), Ousmane le dégraderait (« celui qui ne suit pas partira »).<br/><br/><strong style="color:#ffb347">Réponse défendable :</strong> une équipe qui choisit Ousmane peut obtenir une bonne note d'argumentation si elle conditionne la nomination à l'acceptation de la grille (3 700 € maximum) et du parcours de formation, et si elle prévoit un plan pour son portefeuille. C'est sa posture, pas son talent, qui l'écarte. En revanche, Diane n'est jamais défendable : la règle éliminatoire s'applique.</div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ffb347">Biais de la performance (Ousmane) :</strong> "C'est le meilleur vendeur du groupe" — Oui, mais le poste demande de faire réussir 6 commerciaux, pas de vendre à leur place. C'est le principe de Peter : on promeut quelqu'un sur ses résultats dans un métier différent. <strong>Bon vendeur ≠ bon manager.</strong><br/><br/>
+<strong style="color:#bb99ff">Biais de l'ancienneté (Béatrice) :</strong> "Elle est là depuis 17 ans, tout le monde l'aime" — Oui, mais la fidélité ne remplace ni l'expérience du pilotage commercial, ni la capacité à recadrer, ni la disponibilité le 5 janvier.<br/><br/>
+<strong style="color:#ff9999">Biais de l'aplomb (Diane) :</strong> "Elle est brillante et elle a une offre ailleurs" — Oui, mais l'urgence qu'elle crée ne change ni la charte (24 mois), ni la loi (discrimination liée à l'âge), ni le processus de décision.
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches candidats (accès via l'inventaire), lisent les entretiens de positionnement, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour Mme Garnier. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques (à expliciter au débrief)</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Relier un profil au référentiel de compétences d'un poste (GEPP). Connaître les règles d'une charte de mobilité, la notion d'équité interne et l'interdiction des discriminations (art. L1132-1 du Code du travail, dont l'âge). Lire le turnover et l'absentéisme d'une agence. Nommer les 3 biais classiques (performance, ancienneté, aplomb).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Analyser un dossier de mobilité en croisant adéquation, faisabilité et potentiel. Répondre à une demande hors charte par une contrepartie dans le cadre. Construire un plan d'intégration (passation, entretiens, rapport d'étonnement, points d'étape). Rédiger un retour individuel aux non-retenus.<div class="verbs"><span class="verb">Analyser</span><span class="verb">Évaluer</span><span class="verb">Accompagner</span><span class="verb">Rédiger</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Garder une posture d'analyse factuelle face au meilleur vendeur ou à une collègue appréciée. Refuser une exigence illégale ou un chantage sans dévaloriser la personne. Prendre une décision collective argumentée et l'assumer devant un comité. Préserver la motivation des non-retenus : la marque employeur commence en interne.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Décider</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> Licence Pro Métiers de la GRH, BUT GEA parcours GPRH, BTS SAM / GPME (2e année)<br/><strong style="color:var(--orange)">Prérequis :</strong> Notions de GEPP et de mobilité interne, grille salariale, turnover, principe de non-discrimination</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Talents (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier d'Idriss "Le Bâtisseur" est-il le meilleur choix pour la succession de l'agence de Cholet ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Disponible le 5 janvier, salaire dans la grille, formation déjà commencée et une équipe stable depuis 3 ans : la reprise et la fidélisation de l'agence sont sécurisées</div><div class="ans ko"><span class="mark">✗</span>C'est le collaborateur qui a les meilleurs résultats commerciaux et la plus forte notoriété dans le groupe</div><div class="ans ko"><span class="mark">✗</span>Il accepte toutes les conditions de l'entreprise sans jamais rien demander ni poser de questions</div><div class="expl">💡 Célia : "Le meilleur candidat n'est pas celui qui a les meilleurs résultats, mais celui qui réussira dans CE poste." Idriss formule aussi des demandes (passation, binôme, VAE), mais ce sont des besoins d'accompagnement, obtenus contre un plan d'intégration.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque collaborateur avec le risque ou l'atout principal qui le caractérise pour la succession de l'agence de Cholet.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table"><tr><td class="col-a">Ousmane "Le Top Vendeur"</td><td class="col-arrow">→</td><td class="col-b">Équité interne cassée : +25 % hors grille, commissions conservées, refus de la formation obligatoire</td></tr><tr><td class="col-a">Béatrice "La Fidèle"</td><td class="col-arrow">→</td><td class="col-b">Mobilité infaisable : disponible le 1er avril, sans expérience managériale et incapable de recadrer</td></tr><tr><td class="col-a">Idriss "Le Bâtisseur"</td><td class="col-arrow">→</td><td class="col-b">Dossier sécurisé : disponible le 5 janvier, +11,9 % dans la grille, intérim réussi, plan à 30 et 90 jours</td></tr><tr><td class="col-a">Diane "L'Ambitieuse"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : ancienneté insuffisante, discrimination liée à l'âge, contournement du comité carrières</td></tr></table><div class="expl">💡 Chaque profil a un signal unique : Ousmane = équité cassée, Béatrice = mobilité infaisable, Idriss = dossier solide, Diane = illégal et hors charte. Ces signaux émergent dès les premières minutes de l'entretien.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte éliminatoires / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols"><div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div><div class="class-item">Salaire de 3 300 € dans la grille de la charte (+11,9 %)</div><div class="class-item">Disponible le 5 janvier, successeur formé, parcours de formation commencé</div><div class="class-item">Aucun départ en 3 ans dans son équipe, plan d'intégration à 30 et 90 jours</div></div><div class="class-col red"><div class="class-col-title">❌ Signaux éliminatoires</div><div class="class-item">"Celui qui ne suit pas le rythme partira, des commerciaux on en trouve" (Ousmane)</div><div class="class-item">"Recadrer des collègues, ce serait très dur, je préférerais que le directeur régional s'en charge" (Béatrice)</div><div class="class-item">"Je remplacerai les deux commerciaux de plus de 55 ans" (Diane)</div></div><div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div><div class="class-item">Le Top Vendeur → responsable grands comptes, sans équipe à manager, dans le respect de la grille</div><div class="class-item">La Fidèle → coordinatrice ADV et service client, après le parcours « Manager de proximité »</div><div class="class-item">L'Ambitieuse → projet marque employeur digital, après un rappel du cadre et une fois éligible à la mobilité</div></div></div><div class="expl">💡 Célia : "Les trois collaborateurs écartés ne sont pas de mauvais salariés, ils ne conviennent pas à ce poste aujourd'hui. Un RH expert leur propose une autre perspective."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un collaborateur qui exige +25 % de salaire, au-dessus du plafond de la charte et de la grille cadre, quelle est la bonne réaction du chargé de développement RH ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Rappeler la charte et l'équité interne, reconnaître sa valeur et proposer une contrepartie dans le cadre (variable sur objectifs, parcours d'évolution) plutôt qu'une exception</div><div class="ans ko"><span class="mark">✗</span>Accepter sa demande pour ne pas perdre le meilleur vendeur, l'équité interne se rattrapera aux prochaines augmentations</div><div class="ans ko"><span class="mark">✗</span>Reporter le comité carrières et laisser l'agence sans responsable jusqu'à ce qu'il change d'avis</div><div class="expl">💡 Une exception se paie deux fois. 4 125 € au lieu de 3 700 € = 425 € par mois, soit 5 100 € brut par an. Si les 5 autres responsables d'agence demandent l'alignement, la facture monte à 25 500 € par an, sans compter la perte de confiance dans la charte.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Ousmane "Le Top Vendeur" est le meilleur dossier car ses 132 % d'objectif garantissent qu'il sera le meilleur manager de l'agence.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 Les résultats individuels mesurent la performance dans le métier actuel, pas le potentiel managérial. Ousmane n'a jamais encadré, refuse la formation et répond au turnover par « celui qui ne suit pas partira ». <strong>Bon vendeur ≠ bon manager.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un chargé de développement RH pour réussir une mobilité interne, c'est d'évaluer le __________ du candidat : les résultats passés ne suffisent pas s'il ne sait ni fédérer, ni se former, ni respecter le cadre.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">potentiel</strong></div><div class="expl">💡 Célia : "En GEPP, on ne récompense pas un passé, on prépare un avenir. Idriss prouve qu'un candidat qui connaît ses limites et demande un accompagnement est plus sûr qu'un candidat qui exige une exception."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing Mme Garnier</div><div class="tl-desc">Présenter l'urgence en une phrase : "L'agence de Cholet perd son responsable le 19 décembre, elle a perdu 3 commerciaux cette année. 4 collaborateurs postulent. Le comité carrières tranche jeudi. Qui proposez-vous, et pourquoi pas les autres ?" Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Atelier (VTS) + grille d'évaluation</div><div class="tl-desc">Lecture des 4 entretiens et des 4 fiches candidats. Les équipes notent chaque dossier de 1 à 5 sur les 5 critères pondérés, obtiennent un score /100 et rédigent 3 arguments pour leur choix.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 27 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Ousmane ? Pourquoi ?" → biais de la performance. "Qui a choisi Béatrice ?" → biais de l'ancienneté. "Qui a hésité pour Diane ?" → biais de l'aplomb. Faire vérifier l'éligibilité de chaque dossier à la charte avant de révéler le corrigé.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div></div><div class="tl-content"><div class="tl-time">27 – 35 min</div><div class="tl-title">Marque employeur : les retours aux non-retenus + Quiz</div><div class="tl-desc">Pour chaque collaborateur écarté : "Quel message et quelle perspective ?" Ousmane → poste de responsable grands comptes et binôme avec Idriss. Béatrice → parcours « Manager de proximité » puis coordination ADV. Diane → rappel du cadre légal, puis projet marque employeur digital quand elle sera éligible. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Faire chiffrer chaque erreur.</strong> Un départ de commercial coûte environ 25 000 € (recrutement, intégration, CA perdu) : les 3 départs de 2026 représentent déjà 75 000 €. Ousmane : +425 € par mois hors grille, soit 5 100 € par an, et jusqu'à 25 500 € si les 5 autres responsables d'agence demandent l'alignement. Béatrice : 3 mois de vacance du poste, un 4e départ suffit à coûter 25 000 €. Idriss : +350 € par mois dans la grille, formation déjà budgétée (4 200 €).</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Rappeler le cadre légal.</strong> Écarter un salarié en raison de son âge est une discrimination (art. L1132-1 du Code du travail) : la décision serait nulle et l'entreprise exposée aux prud'hommes. Le simple fait de tenir ces propos en entretien appelle un rappel du cadre. Faire le lien avec l'entretien de recadrage (cas n°1 du référentiel) : comment le formuler à Diane avec la méthode DESC ?</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Insister sur la contrepartie et le potentiel.</strong> Idriss et Ousmane font tous les deux des demandes. La différence : Idriss obtient une passation contre un plan d'intégration, Ousmane veut une exception sans rien donner. C'est le cœur de la GEPP : on évalue la capacité à réussir dans le poste futur, pas la performance dans le poste actuel.</div></div>
+<div class="tip"><div class="tip-icon">🤝</div><div class="tip-text"><strong>Prolonger vers la marque employeur.</strong> Faire rédiger en 5 minutes le message de retour à un non-retenu : une reconnaissance sincère, une raison factuelle liée au poste, une perspective datée. Demander : "Que diront les 240 salariés de TERRALYS si Ousmane apprend la nouvelle par la rumeur ?"</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy · Pôle RH · <a href="dossiers-talents-rh-grille.html">Grille d'évaluation interactive</a></div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>

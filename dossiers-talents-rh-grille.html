@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Grille d'évaluation — Atelier Dossiers Talents RH · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;--red:#ff9999}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:960px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px;white-space:nowrap}
+.content{padding:20px 20px 30px}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.7;margin-bottom:18px}
+.card strong{color:#fff}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin:4px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);margin-bottom:18px}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:middle}
+th{background:var(--navy3);font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:600;text-align:center}
+th:first-child,td:first-child{text-align:left}
+th .nick{display:block;text-transform:none;letter-spacing:0;color:var(--orange);font-weight:500;margin-top:2px}
+td.crit strong{display:block;color:#fff;font-size:13px}
+td.crit span{font-size:11.5px;color:var(--muted);line-height:1.45}
+td.w{text-align:center;color:var(--blue);font-weight:600}
+td.sc{text-align:center}
+select{background:rgba(255,107,0,0.08);color:#fff;border:1px solid rgba(255,107,0,0.35);border-radius:7px;padding:6px 8px;font-family:inherit;font-size:13px;cursor:pointer;width:64px}
+select:focus{outline:2px solid var(--orange)}
+tr.total td{background:var(--navy3);font-weight:700}
+tr.total td.sc{font-family:'Syne',sans-serif;font-size:18px;color:#fff}
+.bar{height:5px;border-radius:3px;background:rgba(255,255,255,0.07);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--orange);transition:width .25s}
+.rank{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px}
+@media(max-width:640px){.rank{grid-template-columns:1fr 1fr}}
+.rk{background:var(--navy3);border-radius:10px;padding:11px 13px;border-left:3px solid rgba(255,255,255,0.15)}
+.rk.first{border-left-color:var(--green)}
+.rk .pos{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.rk .who{font-size:14px;color:#fff;font-weight:600;margin-top:3px}
+.rk .pts{font-size:12px;color:var(--orange);margin-top:2px}
+label.f{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:12px 0 5px}
+input[type=text],textarea{width:100%;background:var(--navy3);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;padding:9px 11px;font-family:inherit;font-size:13px}
+textarea{min-height:58px;resize:vertical}
+.btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+button{font-family:inherit;font-size:12.5px;border-radius:8px;padding:9px 15px;cursor:pointer;border:1px solid rgba(255,107,0,0.5);background:rgba(255,107,0,0.14);color:#fff}
+button.ghost{border-color:rgba(255,255,255,0.15);background:transparent;color:var(--muted)}
+.guide{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+@media(max-width:640px){.guide{grid-template-columns:1fr}}
+.g{background:var(--navy3);border-radius:9px;padding:9px 11px;font-size:11.5px;line-height:1.45;color:var(--muted)}
+.g b{display:block;color:#fff;font-size:12.5px;margin-bottom:3px}
+.footer{padding:6px 18px 14px;text-align:center;font-size:10px;color:rgba(138,155,181,0.5)}
+.footer a{color:rgba(0,170,255,0.5);text-decoration:none}
+@media print{body{background:#fff}.btns{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Grille d'évaluation — Atelier Dossiers Talents</div>
+<div class="header-sub">Pôle RH · Mobilité interne « Cap Talents » · Responsable de l'agence de Cholet · Prise de poste le 5 janvier</div>
+</div>
+<div class="badge">Grille interactive</div>
+</div>
+<div class="content">
+<div class="card"><strong>Votre mission :</strong> vous êtes chargé(e) de développement RH (GEPP) chez TERRALYS. Le responsable de l'agence de Cholet (14 salariés, 6,2 M€ de CA, turnover de 22 %) part en retraite et son successeur doit prendre le poste le <strong>5 janvier</strong>. Le comité carrières tranche <strong>jeudi à 14h</strong>. Notez chaque dossier de mobilité interne de <strong>1 (inadapté) à 5 (excellent)</strong> sur les 5 critères. Le score pondéré sur 100 et le classement se calculent automatiquement. Charte « Cap Talents » : 24 mois d'ancienneté, augmentation de +8 à +12 % dans la fourchette de 3 200 à 3 700 € brut fixe, parcours « Manager de proximité » obligatoire.</div>
+
+<div class="sec-title">Notation des 4 dossiers</div>
+<div class="tbl-wrap"><table id="grid">
+<thead><tr><th>Critère d'évaluation</th><th>Poids</th>
+<th>Ousmane<span class="nick">Le Top Vendeur</span></th>
+<th>Béatrice<span class="nick">La Fidèle</span></th>
+<th>Idriss<span class="nick">Le Bâtisseur</span></th>
+<th>Diane<span class="nick">L'Ambitieuse</span></th></tr></thead>
+<tbody></tbody>
+</table></div>
+
+<div class="sec-title">Classement automatique</div>
+<div class="rank" id="rank"></div>
+
+<div class="sec-title">Mon choix final</div>
+<div class="card">
+<label class="f" for="choice">Collaborateur retenu</label>
+<input type="text" id="choice" placeholder="Nom du collaborateur retenu"/>
+<label class="f" for="a1">Argument 1 (compétences / potentiel)</label><textarea id="a1"></textarea>
+<label class="f" for="a2">Argument 2 (faisabilité / risque RH)</label><textarea id="a2"></textarea>
+<label class="f" for="a3">Argument 3 (fidélisation / plan d'intégration)</label><textarea id="a3"></textarea>
+<div class="btns"><button onclick="window.print()">🖨 Imprimer / PDF</button><button class="ghost" onclick="resetAll()">↺ Réinitialiser</button></div>
+</div>
+
+<div class="sec-title">Guide de lecture des notes</div>
+<div class="guide">
+<div class="g"><b>5 — Excellent</b>Atout décisif : exactement ce que le poste requiert.</div>
+<div class="g"><b>4 — Très bon</b>Point fort : contribue clairement à la décision.</div>
+<div class="g"><b>3 — Correct</b>Neutre : ni avantage ni inconvénient.</div>
+<div class="g"><b>2 — Insuffisant</b>Signal d'alerte : pourrait poser problème.</div>
+<div class="g"><b>1 — Inadapté</b>Éliminatoire : incompatible avec la charte, le délai, l'équité ou la loi. En « Risque RH », écarte le dossier.</div>
+</div>
+<div class="card" style="margin-top:14px;font-size:12.5px;color:var(--muted)">Rappel : les 4 dossiers ont le même point de départ. La note reflète uniquement les comportements et critères observés dans les entretiens et les fiches candidats, pas les résultats commerciaux passés, l'ancienneté ni la sympathie.</div>
+</div>
+<div class="footer">Avatar Sales Academy · Atelier Dossiers Talents · Pôle RH</div>
+</div>
+<script>
+const CLIENTS=['Ousmane','Béatrice','Idriss','Diane'];
+const CRIT=[
+ ['Adéquation au poste','Référentiel de compétences · pilotage commercial · expérience d\'encadrement',0.30],
+ ['Faisabilité de la mobilité','Éligibilité à la charte · prise de poste le 5 janvier · remplacement du poste quitté',0.25],
+ ['Potentiel managérial et soft skills','Écoute · recadrage · fidélisation de l\'équipe · plan d\'intégration',0.20],
+ ['Risque RH et conformité','Équité interne · non-discrimination · respect du comité carrières',0.15],
+ ['Projet professionnel et engagement','Projet GEPP · formation acceptée · valeurs de l\'entreprise',0.10]
+];
+const KEY='asa-rh-talents-grille-v1';
+let state={s:{},t:{}};
+try{state=JSON.parse(localStorage.getItem(KEY))||state}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const tb=document.querySelector('#grid tbody');
+CRIT.forEach((c,i)=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="crit"><strong>${c[0]}</strong><span>${c[1]}</span></td><td class="w">${Math.round(c[2]*100)} %</td>`+
+    CLIENTS.map((n,j)=>`<td class="sc"><select data-k="${i}-${j}" aria-label="${c[0]} — ${n}"><option value="">–</option>${[1,2,3,4,5].map(v=>`<option>${v}</option>`).join('')}</select></td>`).join('');
+  tb.appendChild(tr);
+});
+const tot=document.createElement('tr');tot.className='total';
+tot.innerHTML='<td>Score pondéré total /100</td><td></td>'+CLIENTS.map((n,j)=>`<td class="sc"><span id="t${j}">–</span><div class="bar"><i id="b${j}"></i></div></td>`).join('');
+tb.appendChild(tot);
+document.querySelectorAll('select').forEach(s=>{
+  s.value=state.s[s.dataset.k]||'';
+  s.addEventListener('change',()=>{state.s[s.dataset.k]=s.value;save();calc();});
+});
+['choice','a1','a2','a3'].forEach(id=>{const el=document.getElementById(id);el.value=state.t[id]||'';el.addEventListener('input',()=>{state.t[id]=el.value;save();});});
+function calc(){
+  const res=CLIENTS.map((n,j)=>{
+    let sum=0,ok=true;
+    CRIT.forEach((c,i)=>{const v=parseInt(state.s[i+'-'+j]);if(!v)ok=false;else sum+=v*c[2];});
+    const sc=ok?(parseInt(state.s['3-'+j])===1?0:Math.round(sum*20*10)/10):null;
+    document.getElementById('t'+j).textContent=sc===null?'–':sc;
+    document.getElementById('b'+j).style.width=(sc||0)+'%';
+    return {n,sc};
+  });
+  const done=res.filter(r=>r.sc!==null).sort((a,b)=>b.sc-a.sc);
+  const rk=document.getElementById('rank');
+  rk.innerHTML=[0,1,2,3].map(p=>{
+    const r=done[p];
+    return `<div class="rk ${p===0&&r?'first':''}"><div class="pos">${p+1}${p?'e':'er'}</div><div class="who">${r?r.n:'En attente'}</div><div class="pts">${r?r.sc+' / 100':'Complétez les notes'}</div></div>`;
+  }).join('');
+}
+function resetAll(){if(!confirm('Effacer toutes les notes et arguments ?'))return;state={s:{},t:{}};save();
+  document.querySelectorAll('select').forEach(s=>s.value='');['choice','a1','a2','a3'].forEach(id=>document.getElementById(id).value='');calc();}
+calc();
+</script>
+</body>
+</html>
