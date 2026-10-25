@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Clients Banque — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🏦</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Banque — Crédit aux particuliers</div>
+<div class="pole-desc">Découverte client (KYC) · Analyse de solvabilité · Prévention du surendettement · Conformité LCB-FT · Devoir de conseil</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Clients</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 Crédit auto 15 000 € · 1 place · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>conseiller(ère) clientèle particuliers</strong> à la <strong>BANQUE DU CONFLUENT</strong>, agence Lyon Part-Dieu (6 conseillers, 3 200 clients). L'offre <strong>« Premier Volant »</strong>, crédit auto réservé aux 18-30 ans (<strong>15 000 € sur 60 mois, TAEG fixe 4,20 %</strong>, frais de dossier offerts), se termine vendredi. Mensualité : <strong>278 €</strong> hors assurance, <strong>284 €</strong> avec l'assurance emprunteur facultative. Il ne reste <strong>qu'une place</strong> dans l'enveloppe de l'agence. Quatre jeunes actifs la demandent.<br/><br/>Mission : analyser les 4 dossiers, <strong>classer les 4 dossiers par pertinence</strong> pour <strong>Mme Ferrand</strong>, directrice d'agence, et défendre le dossier présenté au comité. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — Mme Ferrand</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Comité d'engagement vendredi 17 h · Une seule place dans l'enveloppe de l'offre · Taux d'impayés de l'agence à 2,1 % (réseau : 1,4 %) : Mme Ferrand refuse les dossiers « limites »<br/><br/><strong style="color:var(--orange)">Politique de crédit :</strong> Charges (loyer + crédits + nouvelle mensualité) ≤ 35 % des revenus nets justifiés · Reste à vivre ≥ 800 € · Pièces KYC (3 bulletins, avis d'imposition, 3 relevés) · Consultation FICP · Origine des fonds justifiée (LCB-FT) · Assurance emprunteur proposée et expliquée (facultative)</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">BTS Banque, Conseiller de clientèle :</strong> développement commercial (montage de dossiers de crédit à la consommation, vente d'assurances), analyse du risque (solvabilité, KYC, prévention du surendettement), environnement légal (devoir de conseil, LCB-FT, RGPD).<br/><strong style="color:var(--orange)">Axe certification AMF :</strong> questionner la situation réelle du client avant toute proposition (ici, conseil sur l'apport et l'épargne de précaution).<br/><em style="color:var(--muted)">Inspiré du cas n°1 du référentiel : un jeune actif sollicite un crédit auto de 15 000 € ; l'étudiant calcule le taux d'endettement, refuse subtilement une mensualité trop élevée pour éviter le surendettement et argumente l'assurance emprunteur (ADE).</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers clients</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Pressé</span><div class="step-body">
+<strong>24 ans, commercial en CDI depuis 2 mois chez SOLARIS Énergie</strong> · Période d'essai jusqu'à fin novembre · Fixe 1 900 € net, primes « jusqu'à 1 500 € » non garanties · Loyer 700 € · SUV à 22 000 €, veut 15 000 € sur 48 mois (346 €/mois avec ADE) · Un seul bulletin · 3 prélèvements rejetés le mois dernier · Refuse l'ADE · Exige une réponse le jour même
+<div class="badges">
+<span class="b-ko">❌ Charges à 55 % sur son fixe : (700 + 346) / 1 900</span>
+<span class="b-ko">❌ Revenus non stabilisés (période d'essai, primes promises)</span>
+<span class="b-ko">❌ Incidents de paiement récents, dossier incomplet</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Client à revoir après la période d'essai, avec 3 bulletins, un véhicule moins cher ou un montant réduit</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Béatrice<br/>La Prévoyante</span><div class="step-body">
+<strong>27 ans, infirmière en CDI au CHU depuis 3 ans</strong> · 2 350 € net (primes de nuit régulières) · Loyer 450 € en colocation · Aucun crédit · Livret A 7 000 € · Yaris hybride d'occasion à 18 000 €, nécessaire pour ses gardes de nuit · Suit le conseil : 3 000 € d'apport, 4 000 € gardés en précaution · Prend l'ADE après explication des garanties · Avis d'imposition déposé le soir même
+<div class="badges">
+<span class="b-ok">✅ Charges à 31 % : (450 + 284) / 2 350, reste à vivre 1 616 €</span>
+<span class="b-ok">✅ Revenus stables et justifiés, dossier complet et cohérent</span>
+<span class="b-ok">✅ Projet utile, conseil écouté, ADE choisie en connaissance de cause</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier : solvable, stable, transparent et conforme, présentable au comité sans dérogation</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Idriss<br/>Le Fidèle</span><div class="step-body">
+<strong>29 ans, ingénieur méthodes en CDI depuis 4 ans, client depuis 10 ans</strong> · 3 400 € net · Loyer 850 € · Prêt étudiant 220 €/mois (fin en juin) · Crédit renouvelable de 180 €/mois (3 200 € restant dû) « oublié », découvert sur ses relevés · Berline électrique à 21 000 €, apport 6 000 € (PEL), livret A 4 000 € · Refuse l'ADE (c'est son droit) · Demande « une exception »
+<div class="badges">
+<span class="b-ko">❌ Charges à 45 % : (850 + 220 + 180 + 284) / 3 400</span>
+<span class="b-ko">❌ Crédit non déclaré pendant l'entretien</span>
+<span class="b-ok">✅ Accepte le plan : solder le revolving, revenir en juin (33 %)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Très bon client, finançable en juin. Son reste à vivre (≈ 1 866 €) est confortable : certains défendront une dérogation, mais pas sur la dernière place d'une offre promotionnelle et pas avec une charge cachée</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>L'Investisseuse</span><div class="step-body">
+<strong>26 ans, micro-entrepreneuse « import-export » depuis 10 mois</strong> · 3 800 €/mois de chiffre d'affaires annoncé, une seule déclaration trimestrielle, aucun relevé professionnel · Hébergée, sans loyer · Véhicule à 23 000 € : 15 000 € de crédit + 8 000 € en espèces sans justificatif · Veut déposer 2 000 € par semaine « pour éviter les questions » · Carte grise au nom d'un compagnon « en souci avec la Banque de France » · Refusée par une autre banque
+<div class="badges">
+<span class="b-ko">❌ Fractionnement de dépôts en espèces : alerte LCB-FT</span>
+<span class="b-ko">❌ Crédit pris pour un tiers fiché (prête-nom)</span>
+<span class="b-ko">❌ Revenus et origine des fonds non justifiés</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire : à signaler au responsable conformité, sans en informer la cliente</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Béatrice (92/100)</strong> — Seul dossier qui respecte toutes les règles du comité : 31 % de charges, 1 616 € de reste à vivre, CDI confirmé, dossier complet, conseil écouté.<br/><br/>
+<strong style="color:#bb99ff">🥈 Idriss (68/100)</strong> — Excellent client et bons revenus, mais 45 % de charges et un crédit renouvelable caché. Il perd face à Béatrice sur la solvabilité (30 %) et la transparence (20 %), pas sur sa valeur de client.<br/><br/>
+<strong style="color:#ffb347">🥉 Ousmane (42/100)</strong> — Revenus non stabilisés, 55 % de charges sur son fixe, incidents récents et pièces manquantes.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (0/100, 33 sans la règle éliminatoire)</strong> — Alerte LCB-FT et prête-nom : aucun crédit possible, signalement interne.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ff9999">Biais de l'apport (Diane) :</strong> "Elle apporte 8 000 €, on prend moins de risque" — Non : des espèces sans justificatif, déposées en plusieurs fois « pour éviter les questions », pour une voiture destinée à un tiers fiché, c'est un schéma de blanchiment ou de prête-nom. <strong>Un apport non justifié est une alerte, pas une garantie.</strong><br/><br/>
+<strong style="color:#bb99ff">Biais de la fidélité (Idriss) :</strong> "C'est notre client depuis 10 ans, il gagne 3 400 €" — Oui, mais 45 % de charges. La fidélité ne rembourse pas une mensualité, et le financer aujourd'hui l'exposerait au surendettement.<br/><br/>
+<strong style="color:#ffb347">Biais de l'optimisme (Ousmane) :</strong> "Avec ses primes, il sera à 30 %" — Une prime non garantie n'entre pas dans le calcul. En période d'essai, avec des prélèvements rejetés, le risque est maximal.
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches clients (accès via l'inventaire), lisent les entretiens de découverte, calculent le taux de charges et le reste à vivre de chaque client, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour Mme Ferrand. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir le taux d'endettement et le reste à vivre. Connaître les pièces d'un dossier de crédit (KYC), le rôle du fichier FICP, le caractère facultatif de l'assurance emprunteur en crédit à la consommation et les principaux signaux d'alerte LCB-FT (espèces non justifiées, fractionnement, prête-nom). Nommer les 3 biais classiques (apport, fidélité, optimisme).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Mener une découverte client complète et la confronter aux relevés. Calculer une capacité de remboursement sur des revenus justifiés. Argumenter l'assurance emprunteur en expliquant ses garanties. Conseiller un apport qui préserve l'épargne de précaution. Construire un plan de retour pour un client refusé.<div class="verbs"><span class="verb">Analyser</span><span class="verb">Calculer</span><span class="verb">Conseiller</span><span class="verb">Argumenter</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Refuser une mensualité trop élevée avec tact, sans humilier ni perdre le client. Résister à la pression (urgence, fidélité, promesse d'apporter des clients). Ne jamais informer un client d'un signalement de soupçon. Défendre un dossier devant un comité avec des faits.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing (parcours complet étudiant : 1 h 30) · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> BTS Banque 1re ou 2e année, BUT TC/GEA orientation finance<br/><strong style="color:var(--orange)">Prérequis :</strong> Calcul d'un pourcentage, vocabulaire du crédit (mensualité, TAEG, apport, assurance emprunteur, FICP)</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Clients Banque (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier de Béatrice "La Prévoyante" est-il le meilleur choix pour la dernière place « Premier Volant » ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>CDI stable, revenus justifiés, charges à 31 % et dossier complet : elle peut rembourser 284 € par mois sans se mettre en danger</div><div class="ans ko"><span class="mark">✗</span>C'est la cliente qui apporte le plus d'argent et qui promet d'amener le plus de nouveaux clients à l'agence</div><div class="ans ko"><span class="mark">✗</span>Elle accepte toutes les propositions du conseiller sans jamais poser de question</div><div class="expl">💡 Célia : "Un bon crédit, c'est une mensualité que le client peut rembourser sans se mettre en danger." Béatrice pose au contraire beaucoup de questions (garanties de l'ADE, remboursement anticipé) : c'est le signe d'une cliente qui comprend son engagement. La 2e réponse décrit Diane.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque client avec le risque ou l'atout principal qui le caractérise pour la dernière place « Premier Volant ».</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table"><tr><td class="col-a">Ousmane "Le Pressé"</td><td class="col-arrow">→</td><td class="col-b">Revenus non sécurisés : période d'essai, primes non garanties, 55 % de charges sur son fixe</td></tr><tr><td class="col-a">Béatrice "La Prévoyante"</td><td class="col-arrow">→</td><td class="col-b">Dossier solide : CDI, 31 % de charges, dossier complet, assurance choisie en connaissance de cause</td></tr><tr><td class="col-a">Idriss "Le Fidèle"</td><td class="col-arrow">→</td><td class="col-b">Surendettement caché : crédit renouvelable non déclaré, 45 % de charges malgré un bon salaire</td></tr><tr><td class="col-a">Diane "L'Investisseuse"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : espèces sans justificatif, dépôts fractionnés, voiture pour un tiers fiché</td></tr></table><div class="expl">💡 Chaque profil a un signal unique : Ousmane = revenus fragiles, Béatrice = dossier solide, Idriss = endettement caché, Diane = alerte conformité. Ces signaux apparaissent dès les premières répliques et se confirment sur les fiches.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte / Suites à donner aux dossiers écartés.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols"><div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div><div class="class-item">CDI depuis 3 ans, 2 350 € net justifiés par 3 bulletins et l'avis d'imposition</div><div class="class-item">Charges à 31 % des revenus et 1 616 € de reste à vivre</div><div class="class-item">Apport de 3 000 € et 4 000 € d'épargne de précaution conservés</div></div><div class="class-col red"><div class="class-col-title">❌ Signaux d'alerte</div><div class="class-item">"Je n'ai qu'un bulletin, je vous enverrai les autres plus tard" (Ousmane)</div><div class="class-item">"Le crédit renouvelable ? Je l'avais oublié" (Idriss)</div><div class="class-item">"Je dépose les espèces en plusieurs fois, pour éviter les questions" (Diane)</div></div><div class="class-col amber"><div class="class-col-title">⚡ Suites à donner</div><div class="class-item">Le Fidèle → nouvelle étude en juin, après le solde du crédit renouvelable et la fin du prêt étudiant</div><div class="class-item">Le Pressé → nouvelle demande après la période d'essai, avec 3 bulletins et un véhicule moins cher</div><div class="class-item">L'Investisseuse → aucun crédit sans origine des fonds justifiée : alerte transmise au responsable conformité</div></div></div><div class="expl">💡 Célia : "Refuser n'est pas abandonner. Un conseiller expert donne à chaque client écarté une suite claire, sauf quand la loi lui impose la discrétion, comme pour Diane."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un client fidèle depuis 10 ans dont les charges atteindraient 45 % de ses revenus avec le nouveau crédit, quelle est la bonne réaction du conseiller ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Refuser la mensualité avec tact, expliquer le calcul et proposer un plan : solder le crédit renouvelable et revenir en juin, à la fin du prêt étudiant</div><div class="ans ko"><span class="mark">✗</span>Accorder le crédit parce que c'est un bon client au salaire élevé : l'agence le connaît depuis 10 ans</div><div class="ans ko"><span class="mark">✗</span>Allonger la durée à 84 mois hors offre pour faire passer la mensualité, sans en parler au comité</div><div class="expl">💡 C'est le cœur du cas n°1 du référentiel : « refuser subtilement une mensualité trop élevée ». Calcul : (850 + 220 + 180 + 284) / 3 400 = 45 %. En juin, sans le prêt étudiant ni le revolving : (850 + 284) / 3 400 = 33 %. Allonger la durée en cachette contourne la politique de crédit et alourdit le coût pour le client.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Diane "L'Investisseuse" est le dossier le plus sûr, car son apport de 8 000 € en espèces réduit le montant emprunté et donc le risque pour la banque.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 Des espèces d'origine inconnue, des dépôts fractionnés « pour éviter les questions », une voiture pour un compagnon fiché à la Banque de France et un chiffre d'affaires non justifié : ce sont des signaux LCB-FT. Le conseiller transmet au responsable conformité, qui décide d'une éventuelle déclaration de soupçon à Tracfin. <strong>Le client ne doit jamais en être informé.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 du conseiller face à une demande de crédit, c'est de vérifier la __________ du client : sa capacité réelle à rembourser, avec des revenus justifiés et des charges sous contrôle.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">solvabilité</strong></div><div class="expl">💡 Célia : "Le bon critère n'est pas « Qui est le meilleur client de l'agence ? », mais « Qui peut rembourser 284 € par mois sans danger, avec un dossier conforme ? »."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing Mme Ferrand</div><div class="tl-desc">Présenter l'urgence en une phrase : "Dernière place « Premier Volant », 15 000 € à 4,20 %, comité vendredi 17 h. Quatre jeunes actifs la veulent. Un seul dossier peut passer sans risque pour le client ni pour la banque. Lequel ?" Rappeler la formule du taux de charges. Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Atelier (VTS) + grille d'évaluation</div><div class="tl-desc">Lecture des 4 entretiens et des 4 fiches clients. Les équipes calculent charges et reste à vivre, notent chaque dossier de 1 à 5 sur les 5 critères pondérés, obtiennent un score /100 et rédigent 3 arguments.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 27 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Diane ? Pourquoi ?" → biais de l'apport. "Qui a choisi Idriss ?" → biais de la fidélité. "Qui a choisi Ousmane ?" → biais de l'optimisme. Faire calculer au tableau le taux de charges de chaque client avant de révéler le corrigé.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div></div><div class="tl-content"><div class="tl-time">27 – 35 min</div><div class="tl-title">Suites pour les clients écartés + Quiz</div><div class="tl-desc">Pour chaque client écarté : "Que lui dites-vous ?" Idriss → plan de retour en juin, solde du revolving. Ousmane → revenir après la période d'essai, avec un projet moins cher. Diane → refus factuel, sans évoquer de soupçon, et alerte interne au responsable conformité. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🧮</div><div class="tip-text"><strong>Faire chiffrer chaque dossier.</strong> Mensualité : 15 000 € sur 60 mois à 4,20 % = 278 € + 6 € d'ADE = 284 €. Béatrice : (450 + 284) / 2 350 = 31 %, reste à vivre 1 616 €. Idriss : (850 + 220 + 180 + 284) / 3 400 = 45 %. Ousmane (48 mois, 346 €) : (700 + 346) / 1 900 = 55 %, ou 31 % si l'on compte à tort ses primes. Diane : 7,5 % « sur le papier » (284 / 3 800), mais sur un chiffre d'affaires non justifié, qui n'est pas un revenu.</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Rappeler le cadre légal.</strong> Consultation du FICP obligatoire avant un crédit à la consommation. L'assurance emprunteur y est facultative : la proposer et l'expliquer relève du devoir de conseil, l'imposer non (Idriss a le droit de la refuser, ce n'est pas ce qui l'écarte). En LCB-FT, le conseiller alerte le responsable conformité ; informer le client d'un soupçon est interdit.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Accepter le débat sur Idriss.</strong> Certaines équipes défendront Idriss pour son reste à vivre élevé. C'est un vrai argument : faites-le peser face aux deux faits qui tranchent ici, la règle des 35 % du comité et le crédit non déclaré. Le message à retenir : Idriss n'est pas un mauvais client, il est finançable en juin. C'est la posture attendue : savoir dire « pas maintenant » et proposer un plan.</div></div>
+<div class="tip"><div class="tip-icon">🔁</div><div class="tip-text"><strong>Prolonger l'atelier.</strong> Faire jouer en binôme l'entretien de refus d'Idriss (3 minutes, sans perdre le client), puis l'entretien de Diane où le conseiller doit refuser sans évoquer le soupçon. Variante : refaire les calculs si Béatrice choisissait 48 mois.</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy · Pôle Banque · Atelier Dossiers Clients</div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>
