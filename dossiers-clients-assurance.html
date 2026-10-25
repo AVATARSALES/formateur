@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Clients Pro — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🛡️</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Assurance — Marché des professionnels</div>
+<div class="pole-desc">Souscription IARD pro · Devoir de conseil (DDA) · Visite de risque · Conformité LCB-FT · Multi-équipement</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Clients Pro</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 15 min</span><span class="meta blue">📋 Pack Pro Sérénité · 1 délégation · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-4</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>chargé(e) de clientèle professionnels</strong> à l'<strong>agence générale ALTÉA Assurances</strong> de Nantes. La compagnie accorde à l'agence une <strong>dernière délégation de souscription</strong> pour le <strong>« Pack Pro Sérénité »</strong> (RC Pro 2 M€ + multirisque des locaux + cyber-risques 500 000 €) au <strong>tarif de lancement : remise maximale de 15 %</strong> sur le tarif technique. Un seul dossier peut en bénéficier. Quatre clients professionnels sont intéressés.<br/><br/>Mission : analyser les 4 dossiers clients, <strong>classer les 4 dossiers par pertinence</strong> pour <strong>Mme Garnier</strong>, agente générale, et défendre la recommandation. Le coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — Mme Garnier</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Comité de souscription vendredi 18 h · Sans dossier complet, la délégation part à l'agence de Rennes avec le bonus de campagne (3 000 €) · Ratio sinistres / primes visé : moins de 60 % · Aucun dossier hors conformité (DDA, LCB-FT)<br/><br/><strong style="color:var(--orange)">Critères de sélection :</strong> Rentabilité technique · Qualité du risque et prévention · Conformité DDA et complétude · Risque client et LCB-FT (éliminatoire) · Potentiel de portefeuille</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">BTS Assurance :</strong> conseil et vente de produits IARD (analyse des besoins, recueil d'informations), relation client (fidélisation et multi-équipement), environnement légal (Code des assurances).<br/><strong style="color:var(--orange)">BUT CJ / TC spécialité Assurance :</strong> développement de portefeuille B2B, conformité (contrôle interne, LCB-FT, recommandations de l'ACPR).<br/><strong style="color:var(--orange)">Licence Pro Métiers de l'Assurance :</strong> assurance des professionnels (RC Pro, cyber-risques), analyse technique (visite de risque, prévention, tarification technique).<br/><strong style="color:var(--orange)">Axe DDA :</strong> recueil des exigences et besoins, remise de l'IPID, conseil formalisé par écrit.<br/><em style="color:var(--muted)">Inspiré du cas n°3 du référentiel (visite de risque et souscription RC Pro, niveau Licence Pro), élargi à la sélection de 4 dossiers et au contrôle de conformité.</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers clients</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Ousmane<br/>Le Négociateur</span><div class="step-body">
+<strong>Dirigeant de MÉCA-OUEST, maintenance industrielle à Saint-Nazaire (45 salariés, CA 6,2 M€)</strong> · Tarif technique 12 400 € (plancher 10 540 €) · Exige 8 500 € et une franchise à zéro, le retrait de l'exclusion sur les machines confiées · 2 sinistres en 3 ans (incendie 38 k€, RC client 15 k€) · Refuse la visite de risque avant lundi, questionnaire « quand l'assistante aura le temps » · Validation de son DAF lundi, après le comité
+<div class="badges">
+<span class="b-ko">❌ 31 % sous le tarif technique (maximum : 15 %)</span>
+<span class="b-ko">❌ 53 k€ de sinistres en 3 ans : franchise zéro injustifiable</span>
+<span class="b-ko">❌ Pas de visite de risque = dossier incomplet vendredi</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Vrai potentiel de multi-équipement (flotte de 18 véhicules), à retravailler avant l'échéance de son contrat actuel avec visite de risque et plan de prévention</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Béatrice<br/>L'Enthousiaste</span><div class="step-body">
+<strong>Fondatrice de MédiLink, application de téléconsultation créée il y a 6 mois (4 salariés, 2 000 patients)</strong> · Accepte 3 600 € (tarif technique 3 900 €) en mensuel · Mais : données de santé chez un hébergeur non certifié HDS, ni double authentification ni sauvegarde hors ligne, questionnaire cyber pas avant 3 semaines · Demande une attestation immédiate et de repousser le dossier
+<div class="badges">
+<span class="b-ko">❌ Risque cyber non assurable en l'état</span>
+<span class="b-ko">❌ Dossier incomplet au comité de vendredi</span>
+<span class="b-ko">❌ Plan B inexistant (« un ami développeur, peut-être »)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Cliente sincère au vrai besoin, à accompagner (plan de sécurité, hébergeur certifié) vers une souscription en début d'année</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Idriss<br/>Le Partenaire</span><div class="step-body">
+<strong>Gérant d'ÉNERGIK CONSEIL, bureau d'études thermiques à Nantes (12 salariés, 8 ans, CA 1,4 M€)</strong> · 4 140 € (tarif technique 4 600 €, remise de 10 %) · Zéro sinistre en 5 ans, relevé fourni · Questionnaire complet, visite de risque jeudi 9 h · IPID lu, fiche de conseil signée jeudi · Double authentification, sauvegarde hors ligne, formation phishing · Demande l'extension RC Pro en Belgique · Déclare spontanément une réclamation client de 8 000 €
+<div class="badges">
+<span class="b-ok">✅ Prime dans la remise autorisée, risque sans sinistre</span>
+<span class="b-ok">✅ Extension Belgique accordée contre une franchise de 1 500 €</span>
+<span class="b-ok">✅ Déclaration sincère et dossier DDA complet avant vendredi</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier — rentable, bien évalué, conforme et fidélisable (prévoyance du gérant, 3 véhicules)</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>L'Opaque</span><div class="step-body">
+<strong>Dirigeante de LUXOR IMPORT, négoce de montres de luxe (showroom à Nantes)</strong> · Veut 1,2 M€ de stock assuré contre le vol sans franchise · Propose 18 000 € payés en espèces et par virement d'une société tierce à Dubaï · Refuse de communiquer le bénéficiaire effectif · Veut un contrat au 1er octobre pour couvrir « un petit incident » de la semaine dernière · Ancien contrat résilié après 2 cambriolages · Veut traiter directement avec Mme Garnier
+<div class="badges">
+<span class="b-ko">❌ Fonds d'origine inconnue et tiers payeur : alerte LCB-FT</span>
+<span class="b-ko">❌ Contrat antidaté pour couvrir un sinistre connu : fraude</span>
+<span class="b-ko">❌ Antécédents cachés puis avoués + contournement du chargé de clientèle</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire — la plus grosse prime, mais rien n'est transparent ni assurable</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Idriss (91/100)</strong> — Seul dossier présentable : prime dans la remise + zéro sinistre + visite jeudi + DDA complet + déclaration sincère.<br/><br/>
+<strong style="color:#ffb347">🥈 Ousmane (52/100)</strong> — Entreprise solide et fort potentiel, mais prime 31 % sous le tarif technique, sinistralité lourde et pas de visite avant le comité.<br/><br/>
+<strong style="color:#bb99ff">🥉 Béatrice (49/100)</strong> — Besoin réel et cliente de bonne foi, mais risque cyber non maîtrisé et dossier incomplet vendredi.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (30/100, ramené à 0)</strong> — Dossier éliminatoire : note de 1 en risque client et LCB-FT.<br/><br/>
+<em style="color:var(--muted)">Ousmane et Béatrice sont proches (52 / 49) : les deux ordres sont défendables si l'équipe argumente. Ousmane passe devant parce que son risque est connu et tarifable, alors que celui de Béatrice ne peut pas être évalué avant 3 semaines. Ousmane redevient le meilleur second choix s'il accepte la visite et une prime d'au moins 10 540 €.</em>
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#ff9999">Biais de la grosse prime (Diane) :</strong> "18 000 € de prime, 2 700 € de commission pour l'agence" — Oui, mais payés en espèces et par un tiers à Dubaï, sans bénéficiaire effectif, avec un contrat antidaté et deux cambriolages. Une grosse prime n'est pas un bon risque.<br/><br/>
+<strong style="color:#ffb347">Biais du gros client (Ousmane) :</strong> "45 salariés, 6 M€ de CA, une vitrine" — Oui, mais à 8 500 € avec 53 000 € de sinistres en 3 ans, le contrat est déficitaire dès la première année. <strong>Taille ≠ rentabilité.</strong><br/><br/>
+<strong style="color:#bb99ff">Biais du coup de cœur (Béatrice) :</strong> "Son projet aide les patients" — Oui, mais des données de santé sans hébergeur certifié ni double authentification exposent l'assureur à une fuite massive. L'enthousiasme ne remplace pas un questionnaire.
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches clients (accès via l'inventaire), lisent les entretiens, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour Mme Garnier. Le coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir les critères de souscription d'un client professionnel (rentabilité technique, qualité du risque, conformité, risque client, potentiel). Calculer une remise sur tarif technique et lire un ratio sinistres / primes. Connaître les obligations DDA (besoins, IPID, conseil écrit), la déclaration du risque et les bases de la LCB-FT. Nommer les 3 biais (grosse prime, gros client, coup de cœur).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Analyser un dossier en croisant tarif, sinistralité, prévention et conformité. Négocier une garantie en obtenant une contrepartie (franchise, prévention). Traiter une déclaration spontanée (fait connu, antériorité). Repérer et refuser une demande non conforme (antidatation, tiers payeur, espèces).<div class="verbs"><span class="verb">Analyser</span><span class="verb">Négocier</span><span class="verb">Formaliser</span><span class="verb">Refuser</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Garder une posture d'analyse froide face à une grosse prime ou à un gros client. Refuser avec fermeté et sans « prévenir » le client d'un éventuel signalement. Garder le contact avec les clients non retenus en leur proposant un calendrier.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 15 min atelier + 20 min débriefing · <strong style="color:var(--orange)">Groupement :</strong> Équipes 3-4 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> BTS Assurance 2e année, BUT CJ / TC spécialité Assurance, Licence Pro Métiers de l'Assurance<br/><strong style="color:var(--orange)">Prérequis :</strong> Vocabulaire IARD (prime, franchise, plafond, exclusion, sinistralité), notions de DDA et de LCB-FT</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Clients Pro (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier d'Idriss "Le Partenaire" est-il le meilleur choix pour le comité de souscription de vendredi ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Prime dans la remise autorisée, zéro sinistre, dossier complet et conforme DDA avant vendredi : le risque est rentable, bien évalué et le conseil est formalisé</div><div class="ans ko"><span class="mark">✗</span>C'est le client qui verse la prime la plus élevée et donc la plus forte commission pour l'agence</div><div class="ans ko"><span class="mark">✗</span>Il accepte toutes les conditions de l'agence sans jamais rien négocier ni poser de questions</div><div class="expl">💡 Célia : "Le meilleur client n'est pas celui qui paie la plus grosse prime, mais celui dont le besoin, le risque et le dossier sont clairs." Idriss négocie aussi (extension Belgique), mais il l'obtient contre une franchise plus élevée.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque client avec le risque ou l'atout principal qui le caractérise pour la délégation de souscription.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table"><tr><td class="col-a">Ousmane "Le Négociateur"</td><td class="col-arrow">→</td><td class="col-b">Rentabilité détruite : 8 500 € (31 % sous le tarif technique), franchise zéro, 2 sinistres en 3 ans et pas de visite avant lundi</td></tr><tr><td class="col-a">Béatrice "L'Enthousiaste"</td><td class="col-arrow">→</td><td class="col-b">Risque cyber mal maîtrisé : hébergeur non certifié HDS, ni double authentification ni questionnaire avant 3 semaines</td></tr><tr><td class="col-a">Idriss "Le Partenaire"</td><td class="col-arrow">→</td><td class="col-b">Dossier sécurisé : 4 140 €, zéro sinistre en 5 ans, visite jeudi, IPID remis et fiche de conseil signée</td></tr><tr><td class="col-a">Diane "L'Opaque"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : espèces et tiers payeur à Dubaï, bénéficiaire effectif caché, contrat antidaté</td></tr></table><div class="expl">💡 Chaque profil a un signal unique : Ousmane = tarif et sinistralité, Béatrice = sécurité absente, Idriss = dossier béton, Diane = opacité et fraude. Ces signaux émergent dès les premières minutes de l'entretien.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte éliminatoires / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols"><div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div><div class="class-item">Prime de 4 140 €, dans la remise de 15 %, et extension Belgique obtenue contre une franchise de 1 500 €</div><div class="class-item">Zéro sinistre en 5 ans, visite de risque jeudi, double authentification et sauvegarde hors ligne</div><div class="class-item">Réclamation de 8 000 € déclarée spontanément, IPID remis et fiche de conseil signée jeudi</div></div><div class="class-col red"><div class="class-col-title">❌ Signaux éliminatoires</div><div class="class-item">"Présentez le dossier sans la visite, c'est votre problème" (Ousmane)</div><div class="class-item">"La double authentification, on la mettra plus tard, mais ça va passer" (Béatrice)</div><div class="class-item">"Je veux que le contrat démarre au 1er octobre, pour couvrir l'incident de la semaine dernière" (Diane)</div></div><div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div><div class="class-item">Le Négociateur → renégociation avant son échéance, avec visite de risque, plan de prévention et offre flotte</div><div class="class-item">L'Enthousiaste → souscription en début d'année, une fois l'hébergeur certifié et les mesures de sécurité en place</div><div class="class-item">L'Opaque → aucun contrat sans identification complète : signalement au déclarant LCB-FT de l'agence</div></div></div><div class="expl">💡 Célia : "Ousmane et Béatrice ne sont pas de mauvais clients, ils ne sont pas présentables cette semaine. Un chargé de clientèle expert leur propose un calendrier. Pour Diane, la seule réponse est la conformité."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un prospect qui exige 8 500 € alors que le tarif technique est de 12 400 € (10 540 € avec la remise maximale de 15 %), quelle est la bonne réaction du chargé de clientèle ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Expliquer le tarif technique au regard de sa sinistralité, et proposer des leviers à contrepartie (franchise plus élevée, prévention, multi-équipement) sans descendre sous 10 540 €</div><div class="ans ko"><span class="mark">✗</span>Accepter ses conditions pour ne pas perdre une grosse PME, la rentabilité se rattrapera avec la flotte l'an prochain</div><div class="ans ko"><span class="mark">✗</span>Présenter le dossier au comité sans visite de risque et attendre la réponse de son directeur financier lundi</div><div class="expl">💡 Toute concession se donne contre une contrepartie. Avec 53 000 € de sinistres en 3 ans, même 10 540 € par an (31 620 € sur 3 ans) ne couvrent pas la sinistralité passée : une franchise plus haute et un plan de prévention sont les vrais leviers. Présenter un dossier sans visite, c'est le voir refusé par le comité.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Diane "L'Opaque" est le meilleur dossier car sa prime de 18 000 € apporte la plus forte commission à l'agence.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 Espèces, tiers payeur à l'étranger et bénéficiaire effectif caché sont des alertes LCB-FT : l'agence ne peut pas souscrire et doit en parler à son déclarant, sans prévenir la cliente. Antidater un contrat pour couvrir un sinistre connu est une fraude. Ses antécédents (résiliation après 2 cambriolages) d'abord tus aggravent le risque. <strong>Grosse prime ≠ bon risque.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un chargé de clientèle en assurance, c'est le devoir de __________ : un contrat ne vaut rien s'il ne répond pas aux besoins réels du client, sur un risque bien déclaré et un dossier conforme.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">conseil</strong></div><div class="expl">💡 Célia : "Depuis la DDA, le conseil se prouve par écrit : besoins recueillis, IPID remis, conseil signé. Idriss montre qu'un client qui négocie peut rester un excellent dossier, si chaque concession a une contrepartie et si tout est déclaré."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (35 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing Mme Garnier</div><div class="tl-desc">Présenter l'enjeu en une phrase : "Dernière délégation de souscription du trimestre, remise de lancement de 15 % maximum, comité vendredi 18 h. 4 clients intéressés. Un seul dossier peut passer sans dégrader notre ratio ni notre conformité. Lequel ?" Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Atelier (VTS) + grille d'évaluation</div><div class="tl-desc">Lecture des 4 entretiens et des 4 fiches clients. Les équipes notent chaque dossier de 1 à 5 sur les 5 critères pondérés, obtiennent un score /100 et rédigent 3 arguments pour leur choix.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 27 min</div><div class="tl-title">Débat inter-équipes — Les 3 pièges</div><div class="tl-desc">Demander : "Qui a choisi Diane ? Pourquoi ?" → biais de la grosse prime. "Qui a choisi Ousmane ?" → biais du gros client. "Qui a choisi Béatrice ?" → biais du coup de cœur. Faire calculer la remise demandée et la sinistralité de chaque dossier avant de révéler le corrigé.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div></div><div class="tl-content"><div class="tl-time">27 – 35 min</div><div class="tl-title">Réorientation des clients + Quiz</div><div class="tl-desc">Pour chaque client non retenu : "Que lui proposer, et quand ?" Ousmane → rendez-vous avant son échéance avec visite de risque, plan de prévention et offre flotte. Béatrice → plan de sécurité et souscription en début d'année. Diane → refus et information du déclarant LCB-FT de l'agence. Quiz final.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💰</div><div class="tip-text"><strong>Faire chiffrer chaque dossier.</strong> Idriss : 4 140 € = −10 % sur 4 600 €, zéro sinistre. Ousmane : 8 500 € = −31 % sur 12 400 € (plancher 10 540 €), 53 000 € de sinistres en 3 ans pour 25 500 € de primes à son prix : ratio de 208 %. Béatrice : 3 600 € = −8 %, mais un risque impossible à tarifer sans questionnaire. Diane : 18 000 € et 2 700 € de commission, mais un risque vol hors appétit de la compagnie.</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Rappeler le cadre légal.</strong> DDA : besoins recueillis, IPID remis, conseil écrit. Code des assurances : déclaration sincère du risque, nullité en cas de fausse déclaration intentionnelle, pas de garantie pour un sinistre déjà survenu. LCB-FT : identification du bénéficiaire effectif, origine des fonds, signalement interne sans alerter le client. Demandez aux équipes quelles pièces manquent dans chaque dossier.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Insister sur la contrepartie et la transparence.</strong> Idriss et Ousmane négocient tous les deux. La différence : Idriss obtient l'extension Belgique contre une franchise de 1 500 € et déclare lui-même une réclamation, Ousmane veut une baisse de 31 % sans visite. Prolongement : faire rédiger le conseil écrit remis à Idriss et la proposition de prévoyance du gérant (multi-équipement).</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy · Pôle Assurance · <a href="dossiers-clients-assurance-grille.html">Grille d'évaluation interactive</a></div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>
