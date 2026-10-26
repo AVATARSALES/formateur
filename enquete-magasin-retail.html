@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enquête Magasin — 3 Dossiers, 1 Priorité ! — Pôle Retail · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:920px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:12px 18px 14px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px}
+.mod-grid{display:flex;gap:10px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:18px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.meta.red{background:rgba(255,77,77,0.1);color:#ff9999;border:0.5px solid rgba(255,77,77,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+/* CLIENTS CARDS */
+.clients-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:700px){.clients-grid{grid-template-columns:1fr}}
+.client-card{background:var(--navy3);border-radius:11px;padding:13px 14px;border-top:3px solid var(--orange);position:relative}
+.client-card.danger{border-top-color:#ff4d4d}
+.client-card.growth{border-top-color:var(--green)}
+.client-card.warning{border-top-color:#ffb347}
+.client-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.client-plan{font-size:10.5px;color:var(--orange);margin-bottom:8px}
+.client-kpi{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.kpi-row{display:flex;justify-content:space-between;font-size:11.5px}
+.kpi-label{color:var(--muted)}
+.kpi-val{font-weight:500;color:var(--light)}
+.kpi-val.bad{color:#ff9999}
+.kpi-val.good{color:var(--green)}
+.kpi-val.warn{color:#ffb347}
+.client-mission{font-size:11px;color:var(--muted);padding:6px 8px;background:rgba(255,255,255,0.04);border-radius:6px;line-height:1.5;border-left:2px solid rgba(255,107,0,0.3)}
+.priority-tag{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px}
+.priority-tag.red{background:rgba(255,77,77,0.15);color:#ff9999;border:0.5px solid rgba(255,77,77,0.3)}
+.priority-tag.green{background:rgba(0,204,136,0.12);color:var(--green);border:0.5px solid rgba(0,204,136,0.25)}
+.priority-tag.amber{background:rgba(255,179,71,0.12);color:#ffb347;border:0.5px solid rgba(255,179,71,0.25)}
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+/* OBJECTIONS */
+.obj-grid{display:flex;flex-direction:column;gap:8px}
+.obj-item{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;align-items:flex-start}
+@media(max-width:580px){.obj-item{grid-template-columns:1fr}}
+.obj-left{}
+.obj-label{font-size:9px;font-weight:700;color:#ff9999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.obj-text{font-size:12.5px;color:#ff9999;line-height:1.5}
+.rep-label{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.rep-text{font-size:12.5px;color:var(--green);line-height:1.5}
+/* OBJECTIVES */
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+/* QUIZ */
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-err{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:45%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-fix{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:45%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+/* TIMELINE */
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.perso-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:160px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.soncas-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+@media(max-width:540px){.soncas-grid{grid-template-columns:1fr}}
+.soncas-item{background:var(--navy3);border-radius:9px;padding:10px 13px}
+.soncas-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--orange);margin-bottom:3px}
+.soncas-mot{font-size:12px;font-weight:500;color:#fff;margin-bottom:2px}
+.soncas-desc{font-size:11.5px;color:var(--muted);line-height:1.5}
+.soncas-item.active{border:1px solid rgba(255,107,0,0.3)}
+.alert-box{display:flex;gap:10px;background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2);border-radius:10px;padding:11px 14px;margin-bottom:14px;align-items:flex-start}
+.alert-icon{font-size:16px;flex-shrink:0}
+.alert-text{font-size:12.5px;color:#ff9999;line-height:1.6}
+.alert-text strong{color:#ffaaaa}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.class-cols .class-item{padding-left:0}.class-cols .class-item::before{content:none}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+
+<style>
+.col-a{background:rgba(0,170,255,0.07);border-radius:6px 0 0 6px;color:var(--blue);width:30%;font-weight:500}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:60%}
+.clue{font-size:11px;color:#ffb347;padding:6px 8px;background:rgba(255,179,71,0.06);border-radius:6px;line-height:1.5;border-left:2px solid rgba(255,179,71,0.35);margin-top:6px}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.class-cols .class-item{padding-left:0}.class-cols .class-item::before{content:none}
+</style>
+
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">🛒</div>
+<div class="pole-info">
+<div class="pole-name">Pôle Retail — Commerce &amp; Grande Distribution</div>
+<div class="pole-desc">Enquête commerciale en magasin · Découverte SPIN · Réclamation &amp; fidélisation · Click &amp; Collect · Référencement local · Vrac &amp; anti-gaspi</div>
+</div>
+<div class="pole-badge">Enquête Magasin — 3 Dossiers, 1 Priorité !</div>
+</div>
+<div class="content" id="content"><div class="module-panel active" id="panel-magasin">
+<div class="meta-row">
+<span class="meta purple">🛒 Supermarché</span>
+<span class="meta orange">⏱ 10 min</span>
+<span class="meta blue">🔍 Enquête commerciale · Analyse + Décision</span>
+<span class="meta green">👥 Individuel</span>
+<span class="meta red">🎓 BTS · BUT · Licence Pro</span>
+</div>
+<div class="tabs" id="tabs-magasin">
+<div class="tab active" onclick="switchTab('magasin','scenario')">📖 Scénario</div>
+<div class="tab" onclick="switchTab('magasin','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="switchTab('magasin','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="switchTab('magasin','deroulement')">🗓 Déroulement</div>
+</div>
+<!-- SCÉNARIO -->
+<div class="tab-panel active" id="magasin-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant incarne un(e) <strong>adjoint(e) manager de rayon alternant(e)</strong> au rayon Épicerie &amp; Liquides du supermarché <strong>Marché Bellevue</strong>. Nous sommes lundi matin. Julien, le manager du rayon, est en formation toute la semaine : il a laissé 3 dossiers « à traiter » dans le cahier de liaison. <strong>Claire</strong>, la Directrice du magasin, est claire : « Le point CA de la période tombe dimanche et le rayon est en retard sur l'objectif. Tu as 48 heures pour mener ton enquête et traiter <strong>un seul dossier à fond</strong> : rencontre, réponse écrite, mise en place en magasin. Choisis le bon. »</div>
+</div>
+<div class="section"><div class="sec-title">Personnages</div>
+<div class="perso-row">
+<div class="perso"><div class="perso-name">👩‍💼 Claire</div><div class="perso-role">Directrice du magasin — briefing, puis feedback chiffré sur la décision finale</div></div>
+<div class="perso"><div class="perso-name">🧑‍🔧 Laurent Mercier</div><div class="perso-role">Secrétaire du CSE de Logistique Ouest — client Click &amp; Collect, réclamation en cours</div></div>
+<div class="perso"><div class="perso-name">🍺 Antoine Roux</div><div class="perso-role">Fondateur de la Brasserie du Val — demande de référencement local</div></div>
+<div class="perso"><div class="perso-name">🛍️ Camille Lambert</div><div class="perso-role">Cliente fidèle très active sur l'appli — réclame un rayon vrac</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Les 3 dossiers du cahier de liaison</div>
+<div class="clients-grid">
+<div class="client-card danger">
+<span class="priority-tag red">🚨 Drive rival : mercredi</span>
+<div class="client-name">🧑‍🔧 Laurent Mercier</div>
+<div class="client-plan">Client B2B · CSE de Logistique Ouest (220 salariés)</div>
+<div class="client-kpi">
+<div class="kpi-row"><span class="kpi-label">Canal</span><span class="kpi-val">Click &amp; Collect</span></div>
+<div class="kpi-row"><span class="kpi-label">Historique</span><span class="kpi-val good">6 commandes / an</span></div>
+<div class="kpi-row"><span class="kpi-label">Dernière commande</span><span class="kpi-val bad">11 réf. manquantes</span></div>
+<div class="kpi-row"><span class="kpi-label">Avis en ligne</span><span class="kpi-val bad">2 / 5 · réclamation écrite</span></div>
+<div class="kpi-row"><span class="kpi-label">Prochaine commande</span><span class="kpi-val warn">2 900 € · soirée samedi</span></div>
+</div>
+<div class="client-mission">🎯 Demande : « une remise de 15 % pour compenser, sinon je commande au drive de l'Hyper Rocade, qui me propose -10 % ». Commande à confirmer avant mercredi midi pour la soirée de fin d'année de samedi.</div>
+</div>
+<div class="client-card warning">
+<span class="priority-tag amber">⏳ Comité : J-28</span>
+<div class="client-name">🍺 Antoine Roux</div>
+<div class="client-plan">Fournisseur local · Brasserie du Val</div>
+<div class="client-kpi">
+<div class="kpi-row"><span class="kpi-label">Gamme proposée</span><span class="kpi-val good">6 bières artisanales</span></div>
+<div class="kpi-row"><span class="kpi-label">Distance</span><span class="kpi-val good">18 km · « produit local »</span></div>
+<div class="kpi-row"><span class="kpi-label">Franco de port</span><span class="kpi-val warn">À négocier</span></div>
+<div class="kpi-row"><span class="kpi-label">Animation</span><span class="kpi-val warn">Dégustations à caler</span></div>
+<div class="kpi-row"><span class="kpi-label">Concurrence</span><span class="kpi-val bad">Déjà en test chez 2 enseignes</span></div>
+</div>
+<div class="client-mission">🎯 Plus gros potentiel du cahier : nouvelle gamme locale sur un segment en croissance. Dossier (tarifs, franco, plan d'animation) à présenter au comité régional dans 4 semaines.</div>
+</div>
+<div class="client-card growth">
+<span class="priority-tag green">📈 Cliente engagée</span>
+<div class="client-name">🛍️ Camille Lambert</div>
+<div class="client-plan">Cliente particulière · Carte fidélité depuis 8 ans</div>
+<div class="client-kpi">
+<div class="kpi-row"><span class="kpi-label">Appli enseigne</span><span class="kpi-val good">3 listes · coupons utilisés</span></div>
+<div class="kpi-row"><span class="kpi-label">Panier moyen</span><span class="kpi-val good">95 € / semaine</span></div>
+<div class="kpi-row"><span class="kpi-label">Pétition</span><span class="kpi-val">140 signatures « vrac »</span></div>
+<div class="kpi-row"><span class="kpi-label">Objection</span><span class="kpi-val warn">« Trop d'emballages »</span></div>
+<div class="kpi-row"><span class="kpi-label">Fréquentation</span><span class="kpi-val good">Stable · 2 visites / sem.</span></div>
+</div>
+<div class="client-mission">🎯 Très engagée (appli, réseaux sociaux, pétition). Veut un rayon vrac et moins de gaspillage. L'enseigne prévoit une réimplantation vrac « au printemps ».</div>
+</div>
+</div>
+</div>
+
+<div class="section"><div class="sec-title">Ce que révèle l'enquête (la question décisive)</div>
+<div class="steps">
+<div class="step"><span class="step-n">Laurent</span><div class="step-body"><strong>« Si samedi soir il manque à nouveau des produits devant vos 220 collègues, qu'est-ce que ça représente pour vous ? »</strong> (question d'implication SPIN)<br/>Réponse : « C'est moi qu'on accusera, c'est le CSE qui organise. Franchement, la remise, ce n'est pas le sujet : je veux être sûr que tout sera là. Si vous me le garantissez par écrit avant mercredi midi, je reste chez vous. Sinon je valide au drive de l'Hyper Rocade. »<div class="badges"><span class="b-ok">✓ Révèle le besoin réel : la fiabilité</span><span class="b-ok">✓ Rend la remise de 15 % inutile</span></div></div></div>
+<div class="step"><span class="step-n">Antoine</span><div class="step-body"><strong>« Quelles conditions vous faut-il pour livrer directement notre magasin ? »</strong><br/>Réponse : « Un franco à 40 cartons et deux dégustations par mois les trois premiers mois. Rien ne presse cette semaine : le comité est dans 4 semaines. On se voit mardi prochain à la brasserie ? »<div class="badges"><span class="b-ok">✓ Révèle les vrais points de négociation</span><span class="b-ok">✓ Confirme : pas d'urgence cette semaine</span></div></div></div>
+<div class="step"><span class="step-n">Camille</span><div class="step-body"><strong>« Qu'est-ce qui vous ferait dire, dès aujourd'hui, que le magasin avance sur le vrac et l'anti-gaspi ? »</strong><br/>Réponse : « Savoir quand le rayon vrac arrive, et que vos produits à date courte soient plus visibles. Mais je fais mes courses ici depuis 8 ans, je ne vais pas partir. »<div class="badges"><span class="b-ok">✓ Révèle une attente simple à satisfaire</span><span class="b-ko">✗ Aucun risque de perte cette semaine</span></div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">La décision — et pourquoi</div>
+<div class="alert-box">
+<div class="alert-icon">🚨</div>
+<div class="alert-text"><strong>Priorité absolue : Laurent Mercier (drive concurrent mercredi midi)</strong><br/>Le CSE a déjà été déçu (11 références manquantes, avis 2/5), une commande de 2 900 € doit être confirmée avant mercredi midi et un concurrent attend. Laurent réclame 15 % de remise, mais son besoin réel est la <strong>garantie d'une commande complète</strong>. Bonne réponse : produits réservés en stock dès aujourd'hui, liste de substitutions validée par écrit, préparation vérifiée la veille par l'apprenant, interlocuteur unique, retrait sur créneau vendredi 18 h, et un geste mesuré (bon d'achat de 5 % sur la prochaine commande) en réponse à la réclamation.</div>
+</div>
+<div class="card">
+<strong style="color:var(--green)">✓ Laurent Mercier — PRIORITÉ ABSOLUE</strong> : échéance concurrente mercredi + réclamation non traitée + avis négatif en ligne. Client récurrent (6 commandes par an) récupérable cette semaine uniquement.<br/><br/>
+<strong style="color:var(--muted)">≈ Antoine Roux — IMPORTANT MAIS PAS IMMÉDIAT</strong> : le plus beau potentiel de développement, mais le comité de référencement est dans 4 semaines et Antoine propose lui-même un rendez-vous la semaine prochaine. Action cette semaine : confirmer le rendez-vous, demander ses tarifs et préparer les données de rotation du rayon bières.<br/><br/>
+<strong style="color:var(--muted)">≈ Camille Lambert — OPPORTUNITÉ, PAS URGENCE</strong> : cliente fidèle et engagée, projet vrac prévu au printemps. Action cette semaine : une réponse personnalisée avec la date de la réimplantation vrac, la mise en avant du bac anti-gaspi (dates courtes) et une invitation à devenir cliente ambassadrice au lancement.
+</div>
+</div>
+<div class="section"><div class="sec-title">Erreur fatale à éviter</div>
+<div class="card" style="border-color:rgba(255,77,77,0.2);">
+<strong style="color:#ff9999">⚠️ Foncer sur le « beau dossier » sans enquêter</strong> : l'apprenant qui passe ses 48 h à monter le dossier de la Brasserie du Val (attendu dans 4 semaines) ou à répondre à Camille (qui ne part pas) découvre le feedback de Claire : « Mercredi midi, Laurent a validé sa commande au drive de l'Hyper Rocade. <strong style="color:#ff9999">2 900 € de CA perdus ce week-end, près de 11 000 € par an</strong> avec le CSE, et un avis 1 étoile de plus. Le plus beau dossier n'est pas toujours le plus urgent. »<br/><br/>
+<strong style="color:#ffb347">⚠️ Erreur n°2 : accorder la remise réclamée au lieu de régler le problème</strong> : 15 % sur 2 900 €, c'est 435 € de marge perdus sur une marge de 725 €, et rien ne garantit que la commande sera complète samedi. Claire : « Tu as acheté la paix, tu n'as pas réglé le problème. »
+</div>
+</div>
+</div>
+<!-- OBJECTIFS -->
+<div class="tab-panel" id="magasin-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée par les apprenants</div>
+<div class="card">L'apprenant incarne un(e) adjoint(e) manager de rayon alternant(e) qui reprend les dossiers d'un manager absent. Il reçoit le briefing de Claire, analyse les 3 dossiers du cahier de liaison (historique, canal, échéances, enjeux), interroge chaque contact en choisissant à chaque fois la question la plus pertinente parmi 3 (méthode SPIN), puis désigne la priorité des 48 h et la réponse adaptée. Le feedback de Claire valide ou invalide la décision avec un argument chiffré (CA et marge perdus si mauvais choix).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs (Connaître)</div><div class="obj-block-body">Définir le parcours client omnicanal (web-to-store, Click &amp; Collect) et ses points de rupture. Expliquer les 4 types de questions de la méthode SPIN (Situation, Problème, Implication, Need-payoff). Distinguer chiffre d'affaires, marge brute et taux de marque. Connaître les leviers d'une négociation d'achat avec un fournisseur local (tarifs, franco de port, plan d'animation) et les attentes RSE des clients (vrac, anti-gaspillage).<div class="verbs"><span class="verb">Définir</span><span class="verb">Expliquer</span><span class="verb">Distinguer</span><span class="verb">Connaître</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire (Appliquer)</div><div class="obj-block-body">Analyser un dossier client ou fournisseur pour repérer les indices d'urgence (échéance concurrente, réclamation, avis en ligne). Hiérarchiser plusieurs dossiers selon l'urgence, la valeur et le risque de perte. Formuler une question d'implication qui fait exprimer au client son besoin réel. Traiter une réclamation en apportant une solution plutôt qu'une remise. Calculer l'impact d'une remise sur la marge.<div class="verbs"><span class="verb">Analyser</span><span class="verb">Hiérarchiser</span><span class="verb">Formuler</span><span class="verb">Traiter</span><span class="verb">Calculer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être (Adopter)</div><div class="obj-block-body">Adopter une posture d'enquêteur : chercher l'information décisive avant d'agir. Résister à l'attrait du « beau dossier » quand l'urgence est ailleurs. Prendre une décision argumentée et la défendre devant sa Directrice. Fidéliser le client en tenant ses engagements plutôt qu'en « achetant la paix ».<div class="verbs"><span class="verb">Adopter</span><span class="verb">Résister</span><span class="verb">Prendre</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités pédagogiques</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Serious Game d'investigation : analyse de 3 dossiers + 3 dialogues à choix (SPIN) + décision argumentée (priorité + réponse)<br/><br/><strong style="color:var(--orange)">Groupement :</strong> Individuel (enquête et décision), débriefing collectif, jeu de rôle en binôme<br/><br/><strong style="color:var(--orange)">Durée totale :</strong> 10 min module + 20 min débriefing et jeu de rôle<br/><br/><strong style="color:var(--orange)">Évaluation :</strong> Qualité de la priorisation + pertinence de la réponse au client + argumentation face à Claire + grille du jeu de rôle<br/><br/><strong style="color:var(--orange)">Prérequis :</strong> Notions de relation client. Click &amp; Collect, franco de port et taux de marque sont rappelés dans le quiz.<br/><br/><strong style="color:var(--orange)">Niveaux :</strong> BTS MCO (relation client, réclamation, marge) · BUT TC Distribution (achats, négociation fournisseur, category management) · Licence Pro Commerce et Distribution (pilotage du CA, zone de chalandise)</div>
+</div>
+</div>
+<!-- QUIZ -->
+<div class="tab-panel" id="magasin-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Enquête Magasin (7 questions)</div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Quel dossier devez-vous traiter en priorité absolue dans les 48 heures ? Pourquoi ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Antoine Roux : une nouvelle gamme locale, c'est le plus gros potentiel de développement du rayon</div>
+<div class="ans ok"><span class="mark">✓</span>Laurent Mercier : drive concurrent mercredi midi, réclamation non traitée, avis négatif en ligne, client récurrent prêt à rester si on le rassure</div>
+<div class="ans ko"><span class="mark">✗</span>Camille Lambert : c'est la cliente la plus engagée, il faut répondre tant que la pétition est d'actualité</div>
+<div class="ans ko"><span class="mark">✗</span>Les trois en parallèle, en consacrant un tiers du temps à chacun</div>
+<div class="expl">💡 Une échéance concurrente ne se rattrape pas. Laurent est le seul interlocuteur qui partira cette semaine si on ne fait rien. Antoine attend le comité dans 4 semaines, Camille ne quitte pas le magasin : leurs dossiers attendent sans risque, à condition d'être tenus par une action simple (rendez-vous, réponse personnalisée).</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">QCM</span><div class="qtext">« Si samedi soir il manque à nouveau des produits devant vos 220 collègues, qu'est-ce que ça représente pour vous ? » Quel type de question SPIN est-ce ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Situation : elle décrit le contexte actuel du client</div>
+<div class="ans ko"><span class="mark">✗</span>Problème : elle demande au client ce qui n'a pas fonctionné lors de la dernière commande</div>
+<div class="ans ok"><span class="mark">✓</span>Implication : elle fait mesurer au client les conséquences du problème pour lui</div>
+<div class="ans ko"><span class="mark">✗</span>Need-payoff : elle fait formuler au client les bénéfices de la solution</div>
+<div class="expl">💡 Laurent connaît le problème (commande incomplète) mais en parle en termes de remise. La question d'implication le ramène à ce qui compte pour lui : sa crédibilité devant ses collègues. Il exprime alors lui-même son besoin réel, la fiabilité. La suite logique est une question Need-payoff : « Si je vous garantis par écrit une commande complète et vérifiée, qu'est-ce que ça change pour vous ? »</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">QCM</span><div class="qtext">Quelle réponse est la plus adaptée au besoin réel de Laurent ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Accorder les 15 % de remise demandés pour éviter de le perdre</div>
+<div class="ans ko"><span class="mark">✗</span>S'aligner sur le drive concurrent avec 10 % de remise et ne rien changer à la préparation</div>
+<div class="ans ok"><span class="mark">✓</span>Garantir la commande : produits réservés dès aujourd'hui, substitutions validées par écrit, préparation vérifiée la veille, interlocuteur unique, retrait vendredi 18 h, plus un bon d'achat de 5 % sur la prochaine commande</div>
+<div class="ans ko"><span class="mark">✗</span>Lui conseiller de répartir sa commande entre le magasin et le drive concurrent pour limiter le risque</div>
+<div class="expl">💡 Une réclamation se traite par une solution au problème, puis par un geste mesuré. La remise seule n'empêche pas une nouvelle rupture samedi. La garantie de service répond à l'enjeu de Laurent, protège la marge et fidélise le CSE sur ses 6 commandes annuelles.</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">Classement</span><div class="qtext">Classez les 3 dossiers par ordre de priorité d'intervention cette semaine et justifiez.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols">
+<div class="class-col red"><div class="class-col-title">🚨 Priorité 1</div><div class="class-item"><strong>Laurent Mercier</strong> : drive concurrent mercredi midi, réclamation, avis 2/5. Décision cette semaine.</div></div>
+<div class="class-col amber"><div class="class-col-title">⏳ Priorité 2</div><div class="class-item"><strong>Antoine Roux</strong> : beau potentiel, comité à J-28, rendez-vous mardi prochain à confirmer.</div></div>
+<div class="class-col green"><div class="class-col-title">📈 Priorité 3</div><div class="class-item"><strong>Camille Lambert</strong> : cliente fidèle, projet vrac au printemps. Réponse personnalisée, invitation au lancement.</div></div>
+</div>
+<div class="expl">💡 La règle d'or du manager de rayon : échéance client &gt; valeur du dossier &gt; engagement du client. On traite d'abord ce qui sera perdu si on ne fait rien cette semaine.</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">QCM</span><div class="qtext">Commande de Laurent : 2 900 € HT, taux de marque du rayon 25 %. Si vous accordez 15 % de remise, que devient la marge brute de la commande ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ko"><span class="mark">✗</span>Elle baisse de 15 % : de 725 € à environ 616 €</div>
+<div class="ans ok"><span class="mark">✓</span>Elle passe de 725 € à 290 € : la remise de 435 € est prise entièrement sur la marge, soit 60 % de marge en moins</div>
+<div class="ans ko"><span class="mark">✗</span>Elle ne change pas, la remise est financée par les fournisseurs</div>
+<div class="ans ko"><span class="mark">✗</span>Elle devient négative</div>
+<div class="expl">💡 Marge brute = 2 900 × 25 % = 725 €. Remise = 2 900 × 15 % = 435 €. Le coût d'achat ne change pas : la remise sort directement de la marge (725 − 435 = 290 €). Avec un bon d'achat de 5 % (145 €), la marge reste à 580 €, et le bon fait revenir le client.</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque terme à sa définition.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table">
+<tr><td class="col-a">Click &amp; Collect</td><td class="col-arrow">→</td><td class="col-b">Commande passée en ligne, préparée par le magasin et retirée par le client sur un créneau (parcours web-to-store)</td></tr>
+<tr><td class="col-a">Franco de port</td><td class="col-arrow">→</td><td class="col-b">Seuil de commande à partir duquel le fournisseur prend en charge les frais de livraison</td></tr>
+<tr><td class="col-a">Tête de gondole</td><td class="col-arrow">→</td><td class="col-b">Emplacement en bout de rayon, très visible, réservé aux promotions et mises en avant</td></tr>
+<tr><td class="col-a">Démarque inconnue</td><td class="col-arrow">→</td><td class="col-b">Écart entre le stock théorique et le stock réel, dû au vol, à la casse ou aux erreurs de saisie</td></tr>
+</table>
+<div class="expl">💡 Laurent achète en Click &amp; Collect, Antoine négocie un franco et des dégustations (qui pourront se faire en tête de gondole), et des écarts de stock non suivis expliquent souvent les ruptures en préparation de commande. Un bon manager de rayon relie ces notions.</div>
+</div></div>
+<div class="qcard" onclick="toggleQ(this)"><div class="qhead"><div class="qnum">7</div><span class="qtype">Texte à trous</span><div class="qtext">Quand un produit commandé en ligne est en rupture, le magasin propose un produit équivalent. Pour éviter une nouvelle réclamation, la liste de ces produits de _____ doit être validée par le client avant la préparation.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">substitution</strong></div>
+<div class="expl">💡 C'est l'origine de la réclamation de Laurent : 11 références manquantes et des substitutions non validées. La validation écrite des substitutions et la réservation du stock en amont sont les deux engagements concrets qui le font rester.</div>
+</div></div>
+</div>
+</div>
+<!-- DÉROULEMENT -->
+<div class="tab-panel" id="magasin-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (30 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing « Lundi matin, Julien est absent »</div><div class="tl-desc">Présenter le contexte sans révéler la réponse : « 3 dossiers, 48 heures, un seul traité à fond. Lequel ? » Faire voter à main levée sur la seule base des noms et des sujets (réclamation, brasseur local, rayon vrac). Noter le résultat au tableau.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 15 min</div><div class="tl-title">Serious Game individuel</div><div class="tl-desc">Jeu complet (10 min). Chaque apprenant note sa priorité, la réponse choisie et la question qui l'a fait décider.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">15 – 22 min</div><div class="tl-title">Débriefing « Pourquoi Laurent ? »</div><div class="tl-desc">Comparer avec le vote du début. Pour chaque mauvais choix, lire le feedback de Claire : « Mercredi midi, Laurent a validé au drive de l'Hyper Rocade. 2 900 € perdus ce week-end, près de 11 000 € par an. » Puis faire calculer au tableau l'impact de la remise de 15 % sur la marge (725 € → 290 €).</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">22 – 30 min</div><div class="tl-title">Jeu de rôle : l'appel à Laurent</div><div class="tl-desc">En binôme : A joue l'adjoint(e) manager, B joue Laurent (« 15 % ou je pars »). Mission : accueillir la réclamation, faire émerger le besoin réel par les questions SPIN et présenter la garantie de service. Grille : écoute et reformulation de la réclamation, questions S-P-I-N posées, engagements concrets, geste commercial mesuré, conclusion (confirmation écrite avant mercredi midi).</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">💶</div><div class="tip-text"><strong>Rendre la marge visible.</strong> Poser au tableau les deux scénarios : remise de 15 % (marge 290 €) contre garantie de service et bon d'achat de 5 % (marge 580 €), puis rapporter au CA annuel du CSE (6 commandes ≈ 10 800 €). Les apprenants voient qu'une remise accordée sous la pression coûte plus cher qu'un service bien tenu.</div></div>
+<div class="tip"><div class="tip-icon">🔍</div><div class="tip-text"><strong>Insister sur la question d'implication.</strong> Tant que Laurent parle de remise, le dossier ressemble à une négociation de prix. La question d'implication révèle un enjeu de fiabilité. Faire reformuler aux apprenants 2 ou 3 autres questions d'implication possibles.</div></div>
+<div class="tip"><div class="tip-icon">🛒</div><div class="tip-text"><strong>Phygital : suivre le parcours jusqu'au bout.</strong> Faire dessiner le parcours Click &amp; Collect de Laurent (commande en ligne, préparation, substitutions, retrait, avis) et repérer les 3 points où la dernière commande a échoué. C'est l'occasion de relier ruptures, état des stocks et démarque inconnue.</div></div>
+<div class="tip"><div class="tip-icon">🍺</div><div class="tip-text"><strong>Prolongement achats (BUT TC).</strong> En exercice complémentaire, faire préparer le rendez-vous avec Antoine (cas n°2 du référentiel) : prix d'achat cible, franco à 40 cartons, plan de 2 dégustations par mois, objectif de rotation et place dans l'assortiment bières.</div></div>
+<div class="tip"><div class="tip-icon">♻️</div><div class="tip-text"><strong>RSE et fidélisation.</strong> Le dossier de Camille illustre les attentes clients sur le vrac et l'anti-gaspillage. Faire rédiger sa réponse personnalisée en 5 lignes : date de la réimplantation vrac, bac dates courtes, invitation ambassadrice.</div></div>
+<div class="tip"><div class="tip-icon">🔗</div><div class="tip-text"><strong>Lien référentiels.</strong> BTS MCO : développement de la relation client (réclamation, fidélisation, parcours omnicanal web-to-store) et gestion opérationnelle (marge, stocks). BUT TC Distribution : achats et négociation avec un fournisseur local, category management. Licence Pro Commerce et Distribution : en extension, pilotage du CA de la période et veille concurrentielle sur la zone de chalandise (offre du drive de l'Hyper Rocade).</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy</div>
+</div>
+<script>
+function switchTab(mod, tab) {
+const panel = document.getElementById('panel-'+mod);
+if(!panel) return;
+panel.querySelectorAll('.tab').forEach(t => {
+t.classList.toggle('active', t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+tab+"'"));
+});
+panel.querySelectorAll('.tab-panel').forEach(p => {
+p.classList.toggle('active', p.id === mod+'-'+tab);
+});
+}
+function toggleQ(card) { card.classList.toggle('open'); }
+</script>
+</body>
+</html>
