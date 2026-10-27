@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Dossiers Clients IT — Fiche formateur · ASA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0D1B35;--orange:#FF6B00;--blue:#00AAFF;--navy2:#1a2d52;--navy3:#0f2040;--light:#e8edf5;--muted:#8a9bb5;--green:#00cc88;}
+html,body{background:var(--navy);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13.5px;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center}
+.app{width:100%;max-width:900px;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.header-info{flex:1}
+.header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+.header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badge-off{font-size:10px;background:rgba(0,204,136,0.1);color:var(--green);border:1px solid rgba(0,204,136,0.2);border-radius:20px;padding:3px 10px}
+.pole-header{padding:14px 20px;background:rgba(0,0,0,0.12);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:14px}
+.pole-icon{font-size:26px}
+.pole-info{flex:1}
+.pole-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.pole-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pole-badge{font-size:10px;background:rgba(0,170,255,0.12);color:var(--blue);border:1px solid rgba(0,170,255,0.2);border-radius:20px;padding:3px 10px}
+.mod-selector{padding:11px 18px 13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mod-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.mod-grid{display:flex;gap:9px;flex-wrap:wrap}
+.mod-btn{display:flex;align-items:center;gap:9px;padding:10px 15px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;flex:1;min-width:220px}
+.mod-btn:hover{border-color:rgba(255,107,0,0.4);color:var(--light);background:rgba(255,107,0,0.07)}
+.mod-btn.active{border-color:var(--orange);color:#fff;background:rgba(255,107,0,0.14)}
+.mod-btn-icon{font-size:17px}
+.mod-btn-info{display:flex;flex-direction:column;gap:2px}
+.mod-btn-title{font-size:12.5px;font-weight:500;line-height:1.3}
+.mod-btn-meta{font-size:10px;color:rgba(138,155,181,0.7);display:flex;gap:5px;align-items:center}
+.tag-ok{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.tag-dur{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);border-radius:4px;padding:1px 6px;font-size:9px}
+.content{flex:1;padding:22px 20px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:48px}
+.welcome-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.welcome-desc{color:var(--muted);line-height:1.7;max-width:400px}
+.module-panel{display:none}
+.module-panel.active{display:block}
+.tabs{display:flex;gap:2px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--light)}
+.tab.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.meta{font-size:11px;padding:4px 11px;border-radius:6px}
+.meta.blue{background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2)}
+.meta.orange{background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.2)}
+.meta.green{background:rgba(0,204,136,0.1);color:var(--green);border:0.5px solid rgba(0,204,136,0.2)}
+.meta.purple{background:rgba(150,100,255,0.1);color:#bb99ff;border:0.5px solid rgba(150,100,255,0.2)}
+.section{margin-bottom:22px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:600;font-size:11.5px;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(255,107,0,0.18)}
+.card{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;line-height:1.75;color:var(--light)}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;background:var(--navy3);border-radius:9px;padding:10px 13px;align-items:flex-start}
+.step-n{font-size:10px;font-weight:600;color:var(--orange);background:rgba(255,107,0,0.1);border:0.5px solid rgba(255,107,0,0.2);border-radius:5px;padding:2px 7px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.step-body{flex:1;line-height:1.6;font-size:13px}
+.step-body strong{color:#fff}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.b-ok{font-size:10.5px;color:var(--green);background:rgba(0,204,136,0.08);border:0.5px solid rgba(0,204,136,0.2);border-radius:5px;padding:2px 8px}
+.b-ko{font-size:10.5px;color:#ff6b6b;background:rgba(255,77,77,0.08);border:0.5px solid rgba(255,77,77,0.2);border-radius:5px;padding:2px 8px}
+.fins-grid{display:flex;flex-direction:column;gap:8px}
+.fin{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px}
+.fin.ok{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.fin.med{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.fin.ko{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.fin-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fin-body{flex:1}
+.fin-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.fin.ok .fin-title{color:var(--green)}
+.fin.med .fin-title{color:#ffb347}
+.fin.ko .fin-title{color:#ff9999}
+.fin-text{font-size:12.5px;line-height:1.55;color:var(--light)}
+.perso-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.perso{background:var(--navy3);border-radius:9px;padding:10px 14px;flex:1;min-width:150px}
+.perso-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:2px}
+.perso-role{font-size:11px;color:var(--muted)}
+.obj-block{background:var(--navy3);border-radius:10px;padding:13px 15px;margin-bottom:9px;border-left:3px solid var(--orange)}
+.obj-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-bottom:7px}
+.obj-block-body{color:var(--light);line-height:1.7}
+.verbs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.verb{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,107,0,0.1);color:var(--orange);border:0.5px solid rgba(255,107,0,0.22)}
+.qcard{background:var(--navy2);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qhead{padding:12px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;user-select:none}
+.qhead:hover{background:rgba(255,255,255,0.025)}
+.qnum{min-width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid rgba(255,107,0,0.3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;margin-top:1px}
+.qtype{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--blue);border:0.5px solid rgba(0,170,255,0.2);flex-shrink:0;margin-top:3px;white-space:nowrap}
+.qtext{font-size:13px;color:var(--light);line-height:1.55;flex:1}
+.qarrow{color:var(--muted);font-size:11px;margin-top:4px;transition:transform .2s;flex-shrink:0}
+.qcard.open .qarrow{transform:rotate(90deg)}
+.qbody{display:none;padding:6px 16px 14px 52px;border-top:1px solid rgba(255,255,255,0.05)}
+.qcard.open .qbody{display:block}
+.ans{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:12.5px;line-height:1.5}
+.ans.ok{color:var(--green)}
+.ans.ko{color:rgba(138,155,181,0.6)}
+.ans .mark{font-weight:700;flex-shrink:0;width:14px}
+.expl{margin-top:8px;font-size:12px;color:var(--muted);padding:8px 11px;background:rgba(0,204,136,0.06);border-radius:7px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.55}
+.match-table{width:100%;border-collapse:separate;border-spacing:0 5px;margin:6px 0}
+.match-table td{padding:6px 8px;font-size:12px;vertical-align:top;line-height:1.45}
+.col-a{background:rgba(255,77,77,0.07);border-radius:6px 0 0 6px;color:#ffaaaa;width:40%}
+.col-arrow{text-align:center;color:var(--muted);width:10%}
+.col-b{background:rgba(0,204,136,0.07);border-radius:0 6px 6px 0;color:var(--green);width:50%}
+.class-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+@media(max-width:600px){.class-cols{grid-template-columns:1fr}}
+.class-col{border-radius:8px;padding:9px 11px}
+.class-col.red{background:rgba(255,77,77,0.07);border:0.5px solid rgba(255,77,77,0.2)}
+.class-col.green{background:rgba(0,204,136,0.07);border:0.5px solid rgba(0,204,136,0.2)}
+.class-col.amber{background:rgba(255,179,71,0.07);border:0.5px solid rgba(255,179,71,0.2)}
+.class-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.class-col.red .class-col-title{color:#ff9999}
+.class-col.green .class-col-title{color:var(--green)}
+.class-col.amber .class-col-title{color:#ffb347}
+.class-item{font-size:11.5px;line-height:1.5;margin-bottom:4px;padding-left:12px;position:relative}
+.class-item::before{position:absolute;left:0;font-size:10px}
+.class-col.red .class-item::before{content:"✗";color:#ff9999}
+.class-col.green .class-item::before{content:"✓";color:var(--green)}
+.class-col.amber .class-item::before{content:"⚡";color:#ffb347}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:38px;flex-shrink:0}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--orange)}
+.tl-line{width:1px;flex:1;background:rgba(255,107,0,0.18);min-height:14px;margin:3px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{padding:2px 0 18px;flex:1}
+.tl-time{font-size:10px;color:var(--muted);margin-bottom:2px}
+.tl-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--navy3);border-radius:10px;padding:11px 14px;margin-bottom:8px;align-items:flex-start}
+.tip-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--light);line-height:1.65}
+.tip-text strong{color:var(--orange)}
+.ecoute-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(max-width:560px){.ecoute-grid{grid-template-columns:1fr}}
+.ecoute-card{background:var(--navy3);border-radius:10px;padding:12px 14px;border-left:3px solid var(--orange)}
+.ecoute-num{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ecoute-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:5px}
+.ecoute-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px}
+.ecoute-ex{font-size:11.5px;color:var(--green);padding:4px 8px;background:rgba(0,204,136,0.07);border-radius:5px;border-left:2px solid rgba(0,204,136,0.3);line-height:1.5}
+.footer{padding:6px 18px 10px;text-align:center;font-size:10px;color:rgba(138,155,181,0.4)}
+.footer a{color:rgba(0,170,255,0.35);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="logo">ASA</div>
+<div class="header-info">
+<div class="header-title">Fiches Pédagogiques — Avatar Sales Academy</div>
+<div class="header-sub">Fiche pédagogique formateur · Serious Game gamifié</div>
+</div>
+<div class="badge-off">Support formateur</div>
+</div>
+<div class="pole-header">
+<div class="pole-icon">💻</div>
+<div class="pole-info">
+<div class="pole-name">Pôle IT &amp; Digital — Vente de solutions cloud et cybersécurité</div>
+<div class="pole-desc">Qualification BANT · Faisabilité projet · Rentabilité et négociation · Conformité RGPD · Plan de compte</div>
+</div>
+<div class="pole-badge">Atelier Dossiers Clients IT</div>
+</div>
+
+<div class="content" id="content"><div class="module-panel active" id="panel-atelier">
+<div class="meta-row">
+<span class="meta orange">⏱ 60 min</span><span class="meta blue">📋 Pack Cloud &amp; Cyber PME · 1 créneau · 4 dossiers</span>
+<span class="meta green">👥 Équipes 3-5</span><span class="meta purple">🔍 Analyse · Classement · Quiz</span>
+</div>
+<div class="tabs" id="tabs-atelier">
+<div class="tab active" onclick="st('atelier','scenario')">📖 Scénario</div>
+<div class="tab" onclick="st('atelier','objectifs')">🎯 Objectifs</div>
+<div class="tab" onclick="st('atelier','quiz')">❓ Quiz corrigé</div>
+<div class="tab" onclick="st('atelier','deroulement')">🗓 Déroulement</div>
+</div>
+<div class="tab-panel active" id="atelier-scenario">
+<div class="section"><div class="sec-title">Résumé du scénario</div>
+<div class="card">L'apprenant est <strong>ingénieur(e) d'affaires</strong> au pôle PME de <strong>NEXORA SOLUTIONS</strong>, intégrateur cloud et cybersécurité à Lille (65 collaborateurs, 180 clients PME et ETI, 9,4 M€ de CA dont 70 % récurrent). Le <strong>Pack Cloud &amp; Cyber PME</strong> (migration Microsoft 365, sauvegarde hébergée en France, EDR, infogérance 24/7) est vendu <strong>45 € HT par poste et par mois</strong>, plus 150 € HT de mise en service par poste, pour un coût de revient de 26 €. Le pôle Build n'a <strong>qu'un seul créneau de migration</strong> en janvier, du 5 au 30 (150 postes maximum). Quatre clients le demandent.<br/><br/>Mission : analyser les 4 dossiers, <strong>les classer par pertinence</strong> pour <strong>M. Delcourt</strong>, directeur commercial, et défendre le projet présenté au comité go/no-go. La coach <strong>Célia</strong> donne un feedback détaillé selon l'analyse.</div>
+</div>
+<div class="section"><div class="sec-title">Contexte urgent — M. Delcourt</div>
+<div class="card" style="border-color:rgba(255,77,77,0.25)"><strong style="color:#ff9999">⏰ Urgence :</strong> Comité go/no-go jeudi 16 h · Un seul créneau de migration en janvier · Objectif 2027 : +1,2 M€ de revenus récurrents sans dégrader la marge : M. Delcourt refuse les « gros contrats à perte »<br/><br/><strong style="color:var(--orange)">Règles du comité :</strong> Marge brute ≥ 35 % · Remise ≤ 10 % contre un engagement de 36 mois · Paiement à 30 jours (60 jours maximum, art. L441-10 du Code de commerce) · Qualification BANT complète · Inventaire et comptes administrateurs prêts avant le 5 janvier · Contrat de sous-traitance RGPD (art. 28) signé, aucune donnée hors UE</div>
+</div>
+<div class="section"><div class="sec-title">Ancrage référentiel</div>
+<div class="card"><strong style="color:var(--orange)">BTS NDRC :</strong> bloc Relation client et négociation-vente (découverte, qualification, négociation, suivi d'une opportunité).<br/><strong style="color:var(--orange)">BTS SIO / Bachelor Business Developer IT :</strong> accompagner un client dans un projet de services numériques en intégrant contraintes techniques, juridiques (RGPD) et de cybersécurité.<br/><strong style="color:var(--orange)">Mastère Business Developer :</strong> piloter un pipe d'opportunités, arbitrer volume et rentabilité, construire un plan de compte.<br/><em style="color:var(--muted)">Aucun référentiel IT n'ayant été fourni, l'ancrage s'appuie sur les blocs de compétences communs de ces diplômes.</em></div>
+</div>
+<div class="section"><div class="sec-title">Les 4 dossiers clients</div>
+<div class="steps">
+<div class="step"><span class="step-n" style="color:var(--green);background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.3)">Ousmane<br/>Le Pragmatique</span><div class="step-body">
+<strong>Directeur général de Transports Nordline (Arras)</strong>, transport frigorifique, 85 salariés · Rançongiciel en septembre (2 jours sans facturation) · Son assureur exige EDR et sauvegarde au 1er mars · Budget de 40 000 € HT voté par le CODIR, c'est lui qui signe · Inventaire fait : 60 postes, 3 serveurs, admins prêts · Migration le week-end, 2 h de formation · Demande 5 % contre 36 mois · Paiement à 30 jours · DPA relu par son DPO
+<div class="badges">
+<span class="b-ok">✅ BANT complet : budget, décideur, besoin daté, timing</span>
+<span class="b-ok">✅ 42,75 € par poste : marge de 39 %, année 1 à 39 780 € HT</span>
+<span class="b-ok">✅ Contrat RGPD prêt, extension aux filiales en 2027</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--green)">→ LE meilleur dossier : qualifié, faisable dans le créneau, rentable et conforme, présentable au comité sans dérogation</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#bb99ff;background:rgba(150,100,255,0.1);border-color:rgba(150,100,255,0.3)">Idriss<br/>Le Grand Compte</span><div class="step-body">
+<strong>Responsable achats de Metalis Industrie (Valenciennes)</strong>, 400 postes sur 5 sites · Cahier des charges complet · Appel d'offres à 3 prestataires · 216 000 € HT par an au tarif public · Exige 30 % de remise (25 % au minimum), paiement à 90 jours fin de mois, pénalités de 1 000 € par jour · Demande un pilote gratuit de 50 postes en janvier · Décision du comité achats mi-février
+<div class="badges">
+<span class="b-ko">❌ 30 % de remise : 31,50 € par poste, marge de 17 %</span>
+<span class="b-ko">❌ 90 jours : au-delà du délai légal de 60 jours</span>
+<span class="b-ko">❌ Pilote gratuit qui bloque le créneau, sans décision avant février</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ Compte stratégique, à retravailler au printemps : 10 % de remise, pilote payant de 20 postes déduit du contrat, paiement à 60 jours. Certaines équipes le défendront pour son volume : c'est un vrai débat, tranché ici par la marge et le créneau</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ffb347;background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.3)">Béatrice<br/>La Passionnée</span><div class="step-body">
+<strong>Directrice marketing de Maison Rosalie (Lille)</strong>, 14 boutiques de décoration, 120 postes · Très enthousiaste · Veut ajouter la refonte du site e-commerce et du CRM « dans le pack » · Aucun inventaire · Budget 2027 voté en mars par le PDG et la DAF, pas encore informés · Infogérance actuelle jusqu'au 30 juin, préavis de 3 mois · Repousse le rendez-vous avec les décideurs · Demande un « prix d'ami »
+<div class="badges">
+<span class="b-ko">❌ Ni budget voté ni décideur : opportunité non qualifiée</span>
+<span class="b-ko">❌ Démarrage en janvier impossible (contrat jusqu'au 30 juin)</span>
+<span class="b-ko">❌ Demande hors offre (site e-commerce, CRM)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:var(--muted)">→ À requalifier : rendez-vous avec le PDG et la DAF, inventaire, démarrage en juillet. Le potentiel existe, la vente n'existe pas encore</div>
+</div></div>
+<div class="step"><span class="step-n" style="color:#ff9999;background:rgba(255,77,77,0.08);border-color:rgba(255,77,77,0.25)">Diane<br/>La Disruptive</span><div class="step-body">
+<strong>Fondatrice de la start-up Hyperlead (Lille)</strong>, prospection commerciale, 25 postes · Paie 12 mois d'avance au tarif plein (17 250 € HT) · Veut héberger 300 000 contacts collectés sans consentement chez un hébergeur à Singapour · Veut enregistrer les frappes et les écrans de ses commerciaux sans les prévenir · Refuse le contrat de sous-traitance RGPD · N'a pas répondu à un courrier de la CNIL · Veut contourner le comité
+<div class="badges">
+<span class="b-ko">❌ Données sans consentement, transfert hors UE : RGPD</span>
+<span class="b-ko">❌ Surveillance cachée des salariés : Code du travail</span>
+<span class="b-ko">❌ Refus du contrat de sous-traitance (art. 28)</span>
+</div>
+<div style="margin-top:6px;font-size:12px;color:#ff9999">→ Dossier éliminatoire : Nexora, sous-traitant, engagerait sa propre responsabilité. Aucune offre sans mise en conformité préalable</div>
+</div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Classement final et grille de lecture</div>
+<div class="card">
+<strong style="color:var(--green)">🥇 Ousmane (89/100)</strong> — Seul dossier qui respecte toutes les règles du comité : BANT complet, 60 postes prêts pour janvier, 39 % de marge, paiement à 30 jours, contrat RGPD prêt.<br/><br/>
+<strong style="color:#bb99ff">🥈 Idriss (54/100)</strong> — Le plus gros potentiel (400 postes), mais 17 % de marge à 30 % de remise, 90 jours de paiement et un pilote gratuit qui bloquerait le créneau. Il perd face à Ousmane sur la faisabilité (25 %) et la rentabilité (20 %), pas sur la valeur de son entreprise.<br/><br/>
+<strong style="color:#ffb347">🥉 Béatrice (47/100)</strong> — Opportunité non qualifiée : ni décideuse ni budget, contrat concurrent jusqu'au 30 juin, demande hors offre.<br/><br/>
+<strong style="color:#ff9999">❌ Diane (0/100, 50 sans la règle éliminatoire)</strong> — Paiement d'avance séduisant, mais traitement de données et surveillance illégaux, refus du contrat RGPD. À noter : sans la règle, elle passerait devant Béatrice, c'est tout l'intérêt de la règle éliminatoire.
+      </div>
+</div>
+<div class="section"><div class="sec-title">Piège pédagogique — les 3 biais à éviter</div>
+<div class="card">
+<strong style="color:#bb99ff">Biais du gros contrat (Idriss) :</strong> "216 000 € par an, c'est le contrat de l'année" — Oui, au tarif public. À 30 % de remise, l'abonnement tombe à 31,50 € pour 26 € de coût : 17 % de marge, sur 400 postes, avec 90 jours de trésorerie à financer. <strong>Un gros contrat à perte reste une perte, en plus gros.</strong><br/><br/>
+<strong style="color:#ffb347">Biais de l'enthousiasme (Béatrice) :</strong> "Elle adore le projet, elle va convaincre son PDG" — Elle n'a ni budget ni pouvoir de signature, et n'a même pas parlé du projet aux décideurs. L'enthousiasme d'un interlocuteur n'est pas une qualification.<br/><br/>
+<strong style="color:#ff9999">Biais du cash (Diane) :</strong> "Elle paie 12 mois d'avance, aucun risque d'impayé" — Le risque n'est pas financier mais légal : un sous-traitant qui héberge des données illicites et installe un logiciel espion engage sa responsabilité (amendes CNIL, image de Nexora).
+</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-objectifs">
+<div class="section"><div class="sec-title">Activité réalisée</div>
+<div class="card">En équipes (ou individuellement), les apprenants consultent les 4 fiches clients (accès via l'inventaire), suivent les entretiens de découverte, calculent la marge brute de chaque proposition, complètent la grille d'évaluation (5 critères pondérés, score /100), puis classent les 4 dossiers par pertinence pour M. Delcourt. La coach Célia donne un feedback détaillé selon la qualité du classement (excellent / correct / à retravailler).</div>
+</div>
+<div class="section"><div class="sec-title">Objectifs pédagogiques</div>
+<div class="obj-block"><div class="obj-block-title">Savoirs</div><div class="obj-block-body">Définir la méthode BANT. Calculer une marge brute et l'effet d'une remise. Connaître le délai de paiement maximal entre professionnels (60 jours), le contrat de sous-traitance RGPD (article 28), l'interdiction des transferts de données hors UE sans garanties et l'obligation d'informer les salariés avant tout dispositif de contrôle (art. L1222-4 du Code du travail). Nommer les 3 biais (gros contrat, enthousiasme, cash).<div class="verbs"><span class="verb">Définir</span><span class="verb">Calculer</span><span class="verb">Nommer</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-faire</div><div class="obj-block-body">Mener une découverte qui fait apparaître budget, décideur, besoin et calendrier. Vérifier les prérequis techniques d'un projet. Négocier une remise contre une contrepartie (durée, pilote payant). Rédiger un go/no-go argumenté. Construire une suite pour chaque client écarté.<div class="verbs"><span class="verb">Qualifier</span><span class="verb">Calculer</span><span class="verb">Négocier</span><span class="verb">Argumenter</span></div></div></div>
+<div class="obj-block"><div class="obj-block-title">Savoir-être</div><div class="obj-block-body">Dire non à un grand compte sans fermer la porte. Résister à la pression (appel d'offres, urgence, paiement d'avance, menace d'aller voir la concurrence). Recadrer une demande illégale avec calme. Défendre un dossier en comité avec des faits.<div class="verbs"><span class="verb">Adopter</span><span class="verb">Refuser</span><span class="verb">Fidéliser</span></div></div></div>
+</div>
+<div class="section"><div class="sec-title">Modalités</div>
+<div class="card"><strong style="color:var(--orange)">Format :</strong> Atelier d'analyse · 4 dossiers · Grille d'évaluation pondérée · Feedback Célia selon résultat · Quiz 6 questions<br/><strong style="color:var(--orange)">Durée :</strong> 60 min (étapes 5 / 15 / 10 / 15 / 10 / 5 min) · <strong style="color:var(--orange)">Groupement :</strong> Équipes de 3 à 5 apprenants (recommandé) ou individuel<br/><strong style="color:var(--orange)">Niveau :</strong> BTS NDRC, BTS SIO, Bachelor et Mastère Business Developer<br/><strong style="color:var(--orange)">Prérequis :</strong> Calcul d'un pourcentage, vocabulaire de l'offre de services (abonnement, mise en service, infogérance, EDR), notions de RGPD</div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-quiz">
+<div class="section"><div class="sec-title">Quiz corrigé — Atelier Dossiers Clients IT (6 questions)</div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">1</div><span class="qtype">QCM</span><div class="qtext">Pourquoi le dossier d'Ousmane "Le Pragmatique" est-il le meilleur choix pour le créneau de migration de janvier ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Budget voté, décideur signataire, besoin daté et inventaire prêt : son projet est qualifié, faisable en janvier, rentable et conforme</div><div class="ans ko"><span class="mark">✗</span>C'est le client qui représente le plus gros chiffre d'affaires et la plus belle référence pour Nexora</div><div class="ans ko"><span class="mark">✗</span>Il accepte toutes les conditions de Nexora sans jamais rien demander ni négocier</div><div class="expl">💡 Célia : "Une bonne affaire, c'est un budget, un décideur, un besoin et un calendrier." Ousmane négocie au contraire (5 %, week-ends, formation), mais avec une contrepartie et dans le cadre. La 2e réponse décrit Idriss.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">2</div><span class="qtype">Appariement</span><div class="qtext">Associez chaque client avec le risque ou l'atout principal qui le caractérise pour le créneau de janvier.</div><div class="qarrow">▶</div></div><div class="qbody">
+<table class="match-table"><tr><td class="col-a">Ousmane "Le Pragmatique"</td><td class="col-arrow">→</td><td class="col-b">Dossier qualifié : budget voté, décideur signataire, inventaire prêt, marge à 39 % et contrat RGPD prêt</td></tr><tr><td class="col-a">Béatrice "La Passionnée"</td><td class="col-arrow">→</td><td class="col-b">Projet non qualifié : ni décideuse ni budget voté, demande hors offre, contrat en cours jusqu'au 30 juin</td></tr><tr><td class="col-a">Idriss "Le Grand Compte"</td><td class="col-arrow">→</td><td class="col-b">Rentabilité détruite : 30 % de remise, paiement à 90 jours, pilote gratuit, décision mi-février</td></tr><tr><td class="col-a">Diane "La Disruptive"</td><td class="col-arrow">→</td><td class="col-b">Dossier éliminatoire : données sans consentement hors UE, surveillance cachée des salariés, refus du contrat RGPD</td></tr></table><div class="expl">💡 Chaque profil a un signal unique : Ousmane = opportunité qualifiée, Béatrice = pas de décideur, Idriss = marge sacrifiée, Diane = illégalité. Ces signaux apparaissent dès les premières répliques et se confirment sur les fiches.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">3</div><span class="qtype">Glisser-Déposer</span><div class="qtext">Classez chaque élément dans la bonne catégorie : Atouts décisifs / Signaux d'alerte / Profils adaptés à d'autres contextes.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="class-cols"><div class="class-col green"><div class="class-col-title">✅ Atouts décisifs</div><div class="class-item">Budget de 40 000 € HT voté par le CODIR, contrat signé par le directeur général</div><div class="class-item">Inventaire de 60 postes prêt, échéance de l'assureur cyber au 1er mars</div><div class="class-item">5 % de remise contre 36 mois d'engagement : marge de 39 %, au-dessus des 35 % exigés</div></div><div class="class-col red"><div class="class-col-title">❌ Signaux d'alerte</div><div class="class-item">"Il vous faudra une remise de 30 %, et le paiement se fera à 90 jours" (Idriss)</div><div class="class-item">"Le budget sera voté en mars, je ne leur en ai pas encore parlé" (Béatrice)</div><div class="class-item">"Personne n'a donné son accord, mais tout le monde le fait" (Diane)</div></div><div class="class-col amber"><div class="class-col-title">⚡ Autres contextes</div><div class="class-item">Le Grand Compte → Offre au printemps : 10 % de remise, pilote payant de 20 postes, paiement à 60 jours</div><div class="class-item">La Passionnée → Rendez-vous avec le PDG et la DAF, démarrage en juillet après la fin du contrat actuel</div><div class="class-item">La Disruptive → Accompagnement à la mise en conformité RGPD avant toute offre d'infogérance</div></div></div><div class="expl">💡 Célia : "Écarter un client en janvier n'est pas le perdre. Un ingénieur d'affaires expert donne à chacun une suite claire : c'est le plan de compte."</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">4</div><span class="qtype">QCM</span><div class="qtext">Face à un acheteur qui exige 30 % de remise, alors que la remise maximale est de 10 %, quelle est la bonne réaction de l'ingénieur d'affaires ?</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span>Rappeler le cadre, défendre la valeur et proposer des contreparties (engagement de 36 mois, pilote payant déduit, périmètre ajusté) plutôt qu'une remise hors cadre</div><div class="ans ko"><span class="mark">✗</span>Accepter les 30 % pour gagner le plus gros contrat de l'année : la marge se rattrapera sur les avenants</div><div class="ans ko"><span class="mark">✗</span>Lui offrir le pilote gratuit de 50 postes en janvier, en espérant qu'il signe en février</div><div class="expl">💡 Calcul : 45 € × 0,70 = 31,50 € ; (31,50 − 26) / 31,50 = 17 % de marge. À 10 % : 40,50 € et 36 % de marge, juste au-dessus du plancher. Toute concession s'échange contre une contrepartie : c'est la règle de base de la négociation.</div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">5</div><span class="qtype">Vrai / Faux</span><div class="qtext">Idriss "Le Grand Compte" est le meilleur dossier car ses 400 postes et ses 216 000 € par an en font le plus gros contrat de l'année pour Nexora.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">FAUX</strong></div><div class="expl">💡 216 000 € est le montant au tarif public. Idriss exige 30 % de remise (marge de 17 %), un paiement à 90 jours au-delà du délai légal et un pilote gratuit qui occuperait tout le créneau de janvier, pour une décision qui ne tombera qu'à la mi-février, face à 2 concurrents. <strong>Le montant ne fait pas la qualité d'une affaire.</strong></div>
+</div></div>
+<div class="qcard" onclick="tQ(this)"><div class="qhead"><div class="qnum">6</div><span class="qtype">Texte à trous</span><div class="qtext">La compétence clé n°1 d'un ingénieur d'affaires IT, c'est la __________ de l'opportunité : un gros montant ne vaut rien sans budget validé, décideur identifié, besoin formalisé et calendrier tenable.</div><div class="qarrow">▶</div></div><div class="qbody">
+<div class="ans ok"><span class="mark">✓</span><strong style="color:var(--green)">qualification</strong></div><div class="expl">💡 Célia : "Le bon critère n'est pas « Qui a le plus gros contrat ? », mais « Qui peut signer, démarrer en janvier et rester rentable, dans les règles ? »."</div>
+</div></div>
+</div>
+</div>
+<div class="tab-panel" id="atelier-deroulement">
+<div class="section"><div class="sec-title">Déroulement recommandé (60 min)</div>
+<div class="tl">
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">0 – 5 min</div><div class="tl-title">Briefing M. Delcourt</div><div class="tl-desc">Présenter l'enjeu en une phrase : "Un seul créneau de migration en janvier, quatre clients qui le veulent. Un seul projet sera signé, livré et rentable. Lequel ?" Rappeler la formule de la marge et la méthode BANT. Ne rien révéler des profils.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">5 – 20 min</div><div class="tl-title">Entretiens (module VTS)</div><div class="tl-desc">Les apprenants suivent les 4 entretiens de découverte et notent les faits : budget, décideur, prérequis, remise, délai de paiement, demandes particulières.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">20 – 30 min</div><div class="tl-title">Analyse individuelle + grille</div><div class="tl-desc">Lecture des 4 fiches, calcul des marges (Ousmane 39 %, Idriss 17 %, Béatrice et Diane 42 % au tarif plein), notation individuelle des 5 critères dans la grille Excel.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">30 – 45 min</div><div class="tl-title">Délibération en équipe — Les 3 pièges</div><div class="tl-desc">Circuler entre les équipes. "Qui a choisi Idriss ? Pourquoi ?" → biais du gros contrat. "Qui a mis Béatrice devant ?" → biais de l'enthousiasme. "Qui a gardé Diane ?" → biais du cash. Faire refaire le calcul de marge d'Idriss avant de laisser trancher.</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">45 – 55 min</div><div class="tl-title">Pitchs face au « comité go/no-go »</div><div class="tl-desc">3 minutes par équipe : le choix, 3 arguments chiffrés, et pourquoi pas les 3 autres. Jouer M. Delcourt et poser une question de relance (« Et si Idriss acceptait 10 % ? »).</div></div></div>
+<div class="tl-item"><div class="tl-left"><div class="tl-dot">6</div></div><div class="tl-content"><div class="tl-time">55 – 60 min</div><div class="tl-title">Quiz + débrief</div><div class="tl-desc">Quiz final du module, puis révélation du corrigé de la grille (onglet « Corrigé formateur » du fichier FORMATEUR). Terminer sur le plan de compte : la suite pour Idriss, Béatrice et Diane.</div></div></div>
+</div>
+</div>
+<div class="section"><div class="sec-title">Conseils formateur</div>
+<div class="tip"><div class="tip-icon">🧮</div><div class="tip-text"><strong>Faire chiffrer chaque dossier.</strong> Ousmane : 45 € × 0,95 = 42,75 €, marge (42,75 − 26) / 42,75 = 39 % ; 60 × 42,75 × 12 = 30 780 € + 9 000 € de mise en service = 39 780 € HT l'année 1 (budget 40 000 €), 101 340 € sur 36 mois. Idriss : 31,50 €, marge 17 % (25 % de remise : 33,75 €, 23 %). Béatrice : 120 × 45 × 12 = 64 800 € par an, mais rien n'est signable. Diane : 25 × 45 × 12 + 3 750 = 17 250 € HT payés d'avance.</div></div>
+<div class="tip"><div class="tip-icon">⚖️</div><div class="tip-text"><strong>Rappeler le cadre légal.</strong> Délai de paiement entre professionnels : 60 jours date de facture au maximum (Code de commerce, art. L441-10). RGPD : le prestataire qui héberge des données est sous-traitant et doit signer un contrat (art. 28) ; il engage sa propre responsabilité s'il traite des données collectées illégalement ou les transfère hors UE sans garanties. Code du travail (art. L1222-4) : aucun dispositif de contrôle des salariés sans information préalable ; un enregistreur de frappes est jugé disproportionné par la CNIL.</div></div>
+<div class="tip"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Accepter le débat sur Idriss.</strong> Certaines équipes défendront Idriss pour son volume et sa référence industrielle. C'est un vrai argument : faites-le peser face aux trois faits qui tranchent ici, la marge à 17 %, le créneau bloqué par un pilote gratuit et l'absence de décision avant février. Le message à retenir : Idriss n'est pas un mauvais client, il est à retravailler au printemps avec une offre dans le cadre. C'est sa négociation, pas son entreprise, qui l'écarte.</div></div>
+<div class="tip"><div class="tip-icon">🔁</div><div class="tip-text"><strong>Prolonger l'atelier (plan de compte).</strong> Faire jouer en binôme la contre-proposition à Idriss (3 minutes : 10 % contre 36 mois, pilote payant de 20 postes déduit, 60 jours), puis le recadrage de Diane sur le RGPD sans devenir complice. Variante : faire rédiger le mail de requalification à Béatrice pour obtenir un rendez-vous avec son PDG et sa DAF.</div></div>
+</div>
+</div>
+</div></div>
+<div class="footer">Avatar Sales Academy · Pôle IT &amp; Digital · Atelier Dossiers Clients IT</div>
+
+<script>
+function st(mod,tab){
+  const p=document.getElementById('panel-'+mod);
+  p.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+tab+"'"));});
+  p.querySelectorAll('.tab-panel').forEach(tp=>{tp.classList.toggle('active',tp.id===mod+'-'+tab);});
+}
+function tQ(c){c.classList.toggle('open');}
+</script>
+</body>
+</html>
