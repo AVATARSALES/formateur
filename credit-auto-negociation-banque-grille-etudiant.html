@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Grille étudiant — Entretien conseil crédit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>:root{--bg:#f5f6f8;--surface:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#dfe2e8;--tab-active:#1e40af;--tab-bg:#e8ecf3;--hint-bg:#eef2ff;--hint-border:#818cf8;--s1:#0d1b35;--s2:#ff6b00;--input:#fffbea;--input-b:#e9d98a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0c0e14;--surface:#161923;--text:#e4e5ea;--muted:#9ca3af;--border:#282d3a;--tab-active:#60a5fa;--tab-bg:#1e2333;--hint-bg:#1a1f33;--hint-border:#6366f1;--s1:#8fb3ff;--input:#1d1b12;--input-b:#4a4326}}
+:root[data-theme="dark"]{--bg:#0c0e14;--surface:#161923;--text:#e4e5ea;--muted:#9ca3af;--border:#282d3a;--tab-active:#60a5fa;--tab-bg:#1e2333;--hint-bg:#1a1f33;--hint-border:#6366f1;--s1:#8fb3ff;--input:#1d1b12;--input-b:#4a4326}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+.page{max-width:1140px;margin:0 auto;padding:2rem 16px}
+h1{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+.subtitle{color:var(--muted);font-size:.9rem;margin-bottom:1.2rem}
+label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);margin-top:.5rem}
+input,select,textarea{display:block;width:100%;margin-top:.2rem;font:inherit;font-size:.85rem;color:var(--text);background:var(--input);border:1px solid var(--input-b);border-radius:6px;padding:.4rem .55rem}
+textarea{resize:vertical}
+.ident{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.4rem 1rem .9rem;margin-bottom:1.3rem}
+.ident label{margin-top:.4rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;align-items:center}
+.tab-btn{padding:.55rem 1.2rem;border-radius:8px;border:none;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;background:var(--tab-bg);color:var(--muted)}
+.tab-btn.active{background:var(--tab-active);color:#fff}
+.spacer{flex:1}
+.act{padding:.5rem 1rem;border-radius:8px;border:1px solid var(--tab-active);background:var(--tab-active);color:#fff;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.act.ghost{background:transparent;color:var(--muted);border-color:var(--border)}
+.tab-content{display:none}.tab-content.active{display:block}
+.level-badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:5px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em}
+.level-bts{background:#dbeafe;color:#1e40af}.level-bac3{background:#ede9fe;color:#5b21b6}
+.context-box,.ref-box,.consigne,.q-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.3rem;margin-bottom:1.1rem;font-size:.86rem}
+.ref-box{font-size:.8rem}.ref-box ul{margin:.3rem 0 0 1.1rem}
+.consigne{border-left:4px solid var(--s2)}
+.legend{margin-top:.4rem;font-size:.78rem;color:var(--muted)}
+.example{font-size:.8rem;color:var(--muted);border:1px dashed var(--border);border-radius:10px;padding:.7rem 1rem;margin-bottom:1.3rem}
+.ex-l{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem}
+.crit{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden}
+.crit-h{display:flex;gap:.8rem;align-items:center;padding:.7rem 1rem;background:var(--hint-bg);border-bottom:1px solid var(--border)}
+.num{flex:none;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--tab-active);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.cn{font-weight:700;font-size:.92rem}
+.bloc{font-size:.7rem;font-weight:600;color:var(--hint-border)}
+.pair{display:grid;grid-template-columns:1fr 1fr}
+.sc{padding:.8rem 1rem}.sc2{border-left:1px solid var(--border)}
+.sc-h{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.sc1 .sc-h{color:var(--s1)}.sc2 .sc-h{color:var(--s2)}
+.q{font-size:.83rem;margin:.25rem 0 .2rem;background:var(--bg);border-radius:6px;padding:.45rem .6rem}
+.note{display:flex;align-items:center;gap:.4rem}.note select{width:4.5rem;margin:0}.note span{font-size:.8rem}
+.totals{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.1rem}
+.tot{border-radius:10px;padding:.8rem 1rem;color:#fff;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.tot1{background:#0d1b35}.tot2{background:#ff6b00}.tot b{font-size:1.15rem}
+.q-section h2{font-size:1rem;font-weight:700}
+.saved{font-size:.75rem;color:var(--muted);text-align:center;margin-top:1rem}
+.footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:1rem}
+@media (max-width:700px){.pair,.totals,.ident{grid-template-columns:1fr}.sc2{border-left:none;border-top:1px solid var(--border)}h1{font-size:1.25rem}}
+@media print{.tabs .act,.tabs .spacer,.saved{display:none}.tab-content{display:block!important;break-before:page}.tab-content:first-of-type{break-before:auto}.crit{break-inside:avoid}body{background:#fff}}
+</style></head>
+<body data-store="grille-credit-auto-negociation-banque"><div class="page">
+<h1>Grille d'analyse étudiant — Entretien conseil crédit</h1>
+<p class="subtitle">Célia (conseillère de clientèle) × Arhan (jeune actif, client de l&#x27;agence) · Scénario 1 et Scénario 2</p>
+<div class="ident"><label>Nom / Prénom<input data-k="nom" type="text"/></label><label>Groupe<input data-k="groupe" type="text"/></label><label>Date<input data-k="date" type="date"/></label></div>
+<div class="tabs"><button class="tab-btn active" data-tab="bts">BTS Banque</button><button class="tab-btn" data-tab="bac3">BUT TC / GEA / Licence Pro ABF</button>
+<span class="spacer"></span><button class="act" id="print">Imprimer / PDF</button><button class="act ghost" id="reset">Effacer</button></div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS Banque — 6 critères</span>
+<div class="context-box"><strong>Contexte :</strong> Arhan, 26 ans, technicien en CDI depuis 2 ans et client de l&#x27;agence, sollicite un crédit auto de 15 000 € sur 24 mois pour une voiture d&#x27;occasion. Il gagne 2 300 € net par mois et rembourse déjà un prêt étudiant de 220 € par mois. Célia, conseillère de clientèle, lui propose un TAEG de 5,9 % avec une assurance emprunteur ; le concessionnaire annonce 3,9 %. Dans chaque scénario, Célia utilise une approche différente pour traiter l&#x27;objection taux et conclure la vente.</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS Banque, Conseiller de clientèle (particuliers)</strong><ul><li>Développement commercial : conduite d&#x27;entretiens de vente, montage de dossiers de crédit à la consommation, commercialisation d&#x27;épargne et d&#x27;assurances (IARD)</li><li>Analyse du risque : analyse de la solvabilité (KYC), prévention des situations de surendettement</li><li>Environnement légal et conformité : devoir de conseil et d&#x27;information, LCB-FT, RGPD</li><li>Axe AMF : questionner l&#x27;horizon de placement, le profil de risque et l&#x27;expérience financière avant toute proposition d&#x27;épargne</li></ul></div>
+<div class="consigne"><strong>Consigne :</strong> regardez les deux scénarios en entier. Pour chaque critère et chaque scénario : lisez la question, indiquez si vous l'observez, recopiez une phrase du dialogue qui le prouve, expliquez en une ou deux phrases, puis notez Célia de 0 à 3.
+<div class="legend">Note : <b>0</b> absent · <b>1</b> insuffisant · <b>2</b> correct · <b>3</b> très bien maîtrisé</div></div>
+<div class="example"><div class="ex-l">Exemple de remplissage</div><b>Accueil du client</b> · Observé : <i>Oui</i> · Preuve : <i>« Bonjour Arhan, merci d'être venu »</i> · Analyse : <i>elle l'appelle par son prénom, ce qui crée un climat de confiance.</i> · Note : <i>2 / 3</i></div>
+<section class="crit"><div class="crit-h"><span class="num">1</span><div><div class="cn">Approche globale de Célia</div><div class="bloc">BTS Banque · Développement commercial (entretien de vente)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Comptez les gestes que Célia accorde (frais de dossier, assurance facultative, 4,5 %, 3,9 %). Qui mène l&#x27;entretien : Célia ou Arhan ?</div>
+<label>Observé ?<select data-k="bts-c0-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c0-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c0-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c0-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Avant de parler du taux, de quoi Célia parle-t-elle ? Quel calcul présente-t-elle à Arhan ?</div>
+<label>Observé ?<select data-k="bts-c0-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c0-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c0-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c0-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">2</span><div><div class="cn">Découverte du client (KYC)</div><div class="bloc">BTS Banque · Analyse du risque (solvabilité, KYC)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia reformule le projet d&#x27;Arhan. Lui demande-t-elle ses revenus, ses charges, ses justificatifs ?</div>
+<label>Observé ?<select data-k="bts-c1-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c1-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c1-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c1-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quelles informations et quels justificatifs Arhan dit-il avoir fournis ? À quoi servent-ils ?</div>
+<label>Observé ?<select data-k="bts-c1-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c1-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c1-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c1-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">3</span><div><div class="cn">Traitement de l&#x27;objection taux</div><div class="bloc">BTS Banque · Développement commercial (crédit à la consommation)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Combien de temps Célia résiste-t-elle avant de faire un geste ? Que se passe-t-il quand Arhan en redemande ?</div>
+<label>Observé ?<select data-k="bts-c2-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c2-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c2-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c2-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Pourquoi parler de « mensualité que votre budget peut supporter » change-t-il la façon dont Arhan regarde le taux ?</div>
+<label>Observé ?<select data-k="bts-c2-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c2-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c2-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c2-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">4</span><div><div class="cn">Prévention du surendettement</div><div class="bloc">BTS Banque · Analyse du risque (surendettement)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Calculez le taux d&#x27;endettement d&#x27;Arhan avec une mensualité de 650 € sur 24 mois et son prêt étudiant de 220 €. Célia le vérifie-t-elle ?</div>
+<label>Observé ?<select data-k="bts-c3-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c3-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c3-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c3-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quel taux d&#x27;endettement Célia annonce-t-elle pour 24 mois puis pour 48 mois ? Pourquoi refuse-t-elle les 24 mois sans dire « non » ?</div>
+<label>Observé ?<select data-k="bts-c3-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c3-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c3-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c3-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">5</span><div><div class="cn">Vente croisée et devoir de conseil</div><div class="bloc">BTS Banque · Épargne et assurances (IARD) · Axe AMF</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Qui propose le livret d&#x27;épargne ? Célia pose-t-elle des questions avant de l&#x27;ouvrir ? Que pensez-vous de rendre l&#x27;assurance emprunteur facultative ?</div>
+<label>Observé ?<select data-k="bts-c4-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c4-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c4-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c4-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Assurance emprunteur, assurance auto, livret : comment Célia justifie-t-elle chaque produit ? Que fait-elle avant de proposer l&#x27;épargne ?</div>
+<label>Observé ?<select data-k="bts-c4-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c4-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c4-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c4-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">6</span><div><div class="cn">Conformité et formalisation</div><div class="bloc">BTS Banque · Environnement légal et conformité (information, LCB-FT, RGPD)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia parle-t-elle de l&#x27;information précontractuelle, du délai de rétractation, des justificatifs à fournir ?</div>
+<label>Observé ?<select data-k="bts-c5-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c5-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c5-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c5-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Relevez les mentions de la fiche d&#x27;informations précontractuelles, du délai de rétractation et du RGPD. Qu&#x27;apportent-elles à la crédibilité de Célia ?</div>
+<label>Observé ?<select data-k="bts-c5-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c5-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c5-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c5-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section>
+<div class="totals"><div class="tot tot1">Total Scénario 1 <b><span id="t-bts-1">0</span> / 18</b></div><div class="tot tot2">Total Scénario 2 <b><span id="t-bts-2">0</span> / 18</b></div></div>
+<div class="q-section"><h2>Ma synthèse</h2>
+<label>Points forts de Célia dans chaque scénario<textarea data-k="bts-forts" rows="3"></textarea></label>
+<label>Ce que Célia aurait pu faire autrement<textarea data-k="bts-autrement" rows="3"></textarea></label>
+<label>Quelle approche conseilleriez-vous à Célia pour son prochain entretien ? Justifiez avec 2 arguments.<textarea data-k="bts-verdict" rows="4"></textarea></label>
+<label>Ce que je retiens pour ma propre pratique<textarea data-k="bts-retiens" rows="3"></textarea></label>
+</div></div>
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-bac3">Niveau BUT TC / GEA finance et Licence Pro Assurance, Banque, Finance (Bac+3) — 9 critères</span>
+<div class="context-box"><strong>Contexte :</strong> Arhan, 26 ans, technicien en CDI depuis 2 ans et client de l&#x27;agence, sollicite un crédit auto de 15 000 € sur 24 mois pour une voiture d&#x27;occasion. Il gagne 2 300 € net par mois et rembourse déjà un prêt étudiant de 220 € par mois. Célia, conseillère de clientèle, lui propose un TAEG de 5,9 % avec une assurance emprunteur ; le concessionnaire annonce 3,9 %. Dans chaque scénario, Célia utilise une approche différente pour traiter l&#x27;objection taux et conclure la vente.</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC / GEA orientation finance et Licence Pro Assurance, Banque, Finance</strong><ul><li>BUT : stratégie omnicanale (animation de portefeuille, outils CRM bancaires), analyse financière (rentabilité), droit bancaire (responsabilité du banquier, droit du crédit)</li><li>Licence Pro : ingénierie du risque (analyse des garanties), gestion de patrimoine de premier niveau (épargne, assurance-vie)</li><li>BTS Banque (socle) : découverte KYC, prévention du surendettement, devoir de conseil, axe AMF</li></ul></div>
+<div class="consigne"><strong>Consigne :</strong> regardez les deux scénarios en entier. Pour chaque critère et chaque scénario : lisez la question, indiquez si vous l'observez, recopiez une phrase du dialogue qui le prouve, expliquez en une ou deux phrases, puis notez Célia de 0 à 3.
+<div class="legend">Note : <b>0</b> absent · <b>1</b> insuffisant · <b>2</b> correct · <b>3</b> très bien maîtrisé</div></div>
+<div class="example"><div class="ex-l">Exemple de remplissage</div><b>Accueil du client</b> · Observé : <i>Oui</i> · Preuve : <i>« Bonjour Arhan, merci d'être venu »</i> · Analyse : <i>elle l'appelle par son prénom, ce qui crée un climat de confiance.</i> · Note : <i>2 / 3</i></div>
+<section class="crit"><div class="crit-h"><span class="num">1</span><div><div class="cn">Approche globale</div><div class="bloc">BUT TC / GEA · Stratégie de conquête client</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l&#x27;entretien ?</div>
+<label>Observé ?<select data-k="bac3-c0-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c0-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c0-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c0-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Célia part du budget et du risque avant de parler de taux. Comment cela change-t-il la dynamique de la négociation ?</div>
+<label>Observé ?<select data-k="bac3-c0-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c0-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c0-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c0-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">2</span><div><div class="cn">Qualité de la découverte (KYC)</div><div class="bloc">BTS Banque · Analyse du risque</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia reformule le projet d&#x27;Arhan. L&#x27;analyse-t-elle sous l&#x27;angle de sa solvabilité ?</div>
+<label>Observé ?<select data-k="bac3-c1-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c1-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c1-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c1-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Célia reformule le projet ET le traduit en capacité de remboursement. Quelle différence avec le scénario 1 ?</div>
+<label>Observé ?<select data-k="bac3-c1-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c1-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c1-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c1-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">3</span><div><div class="cn">Traitement de l&#x27;objection taux</div><div class="bloc">BUT TC / GEA · Négociation commerciale</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Frais de dossier, assurance facultative, 4,5 %, 3,9 % : combien de leviers Célia consomme-t-elle ? Lesquels lui restaient ?</div>
+<label>Observé ?<select data-k="bac3-c2-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c2-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c2-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c2-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Face au concessionnaire à 3,9 %, Célia ne s&#x27;aligne pas. Comment justifie-t-elle de rester au-dessus ?</div>
+<label>Observé ?<select data-k="bac3-c2-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c2-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c2-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c2-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">4</span><div><div class="cn">Contreparties et équipement du client</div><div class="bloc">BUT TC / GEA · Animation de portefeuille, CRM bancaire</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Le livret, l&#x27;avis et la recommandation viennent d&#x27;Arhan. Que révèle cela sur le rapport de force ?</div>
+<label>Observé ?<select data-k="bac3-c3-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c3-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c3-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c3-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Domiciliation, assurance auto, livret : quel est leur intérêt pour la relation et pour le portefeuille de Célia ?</div>
+<label>Observé ?<select data-k="bac3-c3-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c3-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c3-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c3-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">5</span><div><div class="cn">Rentabilité de l&#x27;opération pour la banque</div><div class="bloc">BUT TC / GEA · Analyse financière (rentabilité)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Calculez les intérêts perçus sur 24 mois à 3,9 %. Que reste-t-il une fois les frais de dossier offerts et l&#x27;assurance emprunteur perdue ?</div>
+<label>Observé ?<select data-k="bac3-c4-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c4-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c4-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c4-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Calculez les intérêts perçus sur 48 mois à 4,9 %. Quels revenus s&#x27;ajoutent (assurances, épargne, domiciliation) ?</div>
+<label>Observé ?<select data-k="bac3-c4-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c4-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c4-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c4-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">6</span><div><div class="cn">Analyse du risque et garanties</div><div class="bloc">Licence Pro · Ingénierie du risque (garanties)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Sans assurance emprunteur et avec 38 % d&#x27;endettement, que se passe-t-il pour la banque si Arhan perd son emploi ou tombe malade ?</div>
+<label>Observé ?<select data-k="bac3-c5-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c5-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c5-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c5-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Pourquoi l&#x27;assurance emprunteur protège-t-elle à la fois Arhan et la banque ? Quel autre élément réduit le risque ?</div>
+<label>Observé ?<select data-k="bac3-c5-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c5-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c5-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c5-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">7</span><div><div class="cn">Droit du crédit et responsabilité du banquier</div><div class="bloc">BUT TC / GEA · Droit bancaire</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia vérifie-t-elle la solvabilité d&#x27;Arhan ? Le met-elle en garde contre le risque d&#x27;endettement excessif ? Que risque la banque ?</div>
+<label>Observé ?<select data-k="bac3-c6-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c6-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c6-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c6-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Fiche d&#x27;informations précontractuelles, offre écrite, délai de rétractation : à quelles obligations du Code de la consommation ces éléments renvoient-ils ?</div>
+<label>Observé ?<select data-k="bac3-c6-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c6-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c6-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c6-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">8</span><div><div class="cn">Épargne et conseil patrimonial</div><div class="bloc">Licence Pro · Gestion de patrimoine · Axe AMF</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Le livret est ouvert sans aucune question sur le profil d&#x27;Arhan. Quel risque cela fait-il courir à la banque et au client ?</div>
+<label>Observé ?<select data-k="bac3-c7-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c7-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c7-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c7-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Pourquoi Célia propose-t-elle d&#x27;abord une épargne de précaution plutôt qu&#x27;un placement plus rémunérateur ?</div>
+<label>Observé ?<select data-k="bac3-c7-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c7-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c7-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c7-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">9</span><div><div class="cn">Soft skill dominant</div><div class="bloc">Tous niveaux</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Quel soft skill domine chez Célia dans ce scénario (écoute, empathie, assertivité, persuasion, adaptabilité…) ? L&#x27;aide-t-il à conclure ?</div>
+<label>Observé ?<select data-k="bac3-c8-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c8-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c8-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c8-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quel soft skill domine chez Célia dans ce scénario (écoute, empathie, assertivité, persuasion, adaptabilité…) ? L&#x27;aide-t-il à conclure ?</div>
+<label>Observé ?<select data-k="bac3-c8-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c8-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c8-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c8-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section>
+<div class="totals"><div class="tot tot1">Total Scénario 1 <b><span id="t-bac3-1">0</span> / 27</b></div><div class="tot tot2">Total Scénario 2 <b><span id="t-bac3-2">0</span> / 27</b></div></div>
+<div class="q-section"><h2>Ma synthèse</h2>
+<label>Points forts de Célia dans chaque scénario<textarea data-k="bac3-forts" rows="3"></textarea></label>
+<label>Ce que Célia aurait pu faire autrement<textarea data-k="bac3-autrement" rows="3"></textarea></label>
+<label>Quelle approche conseilleriez-vous à Célia pour son prochain entretien ? Justifiez avec 2 arguments.<textarea data-k="bac3-verdict" rows="4"></textarea></label>
+<label>Ce que je retiens pour ma propre pratique<textarea data-k="bac3-retiens" rows="3"></textarea></label>
+</div></div>
+<p class="saved" id="saved">Vos réponses sont gardées dans ce navigateur. Pensez à imprimer ou enregistrer en PDF pour rendre votre travail.</p>
+<p class="footer">Avatar Sales Academy — Grille d'analyse étudiant · Entretien conseil crédit · Célia × Arhan</p>
+</div><script>(function(){
+var KEY=document.body.dataset.store,data={};
+try{data=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+var fields=document.querySelectorAll('[data-k]');
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+function totals(){['bts','bac3'].forEach(function(l){[1,2].forEach(function(n){var s=0;document.querySelectorAll('.nt'+n+'[data-lvl="'+l+'"]').forEach(function(x){s+=+x.value||0});var t=document.getElementById('t-'+l+'-'+n);if(t)t.textContent=s})})}
+fields.forEach(function(f){var k=f.dataset.k;if(data[k]!=null)f.value=data[k];f.addEventListener('input',function(){data[k]=f.value;save();totals()});f.addEventListener('change',function(){data[k]=f.value;save();totals()})});
+totals();
+var tabs=document.querySelectorAll('.tab-btn');
+function show(id){tabs.forEach(function(b){b.classList.toggle('active',b.dataset.tab===id)});document.querySelectorAll('.tab-content').forEach(function(c){c.classList.toggle('active',c.id==='tab-'+id)});try{localStorage.setItem(KEY+'-tab',id)}catch(e){}}
+tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.tab)})});
+try{var t=localStorage.getItem(KEY+'-tab');if(t)show(t)}catch(e){}
+document.getElementById('print').addEventListener('click',function(){window.print()});
+document.getElementById('reset').addEventListener('click',function(){if(confirm('Effacer toutes vos réponses ?')){data={};save();fields.forEach(function(f){f.value=''});totals()}});
+})();
+</script></body></html>

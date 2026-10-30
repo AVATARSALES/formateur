@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Grille étudiant — Vente conseil en magasin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>:root{--bg:#f5f6f8;--surface:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#dfe2e8;--tab-active:#1e40af;--tab-bg:#e8ecf3;--hint-bg:#eef2ff;--hint-border:#818cf8;--s1:#0d1b35;--s2:#ff6b00;--input:#fffbea;--input-b:#e9d98a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0c0e14;--surface:#161923;--text:#e4e5ea;--muted:#9ca3af;--border:#282d3a;--tab-active:#60a5fa;--tab-bg:#1e2333;--hint-bg:#1a1f33;--hint-border:#6366f1;--s1:#8fb3ff;--input:#1d1b12;--input-b:#4a4326}}
+:root[data-theme="dark"]{--bg:#0c0e14;--surface:#161923;--text:#e4e5ea;--muted:#9ca3af;--border:#282d3a;--tab-active:#60a5fa;--tab-bg:#1e2333;--hint-bg:#1a1f33;--hint-border:#6366f1;--s1:#8fb3ff;--input:#1d1b12;--input-b:#4a4326}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+.page{max-width:1140px;margin:0 auto;padding:2rem 16px}
+h1{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+.subtitle{color:var(--muted);font-size:.9rem;margin-bottom:1.2rem}
+label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);margin-top:.5rem}
+input,select,textarea{display:block;width:100%;margin-top:.2rem;font:inherit;font-size:.85rem;color:var(--text);background:var(--input);border:1px solid var(--input-b);border-radius:6px;padding:.4rem .55rem}
+textarea{resize:vertical}
+.ident{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.4rem 1rem .9rem;margin-bottom:1.3rem}
+.ident label{margin-top:.4rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;align-items:center}
+.tab-btn{padding:.55rem 1.2rem;border-radius:8px;border:none;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;background:var(--tab-bg);color:var(--muted)}
+.tab-btn.active{background:var(--tab-active);color:#fff}
+.spacer{flex:1}
+.act{padding:.5rem 1rem;border-radius:8px;border:1px solid var(--tab-active);background:var(--tab-active);color:#fff;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.act.ghost{background:transparent;color:var(--muted);border-color:var(--border)}
+.tab-content{display:none}.tab-content.active{display:block}
+.level-badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:5px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em}
+.level-bts{background:#dbeafe;color:#1e40af}.level-bac3{background:#ede9fe;color:#5b21b6}
+.context-box,.ref-box,.consigne,.q-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.3rem;margin-bottom:1.1rem;font-size:.86rem}
+.ref-box{font-size:.8rem}.ref-box ul{margin:.3rem 0 0 1.1rem}
+.consigne{border-left:4px solid var(--s2)}
+.legend{margin-top:.4rem;font-size:.78rem;color:var(--muted)}
+.example{font-size:.8rem;color:var(--muted);border:1px dashed var(--border);border-radius:10px;padding:.7rem 1rem;margin-bottom:1.3rem}
+.ex-l{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem}
+.crit{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden}
+.crit-h{display:flex;gap:.8rem;align-items:center;padding:.7rem 1rem;background:var(--hint-bg);border-bottom:1px solid var(--border)}
+.num{flex:none;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--tab-active);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.cn{font-weight:700;font-size:.92rem}
+.bloc{font-size:.7rem;font-weight:600;color:var(--hint-border)}
+.pair{display:grid;grid-template-columns:1fr 1fr}
+.sc{padding:.8rem 1rem}.sc2{border-left:1px solid var(--border)}
+.sc-h{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.sc1 .sc-h{color:var(--s1)}.sc2 .sc-h{color:var(--s2)}
+.q{font-size:.83rem;margin:.25rem 0 .2rem;background:var(--bg);border-radius:6px;padding:.45rem .6rem}
+.note{display:flex;align-items:center;gap:.4rem}.note select{width:4.5rem;margin:0}.note span{font-size:.8rem}
+.totals{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.1rem}
+.tot{border-radius:10px;padding:.8rem 1rem;color:#fff;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.tot1{background:#0d1b35}.tot2{background:#ff6b00}.tot b{font-size:1.15rem}
+.q-section h2{font-size:1rem;font-weight:700}
+.saved{font-size:.75rem;color:var(--muted);text-align:center;margin-top:1rem}
+.footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:1rem}
+@media (max-width:700px){.pair,.totals,.ident{grid-template-columns:1fr}.sc2{border-left:none;border-top:1px solid var(--border)}h1{font-size:1.25rem}}
+@media print{.tabs .act,.tabs .spacer,.saved{display:none}.tab-content{display:block!important;break-before:page}.tab-content:first-of-type{break-before:auto}.crit{break-inside:avoid}body{background:#fff}}
+</style></head>
+<body data-store="grille-velo-vente-conseil-retail"><div class="page">
+<h1>Grille d'analyse étudiant — Vente conseil en magasin</h1>
+<p class="subtitle">Célia (conseillère de vente en magasin spécialisé) × Arhan (client qui compare avec internet) · Scénario 1 et Scénario 2</p>
+<div class="ident"><label>Nom / Prénom<input data-k="nom" type="text"/></label><label>Groupe<input data-k="groupe" type="text"/></label><label>Date<input data-k="date" type="date"/></label></div>
+<div class="tabs"><button class="tab-btn active" data-tab="bts">BTS MCO</button><button class="tab-btn" data-tab="bac3">BUT TC Distribution / Licence Pro Commerce</button>
+<span class="spacer"></span><button class="act" id="print">Imprimer / PDF</button><button class="act ghost" id="reset">Effacer</button></div>
+<div class="tab-content active" id="tab-bts">
+<span class="level-badge level-bts">Niveau BTS MCO (Bac+2) — 6 critères</span>
+<div class="context-box"><strong>Contexte :</strong> Arhan, 34 ans, technicien, veut laisser sa voiture au garage et aller au travail à vélo : 12 km avec une côte. Il a repéré dans un magasin spécialisé sport et mobilité un vélo à assistance électrique urbain à 2 199 € TTC (batterie de 500 Wh, montage, réglage et garantie assurés par l&#x27;atelier du magasin). Sur un site internet, il a trouvé un modèle à 1 799 €. Célia, conseillère de vente experte au rayon vélos électriques, doit conclure la vente sans sacrifier la marge du magasin. Dans chaque scénario, elle utilise une approche différente pour traiter l&#x27;objection prix. Donnée de gestion : prix d&#x27;achat HT du vélo = 1 250 € ; TVA 20 % ; coût d&#x27;achat HT du pack antivol + casque = 60 €.</div>
+<div class="ref-box"><strong>Compétences évaluées — BTS MCO Management Commercial Opérationnel (Bac+2)</strong><ul><li>Développement de la relation client : vente conseil et traitement des objections, fidélisation et gestion des réclamations, intégration du parcours client omnicanal (web-to-store)</li><li>Gestion opérationnelle : fixation des prix, calcul de marge et rentabilité</li><li>Animation et dynamisation de l&#x27;offre ; management de l&#x27;équipe (briefs, formation sur le terrain)</li><li>Axe pédagogique : phygital (Click &amp; Collect, application, bornes) et éco-responsabilité</li></ul></div>
+<div class="consigne"><strong>Consigne :</strong> regardez les deux scénarios en entier. Pour chaque critère et chaque scénario : lisez la question, indiquez si vous l'observez, recopiez une phrase du dialogue qui le prouve, expliquez en une ou deux phrases, puis notez Célia de 0 à 3.
+<div class="legend">Note : <b>0</b> absent · <b>1</b> insuffisant · <b>2</b> correct · <b>3</b> très bien maîtrisé</div></div>
+<div class="example"><div class="ex-l">Exemple de remplissage</div><b>Accueil du client</b> · Observé : <i>Oui</i> · Preuve : <i>« Bonjour Arhan, merci d'être venu »</i> · Analyse : <i>elle l'appelle par son prénom, ce qui crée un climat de confiance.</i> · Note : <i>2 / 3</i></div>
+<section class="crit"><div class="crit-h"><span class="num">1</span><div><div class="cn">Approche globale de Célia</div><div class="bloc">BTS MCO · Développement de la relation client (vente conseil)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Comptez les gestes que Célia accorde (antivol et casque offerts, 10 % sur deux vélos, alignement sur internet). Qui mène l&#x27;entretien : Célia ou Arhan ?</div>
+<label>Observé ?<select data-k="bts-c0-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c0-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c0-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c0-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Avant de parler du prix, de quoi Célia parle-t-elle ? Quel calcul présente-t-elle à Arhan ?</div>
+<label>Observé ?<select data-k="bts-c0-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c0-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c0-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c0-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">2</span><div><div class="cn">Découverte des besoins</div><div class="bloc">BTS MCO · Vente conseil (découverte, reformulation)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia reformule le besoin d&#x27;Arhan. Lui pose-t-elle des questions sur son trajet, sa taille, son budget, son stationnement ? Lui propose-t-elle un essai ?</div>
+<label>Observé ?<select data-k="bts-c1-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c1-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c1-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c1-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Sur quoi Célia a-t-elle interrogé Arhan ? Qu&#x27;a-t-il particulièrement apprécié ?</div>
+<label>Observé ?<select data-k="bts-c1-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c1-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c1-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c1-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">3</span><div><div class="cn">Traitement de l&#x27;objection prix</div><div class="bloc">BTS MCO · Vente conseil et traitement des objections</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Combien de temps Célia résiste-t-elle avant de faire un geste ? Que se passe-t-il quand Arhan en redemande ?</div>
+<label>Observé ?<select data-k="bts-c2-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c2-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c2-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c2-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Pourquoi parler de « ce que ce vélo va vous faire économiser » change-t-il la façon dont Arhan regarde le prix ?</div>
+<label>Observé ?<select data-k="bts-c2-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c2-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c2-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c2-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">4</span><div><div class="cn">Parcours client omnicanal (web-to-store)</div><div class="bloc">BTS MCO · Parcours client omnicanal · Axe phygital</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Arhan s&#x27;est renseigné en ligne avant de venir. Célia exploite-t-elle ce qu&#x27;il a vu sur internet, ou le subit-elle ?</div>
+<label>Observé ?<select data-k="bts-c3-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c3-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c3-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c3-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Relevez ce que le magasin apporte que le site ne peut pas apporter. Quel outil numérique accompagne Arhan après l&#x27;achat ?</div>
+<label>Observé ?<select data-k="bts-c3-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c3-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c3-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c3-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">5</span><div><div class="cn">Prix, marge et rentabilité</div><div class="bloc">BTS MCO · Gestion opérationnelle (fixation des prix, calcul de marge)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Avec un prix d&#x27;achat HT de 1 250 €, calculez la marge du magasin sur un vélo vendu 1 799 € TTC avec antivol et casque offerts.</div>
+<label>Observé ?<select data-k="bts-c4-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c4-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c4-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c4-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Calculez la marge sur le vélo à 2 099 € TTC et sur le pack sécurité vendu 120 € TTC. Que coûte la révision offerte ?</div>
+<label>Observé ?<select data-k="bts-c4-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c4-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c4-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c4-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">6</span><div><div class="cn">Fidélisation et conclusion</div><div class="bloc">BTS MCO · Fidélisation · Axe éco-responsabilité</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Qui propose la recommandation et l&#x27;avis client ? Que sait le magasin d&#x27;Arhan après la vente ? Que devient son ancien vélo ?</div>
+<label>Observé ?<select data-k="bts-c5-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c5-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c5-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c5-s1-note" class="nt nt1" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Programme de fidélité, révision, reprise de l&#x27;ancien vélo, documents remis : en quoi la vente prépare-t-elle le retour d&#x27;Arhan en magasin ?</div>
+<label>Observé ?<select data-k="bts-c5-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bts-c5-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bts-c5-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bts-c5-s2-note" class="nt nt2" data-lvl="bts"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section>
+<div class="totals"><div class="tot tot1">Total Scénario 1 <b><span id="t-bts-1">0</span> / 18</b></div><div class="tot tot2">Total Scénario 2 <b><span id="t-bts-2">0</span> / 18</b></div></div>
+<div class="q-section"><h2>Ma synthèse</h2>
+<label>Points forts de Célia dans chaque scénario<textarea data-k="bts-forts" rows="3"></textarea></label>
+<label>Ce que Célia aurait pu faire autrement<textarea data-k="bts-autrement" rows="3"></textarea></label>
+<label>Quelle approche conseilleriez-vous à Célia pour son prochain entretien ? Justifiez avec 2 arguments.<textarea data-k="bts-verdict" rows="4"></textarea></label>
+<label>Ce que je retiens pour ma propre pratique<textarea data-k="bts-retiens" rows="3"></textarea></label>
+</div></div>
+<div class="tab-content" id="tab-bac3">
+<span class="level-badge level-bac3">Niveau BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3) — 9 critères</span>
+<div class="context-box"><strong>Contexte :</strong> Arhan, 34 ans, technicien, veut laisser sa voiture au garage et aller au travail à vélo : 12 km avec une côte. Il a repéré dans un magasin spécialisé sport et mobilité un vélo à assistance électrique urbain à 2 199 € TTC (batterie de 500 Wh, montage, réglage et garantie assurés par l&#x27;atelier du magasin). Sur un site internet, il a trouvé un modèle à 1 799 €. Célia, conseillère de vente experte au rayon vélos électriques, doit conclure la vente sans sacrifier la marge du magasin. Dans chaque scénario, elle utilise une approche différente pour traiter l&#x27;objection prix. Donnée de gestion : prix d&#x27;achat HT du vélo = 1 250 € ; TVA 20 % ; coût d&#x27;achat HT du pack antivol + casque = 60 €.</div>
+<div class="ref-box"><strong>Compétences évaluées — BUT TC parcours Distribution et Licence Pro Commerce et Distribution (Bac+3)</strong><ul><li>BUT TC parcours Distribution : achats et négociation (conditions d&#x27;achat, accords-cadres, RFA), category management (assortiment d&#x27;une catégorie, stratégie cross-canal), supply chain et e-logistique</li><li>Licence Pro Commerce et Distribution : pilotage financier (P&amp;L, productivité, investissement local), stratégie d&#x27;enseigne (veille concurrentielle, relevés de prix, marketing de zone de chalandise)</li><li>BTS MCO (socle) : vente conseil, traitement des objections, calcul de marge, axe phygital et éco-responsabilité</li></ul></div>
+<div class="consigne"><strong>Consigne :</strong> regardez les deux scénarios en entier. Pour chaque critère et chaque scénario : lisez la question, indiquez si vous l'observez, recopiez une phrase du dialogue qui le prouve, expliquez en une ou deux phrases, puis notez Célia de 0 à 3.
+<div class="legend">Note : <b>0</b> absent · <b>1</b> insuffisant · <b>2</b> correct · <b>3</b> très bien maîtrisé</div></div>
+<div class="example"><div class="ex-l">Exemple de remplissage</div><b>Accueil du client</b> · Observé : <i>Oui</i> · Preuve : <i>« Bonjour Arhan, merci d'être venu »</i> · Analyse : <i>elle l'appelle par son prénom, ce qui crée un climat de confiance.</i> · Note : <i>2 / 3</i></div>
+<section class="crit"><div class="crit-h"><span class="num">1</span><div><div class="cn">Approche globale</div><div class="bloc">BUT TC · Achats et négociation</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Combien de concessions Célia accorde-t-elle ? Dans quel ordre ? Qui mène l&#x27;entretien ?</div>
+<label>Observé ?<select data-k="bac3-c0-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c0-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c0-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c0-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Célia part de l&#x27;usage et du coût d&#x27;usage avant de parler de prix. Comment cela change-t-il la dynamique de la négociation ?</div>
+<label>Observé ?<select data-k="bac3-c0-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c0-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c0-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c0-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">2</span><div><div class="cn">Découverte et argumentation de la valeur</div><div class="bloc">BTS MCO (socle) · Vente conseil</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia décrit les caractéristiques du vélo. Les relie-t-elle au trajet d&#x27;Arhan ? Chiffre-t-elle quelque chose ?</div>
+<label>Observé ?<select data-k="bac3-c1-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c1-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c1-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c1-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quel calcul Célia présente-t-elle ? Pourquoi un argument économique est-il plus fort qu&#x27;une liste de caractéristiques ?</div>
+<label>Observé ?<select data-k="bac3-c1-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c1-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c1-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c1-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">3</span><div><div class="cn">Négociation et contreparties</div><div class="bloc">BUT TC · Achats et négociation (conditions, contreparties)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Pack offert, remise promise, alignement : Célia obtient-elle quelque chose en échange de chaque concession ?</div>
+<label>Observé ?<select data-k="bac3-c2-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c2-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c2-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c2-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Face au prix internet, Célia refuse de s&#x27;aligner. Quelles contreparties obtient-elle pour sa remise de 100 € ?</div>
+<label>Observé ?<select data-k="bac3-c2-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c2-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c2-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c2-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">4</span><div><div class="cn">Veille concurrentielle et positionnement prix</div><div class="bloc">Licence Pro · Stratégie d&#x27;enseigne (veille concurrentielle, relevés de prix)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Célia connaît-elle l&#x27;offre du site internet ? Vérifie-t-elle que le produit est comparable avant de s&#x27;aligner ?</div>
+<label>Observé ?<select data-k="bac3-c3-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c3-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c3-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c3-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quels éléments de l&#x27;offre concurrente Célia connaît-elle ? Comment s&#x27;en sert-elle pour défendre le positionnement du magasin ?</div>
+<label>Observé ?<select data-k="bac3-c3-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c3-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c3-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c3-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">5</span><div><div class="cn">Pilotage financier (P&amp;L)</div><div class="bloc">Licence Pro · Pilotage financier (P&amp;L)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Calculez la marge de la vente (prix d&#x27;achat HT 1 250 €, accessoires offerts 60 € HT). Quel impact si toute l&#x27;équipe vend ainsi ?</div>
+<label>Observé ?<select data-k="bac3-c4-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c4-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c4-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c4-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Calculez la marge de la vente (vélo, pack, révision offerte estimée à 30 €). Que rapporte en plus la reprise de l&#x27;ancien vélo ?</div>
+<label>Observé ?<select data-k="bac3-c4-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c4-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c4-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c4-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">6</span><div><div class="cn">Category management et ventes additionnelles</div><div class="bloc">BUT TC · Category Management (assortiment, cross-canal)</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Les accessoires sont offerts. Quelle place ont-ils dans la rentabilité de la catégorie « vélos électriques » ?</div>
+<label>Observé ?<select data-k="bac3-c5-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c5-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c5-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c5-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Pack sécurité, révision, rayon occasion : comment Célia fait-elle travailler toute la catégorie autour d&#x27;une seule vente ?</div>
+<label>Observé ?<select data-k="bac3-c5-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c5-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c5-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c5-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">7</span><div><div class="cn">Stratégie cross-canal et phygital</div><div class="bloc">BUT TC · Stratégie cross-canal · Axe phygital</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Le magasin propose-t-il un outil numérique à Arhan ? Que sait-il de lui après son passage ?</div>
+<label>Observé ?<select data-k="bac3-c6-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c6-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c6-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c6-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quel rôle joue l&#x27;application après la vente ? Comment le magasin pourra-t-il réactiver Arhan ?</div>
+<label>Observé ?<select data-k="bac3-c6-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c6-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c6-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c6-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">8</span><div><div class="cn">Éco-responsabilité et zone de chalandise</div><div class="bloc">Axe éco-responsabilité · Licence Pro · Marketing de zone de chalandise</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Que devient l&#x27;ancien vélo d&#x27;Arhan ? Célia exploite-t-elle l&#x27;argument de la proximité ?</div>
+<label>Observé ?<select data-k="bac3-c7-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c7-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c7-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c7-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Reprise, remise en état, rayon occasion, atelier « à deux pas » : en quoi ces arguments sont-ils à la fois responsables et locaux ?</div>
+<label>Observé ?<select data-k="bac3-c7-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c7-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c7-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c7-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section><section class="crit"><div class="crit-h"><span class="num">9</span><div><div class="cn">Soft skill dominant</div><div class="bloc">Tous niveaux</div></div></div>
+<div class="pair"><div class="sc sc1"><div class="sc-h">Scénario 1</div>
+<div class="q">Quel soft skill domine chez Célia dans ce scénario (écoute, empathie, assertivité, persuasion, adaptabilité…) ? L&#x27;aide-t-il à conclure ?</div>
+<label>Observé ?<select data-k="bac3-c8-s1-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c8-s1-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c8-s1-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c8-s1-note" class="nt nt1" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div><div class="sc sc2"><div class="sc-h">Scénario 2</div>
+<div class="q">Quel soft skill domine chez Célia dans ce scénario (écoute, empathie, assertivité, persuasion, adaptabilité…) ? L&#x27;aide-t-il à conclure ?</div>
+<label>Observé ?<select data-k="bac3-c8-s2-obs"><option value=""></option><option>Oui</option><option>En partie</option><option>Non</option></select></label>
+<label>Preuve : phrase du dialogue<textarea data-k="bac3-c8-s2-preuve" rows="2" placeholder="« … »"></textarea></label>
+<label>Mon analyse<textarea data-k="bac3-c8-s2-ana" rows="2"></textarea></label>
+<label class="note">Note<select data-k="bac3-c8-s2-note" class="nt nt2" data-lvl="bac3"><option value=""></option><option>0</option><option>1</option><option>2</option><option>3</option></select><span>/ 3</span></label>
+</div></div></section>
+<div class="totals"><div class="tot tot1">Total Scénario 1 <b><span id="t-bac3-1">0</span> / 27</b></div><div class="tot tot2">Total Scénario 2 <b><span id="t-bac3-2">0</span> / 27</b></div></div>
+<div class="q-section"><h2>Ma synthèse</h2>
+<label>Points forts de Célia dans chaque scénario<textarea data-k="bac3-forts" rows="3"></textarea></label>
+<label>Ce que Célia aurait pu faire autrement<textarea data-k="bac3-autrement" rows="3"></textarea></label>
+<label>Quelle approche conseilleriez-vous à Célia pour son prochain entretien ? Justifiez avec 2 arguments.<textarea data-k="bac3-verdict" rows="4"></textarea></label>
+<label>Ce que je retiens pour ma propre pratique<textarea data-k="bac3-retiens" rows="3"></textarea></label>
+</div></div>
+<p class="saved" id="saved">Vos réponses sont gardées dans ce navigateur. Pensez à imprimer ou enregistrer en PDF pour rendre votre travail.</p>
+<p class="footer">Avatar Sales Academy — Grille d'analyse étudiant · Vente conseil en magasin · Célia × Arhan</p>
+</div><script>(function(){
+var KEY=document.body.dataset.store,data={};
+try{data=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+var fields=document.querySelectorAll('[data-k]');
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+function totals(){['bts','bac3'].forEach(function(l){[1,2].forEach(function(n){var s=0;document.querySelectorAll('.nt'+n+'[data-lvl="'+l+'"]').forEach(function(x){s+=+x.value||0});var t=document.getElementById('t-'+l+'-'+n);if(t)t.textContent=s})})}
+fields.forEach(function(f){var k=f.dataset.k;if(data[k]!=null)f.value=data[k];f.addEventListener('input',function(){data[k]=f.value;save();totals()});f.addEventListener('change',function(){data[k]=f.value;save();totals()})});
+totals();
+var tabs=document.querySelectorAll('.tab-btn');
+function show(id){tabs.forEach(function(b){b.classList.toggle('active',b.dataset.tab===id)});document.querySelectorAll('.tab-content').forEach(function(c){c.classList.toggle('active',c.id==='tab-'+id)});try{localStorage.setItem(KEY+'-tab',id)}catch(e){}}
+tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.tab)})});
+try{var t=localStorage.getItem(KEY+'-tab');if(t)show(t)}catch(e){}
+document.getElementById('print').addEventListener('click',function(){window.print()});
+document.getElementById('reset').addEventListener('click',function(){if(confirm('Effacer toutes vos réponses ?')){data={};save();fields.forEach(function(f){f.value=''});totals()}});
+})();
+</script></body></html>
